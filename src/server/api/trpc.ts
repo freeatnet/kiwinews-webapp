@@ -1,3 +1,5 @@
+/* eslint-disable import/order, import/first -- provided by create-t3-app; file consists of two logical parts, each with its own set of imports */
+
 /**
  * YOU PROBABLY DON'T NEED TO EDIT THIS FILE, UNLESS:
  * 1. You want to modify request context (see Part 1).
