@@ -23,6 +23,7 @@ const config = {
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "plugin:tailwindcss/recommended",
+    "plugin:prettier/recommended",
   ],
   rules: {
     "@typescript-eslint/consistent-type-imports": [
