@@ -1,6 +1,13 @@
+import { BigNumber } from "@ethersproject/bignumber";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
+import { useSignTypedData } from "wagmi";
 
+import {
+  STORY_EIP712_DOMAIN,
+  STORY_EIP712_TYPES,
+  STORY_MESSAGE_TYPE,
+} from "~/constants";
 import { api } from "~/utils/api";
 import { withStaticAPIHelpers } from "~/utils/api/ssg";
 
@@ -81,21 +88,66 @@ function Story({
   );
   const timeAgo = useMemo(() => formatTimeAgo(timestamp), [timestamp]);
 
+  const { mutateAsync: postUpvote } = api.post.upvote.useMutation();
+  const { signTypedDataAsync } = useSignTypedData({
+    domain: STORY_EIP712_DOMAIN,
+    types: STORY_EIP712_TYPES,
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const handleUpvote = useCallback(async () => {
+    const timestamp = Math.trunc(Date.now() / 1000);
+
+    const signature = await signTypedDataAsync({
+      value: {
+        href,
+        title: "",
+        type: STORY_MESSAGE_TYPE,
+        timestamp: BigNumber.from(timestamp),
+      },
+    });
+
+    const response = await postUpvote({
+      href,
+      title: "",
+      type: STORY_MESSAGE_TYPE,
+      timestamp,
+      signature,
+    });
+
+    // eslint-disable-next-line no-console -- TODO: remove
+    console.log(response);
+  }, [href, postUpvote, signTypedDataAsync]);
+
   return (
     <li>
-      <div>
-        <a href={href} target="_blank" rel="noopener noreferrer">
-          {title || "[untitled]"}
-        </a>{" "}
-        <span className="text-sm text-gray-500">({displayDomain})</span>
-      </div>
-
-      <div className="flex flex-row items-baseline text-sm">
-        <div className="mr-2 text-sm text-gray-500">
-          <span title={`score ${score}`}>{points} points</span> &bull;{" "}
-          <time dateTime={isoTimestamp}>{timeAgo}</time>
+      <div className="flex flex-row">
+        <div className="mr-1">
+          <button
+            title={`upvote ${title}`}
+            className="px-2 text-sm text-gray-500 transition-colors duration-100 hover:text-gray-900 active:text-gray-900"
+            onClick={() => void handleUpvote()}
+          >
+            ▲
+          </button>
         </div>
-        <StorySignatureStripe signature={signature} />
+        <div>
+          <div>
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {title || "[untitled]"}
+            </a>{" "}
+            <span className="text-sm text-gray-500">({displayDomain})</span>
+          </div>
+          <div className="flex flex-row items-baseline text-sm">
+            <div className="mr-2 text-sm text-gray-500">
+              <span title={`score ${score}`}>{points} points</span> &bull;{" "}
+              <time dateTime={isoTimestamp}>{timeAgo}</time>
+            </div>
+            <StorySignatureStripe signature={signature} />
+          </div>
+        </div>
       </div>
     </li>
   );

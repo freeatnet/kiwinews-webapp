@@ -4,31 +4,19 @@ import { type FormEventHandler, useCallback } from "react";
 import invariant from "ts-invariant";
 import { useSignTypedData } from "wagmi";
 
+import {
+  STORY_EIP712_DOMAIN,
+  STORY_EIP712_TYPES,
+  STORY_MESSAGE_TYPE,
+} from "~/constants";
 import { api } from "~/utils/api";
-
-const EIP712_DOMAIN = {
-  name: "kiwinews",
-  version: "1.0.0",
-  salt: "0xfe7a9d68e99b6942bb3a36178b251da8bd061c20ed1e795207ae97183b590e5b",
-} as const;
-
-const EIP712_TYPES = {
-  Message: [
-    { name: "title", type: "string" },
-    { name: "href", type: "string" },
-    { name: "type", type: "string" },
-    { name: "timestamp", type: "uint256" },
-  ],
-} as const;
-
-const STORY_MESSAGE_TYPE = "amplify" as const;
 
 export default function Submit() {
   const { mutateAsync: postStory } = api.post.story.useMutation();
 
   const { signTypedDataAsync } = useSignTypedData({
-    domain: EIP712_DOMAIN,
-    types: EIP712_TYPES,
+    domain: STORY_EIP712_DOMAIN,
+    types: STORY_EIP712_TYPES,
     onError: (error) => {
       console.error(error);
     },
