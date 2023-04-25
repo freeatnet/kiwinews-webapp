@@ -29,6 +29,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@total-typescript/ts-reset": "^0.4.2",
     "@types/eslint": "^8.21.3",
     "@types/lint-staged": "^13.2.0",
     "@types/node": "^18.15.5",

@@ -56,8 +56,7 @@ async function fetchAllStories() {
       });
     }
 
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    const responseJson = (await request.json()) as unknown;
+    const responseJson = await request.json();
 
     const { data } = STORIES_API_RESPONSE_SCHEMA.parse(responseJson);
     stories.push(...data);
