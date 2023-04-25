@@ -22,8 +22,7 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 type CreateContextOptions = Record<string, never>;
 
 /**
- * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
- * it from here.
+ * This helper generates the "internals" for a tRPC context.
  *
  * Examples of things you may need it for:
  * - testing, so we don't have to mock Next.js' req/res
@@ -31,7 +30,7 @@ type CreateContextOptions = Record<string, never>;
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = (_opts: CreateContextOptions) => {
+export const createInnerTRPCContext = (_opts: CreateContextOptions) => {
   return {};
 };
 

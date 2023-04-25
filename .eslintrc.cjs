@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require("path");
 
 /** @type {import("eslint").Linter.Config} */
@@ -35,7 +34,10 @@ const config = {
             fixStyle: "inline-type-imports",
           },
         ],
-        "@typescript-eslint/no-unnecessary-condition": "error",
+        "@typescript-eslint/no-unnecessary-condition": [
+          "error",
+          { allowConstantLoopConditions: true },
+        ],
       },
     },
   ],
