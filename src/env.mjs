@@ -6,6 +6,9 @@ import { z } from "zod";
  */
 const server = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
+  NEXT_PUBLIC_RAINBOW_APP_NAME: z.string().nonempty(),
+  NEXT_PUBLIC_ALCHEMY_API_KEY: z.string().nonempty(),
+  NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string().nonempty(),
 });
 
 /**
@@ -13,11 +16,11 @@ const server = z.object({
  * built with invalid env vars. To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object(
-  /** @satisfies {Record<`NEXT_PUBLIC_${string}`, import('zod').ZodType>} */ (
-    {
-      // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
-    }
-  )
+  /** @satisfies {Record<`NEXT_PUBLIC_${string}`, import('zod').ZodType>} */ ({
+    NEXT_PUBLIC_RAINBOW_APP_NAME: z.string().nonempty(),
+    NEXT_PUBLIC_ALCHEMY_API_KEY: z.string().nonempty(),
+    NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string().nonempty(),
+  })
 );
 
 /**
@@ -28,7 +31,10 @@ const client = z.object(
  */
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
-  // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  NEXT_PUBLIC_RAINBOW_APP_NAME: process.env.NEXT_PUBLIC_RAINBOW_APP_NAME,
+  NEXT_PUBLIC_ALCHEMY_API_KEY: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
+  NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID:
+    process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
 };
 
 // Don't touch the part below

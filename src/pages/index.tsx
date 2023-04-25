@@ -1,3 +1,4 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useMemo } from "react";
 
 import { api } from "~/utils/api";
@@ -45,7 +46,7 @@ function StorySignatureStripe({ signature }: { signature: string }) {
   }, [signature]);
 
   return (
-    <div className="flex flex-row [&>div]:h-1 [&>div]:w-1 [&>div]:opacity-70">
+    <div className="flex flex-row [&>div]:relative [&>div]:h-1 [&>div]:w-1 [&>div]:opacity-70">
       {signatureBlocks.map((c, idx) => (
         <div
           key={idx}
@@ -107,12 +108,23 @@ export default function Home() {
   });
 
   return (
-    <div className="mx-auto mb-8 max-w-5xl px-4 pt-8 lg:px-0">
-      <StoriesList>
-        {stories?.map((story) => (
-          <Story key={story.signature} {...story} />
-        ))}
-      </StoriesList>
-    </div>
+    <>
+      <div className="flex h-16 w-full justify-center">
+        <div className="flex max-w-5xl flex-1 items-center justify-end">
+          <ConnectButton
+            accountStatus="address"
+            chainStatus="icon"
+            showBalance={false}
+          />
+        </div>
+      </div>
+      <div className="mx-auto mb-8 max-w-5xl px-4 pt-4 lg:px-0">
+        <StoriesList>
+          {stories?.map((story) => (
+            <Story key={story.signature} {...story} />
+          ))}
+        </StoriesList>
+      </div>
+    </>
   );
 }

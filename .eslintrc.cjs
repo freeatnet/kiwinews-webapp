@@ -14,7 +14,7 @@ const config = {
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
       ],
-      files: ["*.ts", "*.tsx"],
+      files: ["*.ts", "*.tsx", "src/env.mjs"],
       parserOptions: {
         project: path.join(__dirname, "tsconfig.json"),
         ecmaFeatures: {
