@@ -29,7 +29,7 @@ export const getStaticProps = withStaticAPIHelpers(async ({ trpc }) => {
 
 function StoriesList({ children }: { children: React.ReactNode }) {
   return (
-    <ol className="list-outside list-decimal space-y-1 pl-6 marker:text-gray-500 lg:pl-0">
+    <ol className="list-outside list-decimal space-y-1 pl-[3ch] marker:text-gray-500">
       {children}
     </ol>
   );
@@ -135,7 +135,12 @@ function Story({
         </div>
         <div>
           <div>
-            <a href={href} target="_blank" rel="noopener noreferrer">
+            <a
+              href={href}
+              target="_blank"
+              className="visited:text-gray-500"
+              rel="noopener noreferrer"
+            >
               {title || "[untitled]"}
             </a>{" "}
             <span className="text-sm text-gray-500">({displayDomain})</span>
@@ -170,7 +175,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="mx-auto mb-8 max-w-5xl px-4 pt-4 lg:px-0">
+      <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4">
         <StoriesList>
           {stories?.map((story) => (
             <Story key={story.signature} {...story} />
