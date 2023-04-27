@@ -69,6 +69,58 @@ async function fetchAllStories() {
   return stories;
 }
 
+let fetchAllStoriesPromise: ReturnType<typeof fetchAllStories> | undefined =
+  undefined;
+async function fetchAllStoriesExclusive() {
+  if (!fetchAllStoriesPromise) {
+    fetchAllStoriesPromise = fetchAllStories()
+      .then((result) => {
+        fetchAllStoriesPromise = undefined;
+        return result;
+      })
+      .catch((err) => {
+        fetchAllStoriesPromise = undefined;
+        throw err;
+      });
+  }
+
+  return fetchAllStoriesPromise;
+}
+
+const STORIES_CACHE_STALE_TTL = 10_000;
+const STORIES_CACHE_EXPIRE_TTL = 20_000;
+let storiesCached: Story[] = [];
+let storiesCachedAt = 0;
+
+/**
+ * Fetches stories from the Kiwistand API, caching them for a short time.
+ * If the cache is stale, a request to refresh the stories will be made in the background.
+ * If the cache is expired, a request to refresh the stories will be made synchronously.
+ */
+async function fetchAllStoriesCached() {
+  const now = Date.now();
+
+  if (now - storiesCachedAt > STORIES_CACHE_EXPIRE_TTL) {
+    storiesCached = [];
+  }
+
+  if (!storiesCached.length) {
+    storiesCached = await fetchAllStoriesExclusive();
+    storiesCachedAt = now;
+  } else if (now - storiesCachedAt > STORIES_CACHE_STALE_TTL) {
+    void fetchAllStoriesExclusive()
+      .then((stories) => {
+        storiesCached = stories;
+        storiesCachedAt = now;
+      })
+      .catch((err) => {
+        console.error(err, "failed to refresh stories in the background");
+      });
+  }
+
+  return storiesCached;
+}
+
 const AGE_BUCKET_WIDTH = 3600;
 const DECAY_FACTOR = 4;
 const NEW_STORY_BOOST = 1.5;
@@ -86,16 +138,12 @@ function score(timestamp: number, points: number, currentEpoch: number) {
   return isNew ? decayed * NEW_STORY_BOOST : decayed;
 }
 
-let storiesCached: Story[] = [];
 export const homeRouter = createTRPCRouter({
   stories: publicProcedure
     .input(STORIES_INPUT_SCHEMA)
     .query(async ({ input }) => {
       // TODO(@freeatnet): Actual caching
-      const stories = !storiesCached.length
-        ? await fetchAllStories()
-        : storiesCached;
-      storiesCached = stories;
+      const stories = await fetchAllStoriesCached();
 
       const timestampsAndPoints = new Map<
         StoryKey,
