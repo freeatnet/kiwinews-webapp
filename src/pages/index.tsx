@@ -22,8 +22,13 @@ function extractDomain(url: string) {
     : parsedUrl.hostname;
 }
 
+const DEFAULT_STORIES_INPUT = {
+  from: 0,
+  amount: 25,
+};
+
 export const getStaticProps = withStaticAPIHelpers(async ({ trpc }) => {
-  await trpc.home.stories.prefetch({ from: 0, amount: 10 });
+  await trpc.home.stories.prefetch(DEFAULT_STORIES_INPUT);
 
   return {
     props: {}, // trpc state is serialized automatically by the wrapper
@@ -211,10 +216,7 @@ function Story({
 }
 
 export default function Home() {
-  const { data: stories } = api.home.stories.useQuery({
-    from: 0,
-    amount: 25,
-  });
+  const { data: stories } = api.home.stories.useQuery(DEFAULT_STORIES_INPUT);
 
   return (
     <>
