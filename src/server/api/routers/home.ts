@@ -129,9 +129,10 @@ export const homeRouter = createTRPCRouter({
       const sortedStories = sortedScores
         .slice(input.from, input.from + input.amount)
         .map(([key, score]) => {
-          const story = stories.find(
-            (story) => story.href === key && !!story.title
-          );
+          const story =
+            // find the story by href with a title, falling back on one without a title
+            stories.find((story) => story.href === key && !!story.title) ??
+            stories.find((story) => story.href === key);
           invariant(
             !!story,
             `could not find story with key ${key} in the stories object`
