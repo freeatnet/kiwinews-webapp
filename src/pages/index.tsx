@@ -1,7 +1,11 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton, useConnectModal } from "@rainbow-me/rainbowkit";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { TRPCClientError } from "@trpc/client";
+import { signTypedData } from "@wagmi/core";
 import { useCallback, useMemo } from "react";
-import { useSignTypedData } from "wagmi";
+import invariant from "ts-invariant";
+import { useAccount } from "wagmi";
 
 import {
   STORY_EIP712_DOMAIN,
@@ -66,6 +70,26 @@ function StorySignatureStripe({ signature }: { signature: string }) {
   );
 }
 
+function useVotingState({ key }: { key: string }) {
+  const { data, refetch } = useQuery({
+    queryKey: [key],
+    queryFn: ({ queryKey: [key] }) => {
+      invariant(!!key, "empty key when fetching hasVoted");
+      return localStorage.getItem(key) === "true";
+    },
+  });
+
+  const { mutate } = useMutation({
+    // eslint-disable-next-line @typescript-eslint/require-await
+    mutationFn: async (state: boolean) => {
+      localStorage.setItem(key, state ? "true" : "false");
+    },
+    onSettled: async () => await refetch(),
+  });
+
+  return { data, refetch, mutate };
+}
+
 function Story({
   title,
   href,
@@ -88,19 +112,27 @@ function Story({
   );
   const timeAgo = useMemo(() => formatTimeAgo(timestamp), [timestamp]);
 
+  const { isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
+
   const { mutateAsync: postUpvote } = api.post.upvote.useMutation();
-  const { signTypedDataAsync } = useSignTypedData({
-    domain: STORY_EIP712_DOMAIN,
-    types: STORY_EIP712_TYPES,
-    onError: (error) => {
-      console.error(error);
-    },
+  const utils = api.useContext();
+
+  const votingKey = `k7d:hasVoted:${href}`;
+  const {
+    data: hasVoted,
+    refetch: refetchHasVoted,
+    mutate: markHasVoted,
+  } = useVotingState({
+    key: votingKey,
   });
 
   const handleUpvote = useCallback(async () => {
     const timestamp = Math.trunc(Date.now() / 1000);
 
-    const signature = await signTypedDataAsync({
+    const signature = await signTypedData({
+      domain: STORY_EIP712_DOMAIN,
+      types: STORY_EIP712_TYPES,
       value: {
         href,
         title: "",
@@ -109,17 +141,34 @@ function Story({
       },
     });
 
-    const response = await postUpvote({
-      href,
-      title: "",
-      type: STORY_MESSAGE_TYPE,
-      timestamp,
-      signature,
-    });
+    try {
+      const response = await postUpvote({
+        href,
+        title: "",
+        type: STORY_MESSAGE_TYPE,
+        timestamp,
+        signature,
+      });
 
-    // eslint-disable-next-line no-console -- TODO: remove
-    console.log(response);
-  }, [href, postUpvote, signTypedDataAsync]);
+      // eslint-disable-next-line no-console -- TODO: remove
+      console.log(response);
+
+      markHasVoted(true);
+    } catch (error) {
+      if (
+        error instanceof TRPCClientError &&
+        error.message.match(/It was probably submitted and accepted before/)
+      ) {
+        markHasVoted(true);
+        return;
+      }
+
+      throw error;
+    } finally {
+      void refetchHasVoted();
+      void utils.home.stories.invalidate();
+    }
+  }, [href, markHasVoted, postUpvote, refetchHasVoted, utils.home.stories]);
 
   return (
     <li>
@@ -127,8 +176,11 @@ function Story({
         <div className="mr-1">
           <button
             title={`upvote ${title}`}
-            className="px-2 text-sm text-gray-500 transition-colors duration-100 hover:text-gray-900 active:text-gray-900"
-            onClick={() => void handleUpvote()}
+            className="px-2 text-sm text-gray-500 transition-colors duration-100 hover:text-gray-900 active:text-gray-900 disabled:cursor-not-allowed disabled:text-lime-300"
+            onClick={() =>
+              isConnected ? void handleUpvote() : openConnectModal?.()
+            }
+            disabled={hasVoted}
           >
             ▲
           </button>
