@@ -1,6 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { type FormEventHandler, useCallback } from "react";
+import { useCallback, type FormEventHandler } from "react";
 import invariant from "ts-invariant";
 import { useSignTypedData } from "wagmi";
 
@@ -9,6 +8,7 @@ import {
   STORY_EIP712_TYPES,
   STORY_MESSAGE_TYPE,
 } from "~/constants";
+import { TopNav } from "~/layout";
 import { api } from "~/utils/api";
 
 export default function Submit() {
@@ -61,16 +61,7 @@ export default function Submit() {
 
   return (
     <>
-      <div className="flex h-16 w-full justify-center">
-        <div className="flex max-w-5xl flex-1 items-center justify-between">
-          <h1 className="text-lg font-extrabold">Submit</h1>
-          <ConnectButton
-            accountStatus="address"
-            chainStatus="icon"
-            showBalance={false}
-          />
-        </div>
-      </div>
+      <TopNav />
       <div className="mx-auto mb-8 max-w-5xl px-4 pt-4 lg:px-0">
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="flex flex-col">

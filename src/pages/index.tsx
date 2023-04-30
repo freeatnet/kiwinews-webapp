@@ -1,5 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { ConnectButton, useConnectModal } from "@rainbow-me/rainbowkit";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { TRPCClientError } from "@trpc/client";
 import { signTypedData } from "@wagmi/core";
@@ -12,6 +12,7 @@ import {
   STORY_EIP712_TYPES,
   STORY_MESSAGE_TYPE,
 } from "~/constants";
+import { TopNav } from "~/layout";
 import { api } from "~/utils/api";
 import { withStaticAPIHelpers } from "~/utils/api/ssg";
 
@@ -254,15 +255,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex h-16 w-full justify-center">
-        <div className="flex max-w-5xl flex-1 items-center justify-end">
-          <ConnectButton
-            accountStatus="address"
-            chainStatus="icon"
-            showBalance={false}
-          />
-        </div>
-      </div>
+      <TopNav />
       <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4">
         <StoriesList>
           {stories?.map((story) => (
