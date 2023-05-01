@@ -48,7 +48,7 @@ export function StoryListItem({
 }: StoryListItemProps) {
   const displayDomain = useMemo(() => extractDomain(href), [href]);
   const isoTimestamp = useMemo(
-    () => new Date(timestamp).toISOString(),
+    () => new Date(timestamp * 1000).toISOString(),
     [timestamp]
   );
   const timeAgo = useMemo(() => formatTimeAgo(timestamp), [timestamp]);
