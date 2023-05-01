@@ -63,9 +63,11 @@ export default function Home() {
             />
           ))}
         </StoriesList>
-        <hr className="my-2" />
-        <div className="pl-[3ch]">
-          <h2 className="text-gray-500">Please help rate these stories:</h2>
+        <hr className="my-3" />
+        <div className="pl-10">
+          <h2 className="mb-2 text-gray-500">
+            Please help rate these stories:
+          </h2>
           <StoriesList>
             {newStories?.map((story) => (
               <StoryContainer
@@ -76,7 +78,7 @@ export default function Home() {
             ))}
           </StoriesList>
         </div>
-        <hr className="my-2" />
+        <hr className="my-3" />
         <StoriesList ordered start={4}>
           {topStories?.slice(3).map((story) => (
             <StoryContainer

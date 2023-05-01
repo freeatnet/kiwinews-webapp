@@ -60,18 +60,18 @@ export function StoryListItem({
 
   return (
     <li>
-      <div className="flex flex-row">
-        <div className="mr-1 w-[3ch]">
+      <div className="flex flex-row items-baseline">
+        <div className="mr-1 w-8">
           <button
             title={`upvote ${title}`}
-            className="px-2 text-sm text-gray-500 transition-colors duration-100 hover:text-gray-900 active:text-gray-900 disabled:cursor-not-allowed disabled:text-lime-300"
+            className="select-none rounded px-2 text-center text-sm text-gray-500 transition-colors duration-100 hover:text-gray-900 active:bg-lime-100 active:text-gray-900 disabled:cursor-not-allowed disabled:text-lime-300 disabled:active:bg-inherit"
             onClick={handleClickVote}
             disabled={hasVoted}
           >
             ▲
           </button>
         </div>
-        <div>
+        <div className="flex-1">
           <div>
             <a
               href={href}

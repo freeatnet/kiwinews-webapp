@@ -39,7 +39,7 @@ export function TopNav() {
             >
               submit
             </Link>
-            <Link
+            {/* <Link
               href="/rules"
               className={classNames(
                 "px-4 py-2",
@@ -47,7 +47,7 @@ export function TopNav() {
               )}
             >
               rules
-            </Link>
+            </Link> */}
           </div>
         </div>
         <ConnectButton

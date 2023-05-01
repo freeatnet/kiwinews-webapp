@@ -28,7 +28,7 @@ export default function Home() {
       <Head>
         <title>New on Kiwi News</title>
       </Head>
-      <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4">
+      <div className="mx-auto mb-8 max-w-4xl px-4 pt-4">
         <StoriesList>
           {stories?.map((story) => (
             <StoryContainer key={story.signature} {...story} />
