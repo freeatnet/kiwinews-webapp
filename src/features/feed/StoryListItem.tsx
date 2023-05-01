@@ -61,7 +61,7 @@ export function StoryListItem({
   return (
     <li>
       <div className="flex flex-row">
-        <div className="mr-1">
+        <div className="mr-1 w-[3ch]">
           <button
             title={`upvote ${title}`}
             className="px-2 text-sm text-gray-500 transition-colors duration-100 hover:text-gray-900 active:text-gray-900 disabled:cursor-not-allowed disabled:text-lime-300"
