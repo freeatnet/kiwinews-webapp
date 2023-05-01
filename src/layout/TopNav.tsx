@@ -51,7 +51,10 @@ export function TopNav() {
           </div>
         </div>
         <ConnectButton
-          accountStatus="address"
+          accountStatus={{
+            smallScreen: "avatar",
+            largeScreen: "address",
+          }}
           chainStatus="icon"
           showBalance={false}
         />
