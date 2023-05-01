@@ -39,9 +39,9 @@ function tally(stories: Story[]) {
   return timestampsAndPoints;
 }
 
-const AGE_BUCKET_WIDTH = 57_600; // 16 * 3600
+const AGE_BUCKET_WIDTH = 3600;
 const DECAY_FACTOR = 4;
-const NEW_STORY_BOOST = 1;
+const NEW_STORY_BOOST = 1.5;
 const NEW_STORY_MAX_AGE = 12;
 /**
  * Scoring
