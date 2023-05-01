@@ -11,7 +11,7 @@ const DEFAULT_STORIES_INPUT = {
 };
 
 export const getStaticProps = withStaticAPIHelpers(async ({ trpc }) => {
-  await trpc.home.stories.prefetch(DEFAULT_STORIES_INPUT);
+  await trpc.new.stories.prefetch(DEFAULT_STORIES_INPUT);
 
   return {
     props: {}, // trpc state is serialized automatically by the wrapper
@@ -20,13 +20,13 @@ export const getStaticProps = withStaticAPIHelpers(async ({ trpc }) => {
 });
 
 export default function Home() {
-  const { data: stories } = api.home.stories.useQuery(DEFAULT_STORIES_INPUT);
+  const { data: stories } = api.new.stories.useQuery(DEFAULT_STORIES_INPUT);
 
   return (
     <>
       <TopNav />
       <Head>
-        <title>Kiwi News</title>
+        <title>New on Kiwi News</title>
       </Head>
       <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4">
         <StoriesList>
