@@ -88,7 +88,10 @@ export function StoryListItem({
               <span title={`score ${score}`}>
                 {points} {points != 1 ? "points" : "point"}
               </span>{" "}
-              &bull; <time dateTime={isoTimestamp}>{timeAgo}</time>
+              &bull;{" "}
+              <time suppressHydrationWarning dateTime={isoTimestamp}>
+                {timeAgo}
+              </time>
             </div>
             <StorySignatureStripe signature={signature} />
           </div>
