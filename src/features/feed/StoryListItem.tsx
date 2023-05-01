@@ -85,8 +85,10 @@ export function StoryListItem({
           </div>
           <div className="flex flex-row items-baseline text-sm">
             <div className="mr-2 text-sm text-gray-500">
-              <span title={`score ${score}`}>{points} points</span> &bull;{" "}
-              <time dateTime={isoTimestamp}>{timeAgo}</time>
+              <span title={`score ${score}`}>
+                {points} {points != 1 ? "points" : "point"}
+              </span>{" "}
+              &bull; <time dateTime={isoTimestamp}>{timeAgo}</time>
             </div>
             <StorySignatureStripe signature={signature} />
           </div>
