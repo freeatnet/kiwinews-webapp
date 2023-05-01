@@ -1,4 +1,16 @@
-# Create T3 App
+# kiwinews-webapp
+
+This is an alternative frontend for https://news.kiwistand.com/, a web3-focused hacker news project by [@TimDaub](https://github.com/TimDaub).
+
+## Contributing
+
+1. Check out the repo.
+2. Copy `.env.example` to `.env` and adjust the variables (you'll need an [Alchemy API key](https://alchemy.com) and a [WalletConnect Cloud Project ID](https://cloud.walletconnect.com)).
+3. Run `yarn install` to install dependencies.
+4. Start the dev server by running `yarn dev`.
+
+---
+
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
