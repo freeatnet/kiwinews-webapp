@@ -76,8 +76,9 @@ function StorySignatureStripe({ signature }: { signature: string }) {
   );
 }
 
-function useVotingState({ key }: { key: string }) {
+function useVotingState({ key }: { key: string | undefined }) {
   const { data, refetch } = useQuery({
+    enabled: !!key,
     queryKey: [key],
     queryFn: ({ queryKey: [key] }) => {
       invariant(!!key, "empty key when fetching hasVoted");
@@ -88,6 +89,7 @@ function useVotingState({ key }: { key: string }) {
   const { mutate } = useMutation({
     // eslint-disable-next-line @typescript-eslint/require-await
     mutationFn: async (state: boolean) => {
+      invariant(!!key, "empty key when mutating hasVoted");
       localStorage.setItem(key, state ? "true" : "false");
     },
     onSettled: async () => await refetch(),
@@ -181,14 +183,16 @@ function Story({
 }) {
   const { href, points } = story;
 
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { openConnectModal } = useConnectModal();
 
   const { mutateAsync: postUpvote, isLoading: isSubmittingUpvote } =
     api.post.upvote.useMutation();
   const utils = api.useContext();
 
-  const votingKey = `k7d:hasVoted:${href}`;
+  const votingKey = !!address
+    ? `k7d:hasVoted:${address.toLowerCase()}:${href}`
+    : undefined;
   const {
     data: hasVoted,
     refetch: refetchHasVoted,
