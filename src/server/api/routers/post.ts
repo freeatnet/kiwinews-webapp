@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { refreshAllStoriesCached } from "~/server/services/kiwistand/fetchAllStories";
 
 const POST_STORY_INPUT_SCHEMA = z.object({
   title: z.string().nonempty(),
@@ -83,6 +84,8 @@ export const postRouter = createTRPCRouter({
       // eslint-disable-next-line no-console -- TODO: remove
       console.log("responseJson", responseJson);
 
+      await refreshAllStoriesCached();
+
       return {
         ...input,
       };
@@ -135,6 +138,8 @@ export const postRouter = createTRPCRouter({
 
       // eslint-disable-next-line no-console -- TODO: remove
       console.log("responseJson", responseJson);
+
+      await refreshAllStoriesCached();
 
       return {
         ...input,

@@ -107,3 +107,10 @@ export async function fetchAllStoriesCached() {
 
   return storiesCached;
 }
+
+export async function refreshAllStoriesCached() {
+  storiesCached = [];
+  storiesCachedAt = 0;
+
+  await fetchAllStoriesCached();
+}

@@ -22,17 +22,25 @@ export type StoryContainerProps = {
   points: number;
   score: number;
   signature: string;
+
+  onUpvoteSubmitted?: (href: string) => void;
 };
 
-export function StoryContainer({ ...story }: StoryContainerProps) {
+export function StoryContainer({
+  onUpvoteSubmitted,
+  ...story
+}: StoryContainerProps) {
   const { href, points } = story;
 
   const { isConnected, address } = useAccount();
   const { openConnectModal } = useConnectModal();
 
   const { mutateAsync: postUpvote, isLoading: isSubmittingUpvote } =
-    api.post.upvote.useMutation();
-  const utils = api.useContext();
+    api.post.upvote.useMutation({
+      onSuccess(_, variables) {
+        onUpvoteSubmitted?.(variables.href);
+      },
+    });
 
   const votingKey = !!address
     ? `k7d:hasVoted:${address.toLowerCase()}:${href}`
@@ -84,9 +92,8 @@ export function StoryContainer({ ...story }: StoryContainerProps) {
       throw error;
     } finally {
       void refetchHasVoted();
-      void utils.home.stories.invalidate();
     }
-  }, [href, markHasVoted, postUpvote, refetchHasVoted, utils.home.stories]);
+  }, [href, markHasVoted, postUpvote, refetchHasVoted]);
 
   return (
     <StoryListItem
