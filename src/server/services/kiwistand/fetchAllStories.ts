@@ -15,7 +15,7 @@ const STORIES_API_RESPONSE_SCHEMA = z.object({
 export type Story = z.infer<typeof STORIES_API_RESPONSE_SCHEMA>["data"][number];
 export type StoryKey = Story["href"];
 
-const KIWISTAND_LIST_STORIES_URL = "https://news.kiwistand.com/list";
+const KIWISTAND_LIST_STORIES_URL = "https://news.kiwistand.com/api/v1/list";
 export async function fetchAllStories() {
   const stories: Story[] = [];
 

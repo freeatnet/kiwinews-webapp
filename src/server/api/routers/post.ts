@@ -32,7 +32,7 @@ const MESSAGES_API_ERROR_SCHEMA = z.object({
   details: z.string(),
 });
 
-const KIWISTAND_POST_STORIES_URL = "https://news.kiwistand.com/messages";
+const KIWISTAND_POST_STORIES_URL = "https://news.kiwistand.com/api/v1/messages";
 
 export const postRouter = createTRPCRouter({
   story: publicProcedure
