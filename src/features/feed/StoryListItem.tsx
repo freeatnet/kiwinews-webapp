@@ -1,4 +1,8 @@
 import { useCallback, useMemo } from "react";
+import invariant from "ts-invariant";
+import { useEnsName } from "wagmi";
+
+import { formatAddressForDisplay } from "~/helpers";
 
 import { extractDomain, formatTimeAgo } from "./helpers";
 
@@ -23,6 +27,21 @@ function StorySignatureStripe({ signature }: { signature: string }) {
   );
 }
 
+function is0xAddress(address: string): address is `0x${string}` {
+  return address.startsWith("0x");
+}
+
+function AddressOrEnsName({ address }: { address: string }) {
+  invariant(is0xAddress(address), "address is required");
+  const { data: ensName } = useEnsName({ address });
+
+  return (
+    <span title={`${address}`}>
+      {formatAddressForDisplay(address, ensName)}
+    </span>
+  );
+}
+
 type StoryListItemProps = {
   title: string;
   href: string;
@@ -30,11 +49,14 @@ type StoryListItemProps = {
   points: number;
   score: number;
   signature: string;
+  poster: string;
+  upvoters: string[];
 
   hasVoted?: boolean;
   onClickVote?: (href: string) => void;
 };
 
+const MAX_UPVOTERS_VISIBLE = 3;
 export function StoryListItem({
   title,
   href,
@@ -42,6 +64,8 @@ export function StoryListItem({
   signature,
   points,
   score,
+  poster,
+  upvoters,
 
   hasVoted,
   onClickVote,
@@ -91,7 +115,24 @@ export function StoryListItem({
               &bull;{" "}
               <time suppressHydrationWarning dateTime={isoTimestamp}>
                 {timeAgo}
-              </time>
+              </time>{" "}
+              &bull;{" "}
+              <span>
+                by <AddressOrEnsName address={poster} />
+              </span>{" "}
+              {upvoters.length > 0 && (
+                <span>
+                  and{" "}
+                  {upvoters.slice(0, MAX_UPVOTERS_VISIBLE).map((addr, idx) => (
+                    <>
+                      <AddressOrEnsName key={addr} address={addr} />
+                      {idx < upvoters.length - 1 &&
+                        idx < MAX_UPVOTERS_VISIBLE - 1 &&
+                        ", "}
+                    </>
+                  ))}
+                </span>
+              )}
             </div>
             <StorySignatureStripe signature={signature} />
           </div>

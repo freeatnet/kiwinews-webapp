@@ -4,8 +4,10 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import {
   fetchAllStoriesCached,
+  getSignerFromStory,
   type StoryKey,
 } from "~/server/services/kiwistand";
+import { isAddressEqual } from "~/utils/ethers";
 
 const STORIES_INPUT_SCHEMA = z.object({
   from: z.number().nonnegative(),
@@ -59,12 +61,13 @@ export const newRouter = createTRPCRouter({
       const sortedStories = sortedScores
         .slice(input.from, input.from + input.amount)
         .map(([key, score]) => {
-          const story =
+          const storiesByHref = stories.filter((story) => story.href === key);
+          const keyStory =
+            storiesByHref.find((story) => !!story.title) ??
             // find the story by href with a title, falling back on one without a title
-            stories.find((story) => story.href === key && !!story.title) ??
-            stories.find((story) => story.href === key);
+            storiesByHref[0];
           invariant(
-            !!story,
+            !!keyStory,
             `could not find story with key ${key} in the stories object`
           );
 
@@ -75,7 +78,12 @@ export const newRouter = createTRPCRouter({
           );
 
           const [timestamp, points] = timestampAndPoints;
-          return { ...story, timestamp, points, score };
+          const poster = getSignerFromStory(keyStory);
+          const upvoters = storiesByHref
+            .map(getSignerFromStory)
+            .filter((upvoter) => !isAddressEqual(upvoter, poster));
+
+          return { ...keyStory, timestamp, score, points, poster, upvoters };
         });
 
       return sortedStories;
