@@ -2,6 +2,24 @@
 
 This is an alternative frontend for https://news.kiwistand.com/, a web3-focused hacker news project by [@TimDaub](https://github.com/TimDaub).
 
+## Requirements
+
+Running code in this repo requires:
+
+- A POSIX environment, probably (never tested on Windows)
+- Node.js v18.x
+- Yarn v1.x
+
+Other dependencies should be installed automatically.
+
+Contributing to this repo (successfully and efficiently) requires:
+
+- git
+- A multi-tab or multi-pane terminal
+- An editor that:
+  1. Supports custom ESLint configurations and respects `eslint-plugin-prettier` (e.g. VSCode with [dbaeumer.vscode-eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) with `"source.fixAll.eslint": true`);
+  2. Supports `.editorconfig` (e.g., VSCode with [editorconfig.editorconfig](https://marketplace.visualstudio.com/items?itemName=editorconfig.editorconfig)).
+
 ## Contributing
 
 1. Check out the repo.
