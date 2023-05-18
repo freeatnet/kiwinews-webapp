@@ -24,7 +24,7 @@ type CreateServerSideHelpers = ReturnType<
  * @param innerContextOpts TRPC context opts
  * @returns TRPC helpers
  */
-function createServerSideHelpers(
+export function createServerSideHelpers(
   innerContextOpts: Parameters<typeof createInnerTRPCContext>[0]
 ): CreateServerSideHelpers {
   return _createServerSideHelpers<AppRouter>({
