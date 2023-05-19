@@ -56,5 +56,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
-    - run: yarn install --offline --frozen-lockfile
+    - name: Set up the environment and install dependencies
+      run: cp .env.test.example .env && yarn install --offline --frozen-lockfile
     - run: yarn tsc:typecheck
