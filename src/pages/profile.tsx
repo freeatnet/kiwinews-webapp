@@ -1,12 +1,12 @@
 import { TopNav } from "~/layout";
-const Submit = () => {
+const Profile = () => {
   return (
     <>
       <TopNav />
       <div className="mx-auto mb-8 max-w-5xl px-4 pt-4 text-center text-xl font-bold lg:px-0">
         <p>
-          To be able to submit stories you need to connect wallet that owns a
-          Kiwi NFT.
+          To see your Profile and collect your upvotes and submissions you need
+          to connect wallet that holds Kiwi NFT.
         </p>
         <br />
         <hr className="mx-auto my-4 w-1/4 bg-gray-400 text-left" />
@@ -29,4 +29,4 @@ const Submit = () => {
   );
 };
 
-export default Submit;
+export default Profile;

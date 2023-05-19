@@ -1,16 +1,17 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
+import { ConnectButtonCustom } from "./ConnectButtonCustom.js";
 
 export function TopNav() {
   const { pathname } = useRouter();
 
   return (
-    <div className="mb-4 flex h-16 w-full justify-center bg-gray-50">
+    <div className="mb-4 flex h-auto w-full flex-col items-center justify-center bg-kiwi">
       <div className="mx-4 flex max-w-4xl flex-1 items-center justify-between md:mx-8">
+        <h1 className="mb-0 text-left text-2xl font-bold">🥝 Kiwi News</h1>
         <div className="flex items-center">
-          <div className="mr-4 h-8 w-8 rounded-full border-4 border-solid border-black bg-green-500"></div>
           <div className="divide-x divide-solid divide-gray-300">
             <Link
               href="/"
@@ -19,7 +20,7 @@ export function TopNav() {
                 pathname === "/" && "font-bold"
               )}
             >
-              top
+              Top
             </Link>
             <Link
               href="/new"
@@ -28,7 +29,7 @@ export function TopNav() {
                 pathname === "/new" && "font-bold"
               )}
             >
-              new
+              New
             </Link>
             <Link
               href="/submit"
@@ -37,7 +38,25 @@ export function TopNav() {
                 pathname === "/submit" && "font-bold"
               )}
             >
-              submit
+              Submit
+            </Link>
+            <Link
+              href="/community"
+              className={classNames(
+                "px-4 py-2",
+                pathname === "/community" && "font-bold"
+              )}
+            >
+              Community
+            </Link>
+            <Link
+              href="/profile"
+              className={classNames(
+                "px-4 py-2",
+                pathname === "/profile" && "font-bold"
+              )}
+            >
+              Profile
             </Link>
             {/* <Link
               href="/rules"
@@ -50,14 +69,13 @@ export function TopNav() {
             </Link> */}
           </div>
         </div>
-        <ConnectButton
-          accountStatus={{
-            smallScreen: "avatar",
-            largeScreen: "address",
-          }}
-          chainStatus="icon"
-          showBalance={false}
-        />
+        <ConnectButtonCustom></ConnectButtonCustom>
+        {/* // accountStatus={{
+          //   smallScreen: "avatar",
+          //   largeScreen: "address",
+          // }}
+          // chainStatus="icon"
+          // showBalance={false} */}
       </div>
     </div>
   );
