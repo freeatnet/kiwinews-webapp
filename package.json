@@ -8,10 +8,12 @@
     "dev": "next dev",
     "lint": "next lint --report-unused-disable-directives=error",
     "lint:fix:all": "next lint --report-unused-disable-directives=error --fix",
+    "lint:ci:all": "next lint --report-unused-disable-directives=error --max-warnings=0",
     "lint:precommit": "next lint --report-unused-disable-directives=error --fix --max-warnings=0",
     "precommit": "lint-staged",
     "prepare": "(husky install || (echo 'WARN: husky not installed' && exit 0))",
-    "start": "next start"
+    "start": "next start",
+    "tsc:typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^0.12.12",

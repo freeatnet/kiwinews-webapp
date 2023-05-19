@@ -10,7 +10,7 @@ const config = {
       .join(" --file ")}`,
 
     // Check types for the entire project
-    "tsc -p tsconfig.json --noEmit",
+    "yarn tsc:typecheck",
   ],
 };
 
