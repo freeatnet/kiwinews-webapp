@@ -2,7 +2,7 @@ import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { ConnectButtonCustom } from "./ConnectButtonCustom.js";
+import { ConnectButtonCustom } from "./ConnectButtonCustom";
 
 export function TopNav() {
   const { pathname } = useRouter();

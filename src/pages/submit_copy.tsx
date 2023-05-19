@@ -11,7 +11,7 @@ import {
 import { TopNav } from "~/layout";
 import { api } from "~/utils/api";
 
-export default function Submit() {
+export default function SubmitCopy() {
   const { mutateAsync: postStory } = api.post.story.useMutation();
 
   const { signTypedDataAsync } = useSignTypedData({
