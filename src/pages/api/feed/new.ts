@@ -2,6 +2,7 @@ import { Feed } from "feed";
 import { type NextApiRequest, type NextApiResponse } from "next";
 
 import { env } from "~/env.mjs";
+import { extractDomain } from "~/features/feed";
 import { createServerSideHelpers } from "~/utils/api/ssg";
 
 const DEFAULT_STORIES_INPUT = {
@@ -28,7 +29,7 @@ export default async function handler(_: NextApiRequest, res: NextApiResponse) {
   for (const story of stories) {
     feed.addItem({
       id: story.signature,
-      title: story.title,
+      title: `${story.title} (${extractDomain(story.href)})`,
       link: story.href,
       date: new Date(Number(story.timestamp) * 1_000),
     });
