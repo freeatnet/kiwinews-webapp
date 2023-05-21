@@ -28,6 +28,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "superjson": "1.12.3",
+    "tailwindcss-debug-screens": "^2.2.1",
     "ts-invariant": "^0.10.3",
     "wagmi": "^0.12.13",
     "zod": "^3.21.4"
