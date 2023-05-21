@@ -6,6 +6,7 @@ import { formatAddressForDisplay } from "~/helpers";
 
 import { extractDomain, formatTimeAgo } from "./helpers";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function StorySignatureStripe({ signature }: { signature: string }) {
   const signatureBlocks = useMemo(() => {
     const colors = signature.slice(2).match(/.{4,6}/g) ?? [];
@@ -61,7 +62,7 @@ export function StoryListItem({
   title,
   href,
   timestamp,
-  signature,
+  // signature,
   points,
   score,
   poster,
@@ -88,14 +89,14 @@ export function StoryListItem({
         <div className="mr-1 w-8">
           <button
             title={`upvote ${title}`}
-            className="select-none rounded px-2 text-center text-sm text-gray-500 transition-colors duration-100 hover:text-gray-900 active:bg-lime-100 active:text-gray-900 disabled:cursor-not-allowed disabled:text-lime-300 disabled:active:bg-inherit"
+            className="select-none rounded px-2 text-center text-2xl text-black transition-colors duration-100 hover:text-gray-900 active:bg-kiwi active:text-gray-900 disabled:cursor-not-allowed disabled:text-kiwi disabled:active:bg-inherit"
             onClick={handleClickVote}
             disabled={hasVoted}
           >
             ▲
           </button>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 text-xl">
           <div>
             <a
               href={href}
@@ -105,10 +106,10 @@ export function StoryListItem({
             >
               {title || "[untitled]"}
             </a>{" "}
-            <span className="text-sm text-gray-500">({displayDomain})</span>
+            <span className="text-base text-gray-500">({displayDomain})</span>
           </div>
-          <div className="flex flex-row items-baseline text-sm">
-            <div className="mr-2 text-sm text-gray-500">
+          <div className="flex flex-row items-baseline text-base">
+            <div className="mr-2 text-base text-gray-500">
               <span title={`score ${score}`}>
                 {points} {points != 1 ? "points" : "point"}
               </span>{" "}
@@ -118,7 +119,7 @@ export function StoryListItem({
               </time>{" "}
               &bull;{" "}
               <span>
-                by <AddressOrEnsName address={poster} />
+                upvoted by <AddressOrEnsName address={poster} />
               </span>{" "}
               {upvoters.length > 0 && (
                 <span>
@@ -134,7 +135,6 @@ export function StoryListItem({
                 </span>
               )}
             </div>
-            <StorySignatureStripe signature={signature} />
           </div>
         </div>
       </div>
