@@ -6,7 +6,7 @@ import { TopNav } from "~/layout";
 import { api } from "~/utils/api";
 import { withStaticAPIHelpers } from "~/utils/api/ssg";
 
-import SubscribeForm from "./susbscribe_form";
+import SubscribeForm from "../features/newsletter/subscribe_form";
 
 // Constant for freeatnet to call the API - we get 3 stories
 

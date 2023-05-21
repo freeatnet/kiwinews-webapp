@@ -3,7 +3,7 @@ import { useAccount } from "wagmi";
 import { TopNav } from "~/layout";
 import { ConnectButtonCustom } from "~/layout/ConnectButtonCustom";
 
-import { SubmitForm } from "./submit_form";
+import { SubmitForm } from "../features/submit/submit_form";
 
 // in the page component
 
