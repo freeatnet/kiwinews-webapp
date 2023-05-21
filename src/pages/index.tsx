@@ -8,6 +8,19 @@ import { withStaticAPIHelpers } from "~/utils/api/ssg";
 
 import SubscribeForm from "./susbscribe_form";
 
+// Constant for freeatnet to call the API - we get 3 stories
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const EDITORS_STORIES = [
+  {
+    editor_name: "...",
+    editor_wallet: "...",
+    editor_profile: "http://...",
+    title: "...",
+    title_link: "http://...",
+  },
+];
+
 const TOP_STORIES_INPUT = {
   from: 0,
   amount: 25,
