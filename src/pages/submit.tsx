@@ -3,11 +3,11 @@ import { useAccount } from "wagmi";
 import { TopNav } from "~/layout";
 import { ConnectButtonCustom } from "~/layout/ConnectButtonCustom";
 
-import SubmitCopy from "./submit_copy";
+import { SubmitForm } from "./submit_form";
 
 // in the page component
 
-const Submit = () => {
+function Submit() {
   const { isConnected } = useAccount();
   if (!isConnected) {
     return (
@@ -26,20 +26,26 @@ const Submit = () => {
               If you already have Kiwi NFT you can connect your wallet here:
             </p>
           </div>
-          <ConnectButtonCustom></ConnectButtonCustom>
+          <ConnectButtonCustom className="w-1/2 bg-black px-4 py-2 text-base text-white hover:bg-blue-700"></ConnectButtonCustom>
           <br />
           <br />
           <div className="mx-auto mb-4 max-w-5xl px-4 pt-4 text-center text-base lg:px-0">
             <p> And if you don’t have Kiwi NFT yet you can mint it here:</p>
           </div>
-          <button className="w-1/2 bg-kiwi px-4 py-2 text-base text-white hover:bg-blue-700">
-            Mint Kiwi NFT for 0.005Ξ (on Zora)
-          </button>
+          <a
+            href="https://zora.co/collect/0xebb15487787cbf8ae2ffe1a6cca5a50e63003786"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="w-1/2 bg-kiwi px-4 py-2 text-base text-white hover:bg-blue-700">
+              Mint Kiwi NFT for 0.005Ξ (on Zora)
+            </button>
+          </a>
         </div>
       </>
     );
   }
-  return <SubmitCopy />;
-};
+  return <SubmitForm />;
+}
 
 export default Submit;

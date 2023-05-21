@@ -1,5 +1,12 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-export const ConnectButtonCustom = () => {
+
+type ConnectButtonCustomProps = {
+  className?: string;
+};
+
+export const ConnectButtonCustom: React.FC<ConnectButtonCustomProps> = ({
+  className = "", // <-- default value
+}) => {
   return (
     <ConnectButton.Custom>
       {({
@@ -36,7 +43,7 @@ export const ConnectButtonCustom = () => {
                   <button
                     onClick={openConnectModal}
                     type="button"
-                    className="bg-black px-4 py-2 text-base text-white hover:bg-blue-700"
+                    className={`bg-black px-4 py-2 text-base text-white hover:bg-blue-700 ${className}`}
                   >
                     Connect Wallet
                   </button>
@@ -44,13 +51,17 @@ export const ConnectButtonCustom = () => {
               }
               if (chain.unsupported) {
                 return (
-                  <button onClick={openChainModal} type="button">
+                  <button
+                    onClick={openChainModal}
+                    type="button"
+                    className={className}
+                  >
                     Wrong network
                   </button>
                 );
               }
               return (
-                <div style={{ display: "flex", gap: 12 }}>
+                <div style={{ display: "flex", gap: 12 }} className={className}>
                   <button
                     onClick={openChainModal}
                     style={{ display: "flex", alignItems: "center" }}
@@ -79,7 +90,11 @@ export const ConnectButtonCustom = () => {
                     )}
                     {chain.name}
                   </button>
-                  <button onClick={openAccountModal} type="button">
+                  <button
+                    onClick={openAccountModal}
+                    type="button"
+                    className={className}
+                  >
                     {account.displayName}
                     {account.displayBalance
                       ? ` (${account.displayBalance})`

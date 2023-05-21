@@ -5,6 +5,8 @@ import { TopNav } from "~/layout";
 import { api } from "~/utils/api";
 import { withStaticAPIHelpers } from "~/utils/api/ssg";
 
+import SubscribeForm from "./susbscribe_form";
+
 const DEFAULT_STORIES_INPUT = {
   from: 0,
   amount: 25,
@@ -35,6 +37,7 @@ export default function Home() {
           ))}
         </StoriesList>
       </div>
+      <SubscribeForm />
     </>
   );
 }
