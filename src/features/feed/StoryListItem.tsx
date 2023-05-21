@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import invariant from "ts-invariant";
 import { useEnsName } from "wagmi";
 
@@ -78,10 +78,20 @@ export function StoryListItem({
   );
   const timeAgo = useMemo(() => formatTimeAgo(timestamp), [timestamp]);
 
-  const handleClickVote = useCallback(
-    () => onClickVote?.(href),
-    [href, onClickVote]
-  );
+  const [showKiwi, setShowKiwi] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: string | number | NodeJS.Timeout | undefined;
+    if (showKiwi) {
+      timeoutId = setTimeout(() => setShowKiwi(false), 8000);
+    }
+    return () => clearTimeout(timeoutId);
+  }, [showKiwi]);
+
+  const handleClickVote = useCallback(() => {
+    onClickVote?.(href);
+    setShowKiwi(true);
+  }, [href, onClickVote]);
 
   return (
     <li>
@@ -95,6 +105,11 @@ export function StoryListItem({
           >
             ▲
           </button>
+          {showKiwi && (
+            <span role="img" aria-label="kiwi">
+              +1 🥝
+            </span>
+          )}
         </div>
         <div className="flex-1 text-xl">
           <div>

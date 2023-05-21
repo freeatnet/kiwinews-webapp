@@ -6,7 +6,7 @@ export default {
     extend: {
       colors: {
         kiwi: "#3DC617",
-        beige: "#F4F4EB",
+        ivory: "#FFFFF2",
       },
     },
   },

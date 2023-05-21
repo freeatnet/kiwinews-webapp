@@ -28,7 +28,7 @@ const Profile = () => {
         <div className="mx-auto mb-4 max-w-5xl px-4 pt-4 text-center text-base lg:px-0">
           <p> If you already have Kiwi NFT you can connect your wallet here:</p>
         </div>
-        <button className="w-1/2 bg-black px-4 py-2 text-base text-white hover:bg-blue-700">
+        <button className="w-1/2 bg-black px-4 py-2 text-base text-white hover:bg-kiwi">
           Connect Wallet
         </button>
         <br />

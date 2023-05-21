@@ -68,7 +68,7 @@ export function SubmitForm() {
           onSubmit={handleSubmit}
         >
           <div className="flex w-full flex-col space-y-2">
-            <label htmlFor="title" className="text-lg">
+            <label htmlFor="title" className="text-base">
               Title
             </label>
             <input
@@ -76,18 +76,18 @@ export function SubmitForm() {
               name="title"
               type="text"
               required
-              className="box-border w-full border p-2 text-lg"
+              className="box-border w-full border p-2 text-base"
             />
           </div>
           <div className="flex w-full flex-col space-y-2">
-            <label htmlFor="href" className="text-lg">
+            <label htmlFor="href" className="text-base">
               URL
             </label>
             <input
               id="href"
               name="href"
               type="url"
-              className="box-border w-full border p-2 text-lg"
+              className="box-border w-full border p-2 text-base"
             />
           </div>
 

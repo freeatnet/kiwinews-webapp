@@ -31,7 +31,7 @@ const SubscribeForm: React.FC = () => (
         <input
           type="submit"
           value="Subscribe"
-          className="box-border w-1/3 cursor-pointer border-2 border-black bg-gray-200 p-1 text-base"
+          className="box-border w-1/3 cursor-pointer border-2 border-black bg-gray-100 p-1 text-base"
         />
       </form>
     </div>
