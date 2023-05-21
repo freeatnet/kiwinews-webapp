@@ -63,40 +63,38 @@ export function SubmitForm() {
     <>
       <TopNav />
       <div className="mx-auto mb-8 max-w-5xl px-4 pt-4 lg:px-0">
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div className="flex flex-col">
-            <label
-              htmlFor="title"
-              className="block text-sm font-semibold leading-6 text-gray-600"
-            >
+        <form
+          className="mx-auto flex w-full max-w-xl flex-col items-center space-y-5 px-4 pt-4"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex w-full flex-col space-y-2">
+            <label htmlFor="title" className="text-lg">
               Title
             </label>
             <input
               id="title"
               name="title"
               type="text"
-              placeholder="Title"
               required
-              className="mt-1.5 rounded-md border border-gray-300 p-2"
+              className="box-border w-full border p-2 text-lg"
             />
           </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="href"
-              className="block text-sm font-semibold leading-6 text-gray-600"
-            >
+          <div className="flex w-full flex-col space-y-2">
+            <label htmlFor="href" className="text-lg">
               URL
             </label>
             <input
               id="href"
               name="href"
               type="url"
-              placeholder="URL"
-              className="mt-1.5 rounded-md border border-gray-300 p-2"
+              className="box-border w-full border p-2 text-lg"
             />
           </div>
 
-          <button type="submit" className="bg-blue-500 px-4 py-2 text-white">
+          <button
+            type="submit"
+            className="box-border w-full bg-black px-4 py-2 font-bold text-white hover:bg-kiwi"
+          >
             Submit
           </button>
         </form>
