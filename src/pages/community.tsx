@@ -1,4 +1,16 @@
 import { TopNav } from "~/layout";
+
+// Constant for freeatnet to call the API - we get all community members scores and organize them like here https://news.kiwistand.com/community
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const COMMUNITY_SCOREBOARD = [
+  {
+    wallet_address: "...",
+    profile_link: "http://...",
+    kiwi_score: "...",
+  },
+];
+
 const CommunityPage = () => {
   return (
     <>
