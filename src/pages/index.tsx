@@ -69,9 +69,11 @@ export default function Home() {
         <title>Kiwi News</title>
       </Head>
       {/* Editor's Picks section */}
-      <div className="mx-auto mb-8 max-w-4xl bg-kiwi/20 pr-4 pt-4 text-xl">
-        <b>Editor&apos;s Picks: </b>
-        <p>test</p>
+      <div className="-mt-4 w-screen bg-kiwi/20">
+        <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4 text-xl">
+          <b>Editor&apos;s Picks: </b>
+          <p>test</p>
+        </div>
       </div>
 
       {/* Community Picks section */}
