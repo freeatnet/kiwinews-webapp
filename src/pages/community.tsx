@@ -54,7 +54,7 @@ const CommunityPage = () => {
           target="_blank"
           href="https://zora.co/collect/0xebb15487787cbf8ae2ffe1a6cca5a50e63003786"
         >
-          <button className="w-1/2 bg-black px-4 py-2 text-base text-white hover:bg-kiwi">
+          <button className="w-1/2 bg-black px-4 py-2 text-base text-white hover:bg-blue-700">
             Mint Kiwi NFT for 0.005Ξ (on Zora)
           </button>
         </a>
