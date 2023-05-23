@@ -36,8 +36,8 @@ export default function Home() {
             <StoryContainer key={story.signature} {...story} />
           ))}
         </StoriesList>
+        <SubscribeForm />
       </div>
-      <SubscribeForm />
     </>
   );
 }

@@ -99,6 +99,8 @@ export default function Home() {
             />
           ))}
         </StoriesList>
+      </div>
+      <div className="mx-auto mb-8 max-w-4xl px-4">
         <SubscribeForm />
       </div>
     </>

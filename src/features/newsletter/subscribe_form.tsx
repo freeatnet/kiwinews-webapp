@@ -3,8 +3,8 @@ import React from "react";
 const SubscribeForm: React.FC = () => (
   <>
     <br />
-    <hr className="mx-auto my-4 w-1/4 bg-gray-400 text-left" />
-    <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4 text-center text-xl">
+    <hr className="mx-auto my-4 w-1/4 bg-gray-400" />
+    <div className="mx-auto mb-8 max-w-full pt-4 text-center text-xl">
       <b>
         Want to get a daily Kiwi Editor&apos;s Pick delivered to your inbox?
         <br />
