@@ -26,7 +26,8 @@ function Submit() {
               If you already have Kiwi NFT you can connect your wallet here:
             </p>
           </div>
-          <ConnectButtonCustom className="w-1/2 bg-black px-4 py-2 text-base text-white hover:bg-blue-700"></ConnectButtonCustom>
+          <ConnectButtonCustom className="w-full bg-black px-4 py-2 text-base text-white hover:bg-blue-700 sm:w-64"></ConnectButtonCustom>
+
           <br />
           <br />
           <div className="mx-auto mb-4 max-w-5xl px-4 pt-4 text-center text-base lg:px-0">
@@ -37,7 +38,7 @@ function Submit() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <button className="w-1/2 bg-kiwi px-4 py-2 text-base text-white hover:bg-blue-700">
+            <button className="w-full bg-kiwi px-4 py-2 text-base text-white hover:bg-blue-700 sm:w-64">
               Mint Kiwi NFT for 0.005Ξ (on Zora)
             </button>
           </a>
