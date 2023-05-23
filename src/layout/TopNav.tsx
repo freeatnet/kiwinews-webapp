@@ -1,16 +1,19 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
+import { ConnectButtonCustom } from "./ConnectButtonCustom";
 
 export function TopNav() {
   const { pathname } = useRouter();
 
   return (
-    <div className="mb-4 flex h-16 w-full justify-center bg-gray-50">
-      <div className="mx-4 flex max-w-4xl flex-1 items-center justify-between md:mx-8">
-        <div className="flex items-center">
-          <div className="mr-4 h-8 w-8 rounded-full border-4 border-solid border-black bg-green-500"></div>
+    <div className="mb-4 flex h-auto w-full flex-col items-center justify-center bg-kiwi">
+      <div className="mx-2 flex w-full flex-col items-center justify-between sm:mx-4 sm:max-w-4xl sm:flex-row md:mx-8">
+        <h1 className="mb-2 w-full text-center text-lg font-bold sm:mb-0 sm:mr-8 sm:text-left sm:text-2xl">
+          🥝 Kiwi News
+        </h1>
+        <div className="flex w-full flex-col items-center justify-center sm:flex-row sm:justify-start">
           <div className="divide-x divide-solid divide-gray-300">
             <Link
               href="/"
@@ -19,7 +22,7 @@ export function TopNav() {
                 pathname === "/" && "font-bold"
               )}
             >
-              top
+              Top
             </Link>
             <Link
               href="/new"
@@ -28,7 +31,7 @@ export function TopNav() {
                 pathname === "/new" && "font-bold"
               )}
             >
-              new
+              New
             </Link>
             <Link
               href="/submit"
@@ -37,27 +40,31 @@ export function TopNav() {
                 pathname === "/submit" && "font-bold"
               )}
             >
-              submit
+              Submit
             </Link>
-            {/* <Link
-              href="/rules"
+            <Link
+              href="/community"
               className={classNames(
                 "px-4 py-2",
-                pathname === "/rules" && "font-bold"
+                pathname === "/community" && "font-bold"
               )}
             >
-              rules
-            </Link> */}
+              Community
+            </Link>
+            <Link
+              href="/profile"
+              className={classNames(
+                "px-4 py-2",
+                pathname === "/profile" && "font-bold"
+              )}
+            >
+              Profile
+            </Link>
+          </div>
+          <div className="mt-2 sm:ml-4 sm:mt-0">
+            <ConnectButtonCustom></ConnectButtonCustom>
           </div>
         </div>
-        <ConnectButton
-          accountStatus={{
-            smallScreen: "avatar",
-            largeScreen: "address",
-          }}
-          chainStatus="icon"
-          showBalance={false}
-        />
       </div>
     </div>
   );

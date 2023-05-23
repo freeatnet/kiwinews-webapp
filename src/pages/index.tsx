@@ -6,6 +6,21 @@ import { TopNav } from "~/layout";
 import { api } from "~/utils/api";
 import { withStaticAPIHelpers } from "~/utils/api/ssg";
 
+import SubscribeForm from "../features/newsletter/subscribe_form";
+
+// Constant for freeatnet to call the API - we get 3 stories
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const EDITORS_STORIES = [
+  {
+    editor_name: "...",
+    editor_wallet: "...",
+    editor_profile: "http://...",
+    title: "...",
+    title_link: "http://...",
+  },
+];
+
 const TOP_STORIES_INPUT = {
   from: 0,
   amount: 25,
@@ -31,21 +46,21 @@ export const getStaticProps = withStaticAPIHelpers(async ({ trpc }) => {
 export default function Home() {
   const { data: topStories, refetch: refetchTopStories } =
     api.home.topStories.useQuery(TOP_STORIES_INPUT);
-  const { data: newStories, refetch: refetchNewStories } =
-    api.home.newStories.useQuery(NEW_STORIES_INPUT);
+  // const { data: newStories, refetch: refetchNewStories } =
+  //   api.home.newStories.useQuery(NEW_STORIES_INPUT);
 
   const handleTopStoryUpvote = useCallback(
     (_href: string) => void refetchTopStories(),
     [refetchTopStories]
   );
 
-  const handleNewStoryUpvote = useCallback(
-    (_href: string) => {
-      void refetchTopStories();
-      void refetchNewStories();
-    },
-    [refetchNewStories, refetchTopStories]
-  );
+  // const handleNewStoryUpvote = useCallback(
+  //   (_href: string) => {
+  //     void refetchTopStories();
+  //     void refetchNewStories();
+  //   },
+  //   [refetchNewStories, refetchTopStories]
+  // );
 
   return (
     <>
@@ -53,6 +68,18 @@ export default function Home() {
       <Head>
         <title>Kiwi News</title>
       </Head>
+      {/* Editor's Picks section */}
+      <div className="-mt-4 w-screen bg-kiwi/20">
+        <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4 text-xl">
+          <b>Editor&apos;s Picks: </b>
+          <p>test</p>
+        </div>
+      </div>
+
+      {/* Community Picks section */}
+      <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4 text-xl">
+        <b>Community&apos;s Picks: </b>
+      </div>
       <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4">
         <StoriesList ordered>
           {topStories?.slice(0, 3).map((story) => (
@@ -63,22 +90,6 @@ export default function Home() {
             />
           ))}
         </StoriesList>
-        <hr className="my-3" />
-        <div className="pl-10">
-          <h2 className="mb-2 text-gray-500">
-            Please help rate these stories:
-          </h2>
-          <StoriesList>
-            {newStories?.map((story) => (
-              <StoryContainer
-                {...story}
-                key={story.signature}
-                onUpvoteSubmitted={handleNewStoryUpvote}
-              />
-            ))}
-          </StoriesList>
-        </div>
-        <hr className="my-3" />
         <StoriesList ordered start={4}>
           {topStories?.slice(3).map((story) => (
             <StoryContainer
@@ -88,6 +99,9 @@ export default function Home() {
             />
           ))}
         </StoriesList>
+      </div>
+      <div className="mx-auto mb-8 max-w-4xl px-4">
+        <SubscribeForm />
       </div>
     </>
   );

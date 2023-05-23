@@ -2,12 +2,21 @@ import { useAccount } from "wagmi";
 
 import { TopNav } from "~/layout";
 import { ConnectButtonCustom } from "~/layout/ConnectButtonCustom";
+// Constant for freeatnet to call the API - we get all community members scores and organize them like here https://news.kiwistand.com/community
 
-import { SubmitForm } from "../features/submit/submit_form";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const PROFILE_DATA = [
+  {
+    wallet_address: "...",
+    kiwi_score: "...",
+    last10_submissions: "...",
+    last10_upvotes: "...",
+  },
+];
 
-// in the page component
+// To add later: Description, links and badges
 
-function Submit() {
+const Profile = () => {
   const { isConnected } = useAccount();
   if (!isConnected) {
     return (
@@ -15,8 +24,9 @@ function Submit() {
         <TopNav />
         <div className="mx-auto mb-8 max-w-5xl px-4 pt-4 text-center text-xl font-bold lg:px-0">
           <p>
-            To be able to submit stories you need to connect wallet that owns a
-            Kiwi NFT.
+            To create your Profile, check your kiwi score and see all your
+            upvotes and submissions you need to connect wallet that owns a Kiwi
+            NFT.
           </p>
           <br />
           <hr className="mx-auto my-4 w-1/4 bg-gray-400 text-left" />
@@ -27,7 +37,6 @@ function Submit() {
             </p>
           </div>
           <ConnectButtonCustom className="w-full bg-black px-4 py-2 text-base text-white hover:bg-blue-700 sm:w-64"></ConnectButtonCustom>
-
           <br />
           <br />
           <div className="mx-auto mb-4 max-w-5xl px-4 pt-4 text-center text-base lg:px-0">
@@ -46,7 +55,8 @@ function Submit() {
       </>
     );
   }
-  return <SubmitForm />;
-}
+  return <div> placeholder</div>;
+  // Place for our Profile page. Probably it makes sense to set it up as a separate component
+};
 
-export default Submit;
+export default Profile;
