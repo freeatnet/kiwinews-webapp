@@ -9,9 +9,12 @@ export function TopNav() {
 
   return (
     <div className="mb-4 flex h-auto w-full flex-col items-center justify-center bg-kiwi">
-      <div className="mx-4 flex max-w-4xl flex-1 items-center justify-between md:mx-8">
-        <h1 className="mb-0 text-left text-2xl font-bold">🥝 Kiwi News</h1>
-        <div className="flex items-center">
+      <div className="mx-2 flex w-full flex-col sm:mx-4 sm:max-w-4xl sm:flex-row sm:items-center sm:justify-start md:mx-8">
+        <h1 className="mb-2 w-full text-center text-lg font-bold sm:mb-0 sm:mr-8 sm:text-left sm:text-2xl">
+          {" "}
+          🥝 Kiwi News
+        </h1>
+        <div className="flex w-full items-center justify-center sm:w-auto sm:justify-start">
           <div className="divide-x divide-solid divide-gray-300">
             <Link
               href="/"

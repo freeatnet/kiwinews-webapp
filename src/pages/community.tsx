@@ -25,7 +25,7 @@ const CommunityPage = () => {
       <div className="mx-auto mb-4 max-w-5xl px-4 pt-0 text-center text-2xl font-bold lg:px-0">
         <p>Join our community</p>
       </div>
-      <div className="mx-auto mb-0 max-w-5xl px-4 pt-0 text-center font-bold lg:px-0">
+      <div className="mx-auto mb-0 max-w-5xl px-4 pt-0 text-center text-lg font-bold lg:px-0">
         <p>Mint Kiwi NFT to:</p>
       </div>
       <div className="mx-auto mb-8 max-w-5xl px-4 pt-0 text-center lg:px-0">
@@ -42,19 +42,15 @@ const CommunityPage = () => {
         className="mx-auto mb-2 max-h-[400px] max-w-[400px]"
       />
       <div className="mx-auto mb-8 max-w-5xl px-4 pt-0 text-center lg:px-0">
-        <span>
-          Minting Price: <strong>0.05 Ξ</strong>
-        </span>
-        <span> | </span>
         <a href="https://etherscan.io/address/0xebb15487787cbf8ae2ffe1a6cca5a50e63003786">
-          View on Etherscan
+          (View on Etherscan)
         </a>
         <br />
         <a
           target="_blank"
           href="https://zora.co/collect/0xebb15487787cbf8ae2ffe1a6cca5a50e63003786"
         >
-          <button className="w-1/2 bg-black px-4 py-2 text-base text-white hover:bg-blue-700">
+          <button className="mt-1 w-full bg-kiwi px-4 py-2 font-bold text-white hover:bg-blue-700 sm:w-64">
             Mint Kiwi NFT for 0.005Ξ (on Zora)
           </button>
         </a>

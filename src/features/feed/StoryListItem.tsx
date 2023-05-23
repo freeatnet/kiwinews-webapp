@@ -134,21 +134,19 @@ export function StoryListItem({
               </time>{" "}
               &bull;{" "}
               <span>
-                upvoted by <AddressOrEnsName address={poster} />
-              </span>{" "}
-              {upvoters.length > 0 && (
-                <span>
-                  and{" "}
-                  {upvoters.slice(0, MAX_UPVOTERS_VISIBLE).map((addr, idx) => (
-                    <>
-                      <AddressOrEnsName key={addr} address={addr} />
-                      {idx < upvoters.length - 1 &&
-                        idx < MAX_UPVOTERS_VISIBLE - 1 &&
-                        ", "}
-                    </>
-                  ))}
-                </span>
-              )}
+                submitted by <AddressOrEnsName address={poster} /> |
+              </span>
+              <span>
+                &nbsp;upvoted by{" "}
+                {upvoters.slice(0, MAX_UPVOTERS_VISIBLE).map((addr, idx) => (
+                  <>
+                    <AddressOrEnsName key={addr} address={addr} />
+                    {idx < upvoters.length - 1 &&
+                      idx < MAX_UPVOTERS_VISIBLE - 1 &&
+                      ", "}
+                  </>
+                ))}
+              </span>
             </div>
           </div>
         </div>
