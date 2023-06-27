@@ -1,4 +1,3 @@
-import { BigNumber } from "@ethersproject/bignumber";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { TRPCClientError } from "@trpc/client";
 import { signTypedData } from "@wagmi/core";
@@ -7,6 +6,7 @@ import { useAccount } from "wagmi";
 
 import {
   STORY_EIP712_DOMAIN,
+  STORY_EIP712_PRIMARY_TYPE,
   STORY_EIP712_TYPES,
   STORY_MESSAGE_TYPE,
 } from "~/constants";
@@ -61,11 +61,12 @@ export function StoryContainer({
     const signature = await signTypedData({
       domain: STORY_EIP712_DOMAIN,
       types: STORY_EIP712_TYPES,
-      value: {
+      primaryType: STORY_EIP712_PRIMARY_TYPE,
+      message: {
         href,
         title: "",
         type: STORY_MESSAGE_TYPE,
-        timestamp: BigNumber.from(timestamp),
+        timestamp: BigInt(timestamp),
       },
     });
 

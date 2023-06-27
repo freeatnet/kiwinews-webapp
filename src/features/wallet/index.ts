@@ -1,5 +1,5 @@
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
-import { configureChains, createClient } from "wagmi";
+import { configureChains, createConfig } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
@@ -12,7 +12,7 @@ const {
   NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: WALLETCONNECT_PROJECT_ID,
 } = env;
 
-const { chains, provider } = configureChains(
+const { chains, publicClient } = configureChains(
   [mainnet],
   [
     alchemyProvider({
@@ -22,7 +22,7 @@ const { chains, provider } = configureChains(
   ]
 );
 
-export { chains, provider };
+export { chains, publicClient };
 
 const { connectors } = getDefaultWallets({
   appName: RAINBOW_APP_NAME,
@@ -30,8 +30,8 @@ const { connectors } = getDefaultWallets({
   chains,
 });
 
-export const wagmiClient = createClient({
+export const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  provider,
+  publicClient,
 });
