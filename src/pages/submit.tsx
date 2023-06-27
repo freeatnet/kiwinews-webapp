@@ -1,10 +1,10 @@
-import { BigNumber } from "@ethersproject/bignumber";
 import { useCallback, type FormEventHandler } from "react";
 import invariant from "ts-invariant";
 import { useSignTypedData } from "wagmi";
 
 import {
   STORY_EIP712_DOMAIN,
+  STORY_EIP712_PRIMARY_TYPE,
   STORY_EIP712_TYPES,
   STORY_MESSAGE_TYPE,
 } from "~/constants";
@@ -15,8 +15,6 @@ export default function Submit() {
   const { mutateAsync: postStory } = api.post.story.useMutation();
 
   const { signTypedDataAsync } = useSignTypedData({
-    domain: STORY_EIP712_DOMAIN,
-    types: STORY_EIP712_TYPES,
     onError: (error) => {
       console.error(error);
     },
@@ -37,11 +35,14 @@ export default function Submit() {
       const timestamp = Math.trunc(Date.now() / 1000);
 
       const signature = await signTypedDataAsync({
-        value: {
+        domain: STORY_EIP712_DOMAIN,
+        types: STORY_EIP712_TYPES,
+        primaryType: STORY_EIP712_PRIMARY_TYPE,
+        message: {
           href,
           title,
           type: STORY_MESSAGE_TYPE,
-          timestamp: BigNumber.from(timestamp),
+          timestamp: BigInt(timestamp),
         },
       });
 

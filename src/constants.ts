@@ -13,4 +13,6 @@ export const STORY_EIP712_TYPES = {
   ],
 } as const;
 
+export const STORY_EIP712_PRIMARY_TYPE = "Message" as const;
+
 export const STORY_MESSAGE_TYPE = "amplify" as const;
