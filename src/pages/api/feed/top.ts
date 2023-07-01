@@ -3,6 +3,7 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 
 import { env } from "~/env.mjs";
 import { extractDomain } from "~/features/feed";
+import { formatAddressForDisplay } from "~/helpers";
 import { createServerSideHelpers } from "~/utils/api/ssg";
 
 const DEFAULT_STORIES_INPUT = {
@@ -27,11 +28,32 @@ export default async function handler(_: NextApiRequest, res: NextApiResponse) {
   });
 
   for (const story of stories) {
+    const { title, href, signature, timestamp, points, poster, upvoters } =
+      story;
+
     feed.addItem({
-      id: story.signature,
-      title: `${story.title} (${extractDomain(story.href)})`,
-      link: story.href,
-      date: new Date(Number(story.timestamp) * 1_000),
+      id: signature,
+      title: `${title} (${extractDomain(href)})`,
+      link: href,
+      date: new Date(Number(timestamp) * 1_000),
+      author: [
+        { name: formatAddressForDisplay(poster.address, poster.displayName) },
+      ],
+      content: `<p>${points} ${
+        points !== 1 ? "points" : "point"
+      }. Submitted by ${formatAddressForDisplay(
+        poster.address,
+        poster.displayName
+      )}${
+        upvoters.length > 0
+          ? ` and upvoted by ${upvoters
+              .slice(0, 3)
+              .map((upvoter) =>
+                formatAddressForDisplay(upvoter.address, upvoter.displayName)
+              )
+              .join(", ")}`
+          : ""
+      }.</p>`,
     });
   }
 
