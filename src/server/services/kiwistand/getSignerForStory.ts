@@ -1,7 +1,9 @@
 import { _TypedDataEncoder } from "@ethersproject/hash";
 import { recoverAddress } from "@ethersproject/transactions";
+import invariant from "ts-invariant";
 
 import { STORY_EIP712_DOMAIN, type STORY_EIP712_TYPES } from "~/constants";
+import { is0xAddress } from "~/utils/viem";
 
 import { type Story } from "./fetchAllStories";
 
@@ -23,6 +25,8 @@ function getStoryDigest(story: Story) {
   );
 }
 
-export function getSignerFromStory(story: Story): string {
-  return recoverAddress(getStoryDigest(story), story.signature);
+export function getSignerFromStory(story: Story) {
+  const recovered = recoverAddress(getStoryDigest(story), story.signature);
+  invariant(is0xAddress(recovered), "invalid recovered address");
+  return recovered;
 }

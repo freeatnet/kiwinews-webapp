@@ -73,7 +73,7 @@ const config = {
     "no-console": [
       "warn",
       {
-        allow: ["warn", "error"],
+        allow: ["debug", "info", "warn", "error"],
       },
     ],
     "react/jsx-curly-brace-presence": "warn",

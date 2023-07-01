@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { env } from "~/env.mjs";
+
 const STORIES_API_RESPONSE_SCHEMA = z.object({
   data: z.array(
     z.object({
@@ -15,12 +17,18 @@ const STORIES_API_RESPONSE_SCHEMA = z.object({
 export type Story = z.infer<typeof STORIES_API_RESPONSE_SCHEMA>["data"][number];
 export type StoryKey = Story["href"];
 
-const KIWISTAND_LIST_STORIES_URL =
-  "https://news.kiwistand.com:8000/api/v1/list";
+const KIWISTAND_LIST_STORIES_URL = new URL(
+  `/api/v1/list`,
+  env.KIWISTAND_API_HOST
+).toString();
+const KIWISTAND_MAX_MESSAGES_PER_PAGE = env.KIWISTAND_MESSAGES_MAX_PAGE_SIZE;
+
 export async function fetchAllStories() {
   const stories: Story[] = [];
 
-  for (let from = 0; true; from += 50) {
+  console.debug("start fetching stories", Date.now());
+  for (let from = 0; true; from += KIWISTAND_MAX_MESSAGES_PER_PAGE) {
+    console.debug("fetching stories from", from);
     const request = await fetch(KIWISTAND_LIST_STORIES_URL, {
       method: "POST",
       headers: {
@@ -28,7 +36,7 @@ export async function fetchAllStories() {
       },
       body: JSON.stringify({
         from: from,
-        amount: 50,
+        amount: KIWISTAND_MAX_MESSAGES_PER_PAGE,
       }),
     });
 
@@ -53,14 +61,25 @@ export async function fetchAllStories() {
       break;
     }
   }
+  console.debug("end fetching stories", Date.now());
 
   return stories;
 }
 
+const STORIES_CACHE_STALE_TTL = env.STORIES_CACHE_STALE_TTL;
+const STORIES_CACHE_EXPIRE_TTL = env.STORIES_CACHE_EXPIRE_TTL;
+let storiesCached: Story[] = [];
+let storiesCachedAt = 0;
 let fetchAllStoriesPromise: ReturnType<typeof fetchAllStories> | undefined =
   undefined;
+
 async function fetchAllStoriesExclusive() {
   if (!fetchAllStoriesPromise) {
+    console.debug(
+      "fetchAllStoriesExclusive: setting up a new promise",
+      Date.now()
+    );
+
     fetchAllStoriesPromise = fetchAllStories()
       .then((result) => {
         fetchAllStoriesPromise = undefined;
@@ -75,11 +94,6 @@ async function fetchAllStoriesExclusive() {
   return fetchAllStoriesPromise;
 }
 
-const STORIES_CACHE_STALE_TTL = 10_000;
-const STORIES_CACHE_EXPIRE_TTL = 20_000;
-let storiesCached: Story[] = [];
-let storiesCachedAt = 0;
-
 /**
  * Fetches stories from the Kiwistand API, caching them for a short time.
  * If the cache is stale, a request to refresh the stories will be made in the background.
@@ -87,23 +101,39 @@ let storiesCachedAt = 0;
  */
 export async function fetchAllStoriesCached() {
   const now = Date.now();
+  const cacheAge = now - storiesCachedAt;
+  console.debug("fetchAllStoriesCached: cache age", cacheAge, "ms");
 
-  if (now - storiesCachedAt > STORIES_CACHE_EXPIRE_TTL) {
+  if (cacheAge > STORIES_CACHE_EXPIRE_TTL) {
+    console.debug("fetchAllStoriesCached: reset cache");
     storiesCached = [];
   }
 
   if (!storiesCached.length) {
+    console.debug(
+      "fetchAllStoriesCached: fetchAllStoriesExclusive synchronously"
+    );
+
     storiesCached = await fetchAllStoriesExclusive();
     storiesCachedAt = now;
-  } else if (now - storiesCachedAt > STORIES_CACHE_STALE_TTL) {
+  } else if (cacheAge > STORIES_CACHE_STALE_TTL) {
+    console.debug(
+      "fetchAllStoriesCached: fetchAllStoriesExclusive in background"
+    );
+
     void fetchAllStoriesExclusive()
       .then((stories) => {
         storiesCached = stories;
         storiesCachedAt = now;
       })
       .catch((err) => {
-        console.error(err, "failed to refresh stories in the background");
+        console.error(
+          err,
+          "fetchAllStoriesCached: failed to refresh stories in the background"
+        );
       });
+  } else {
+    console.debug("fetchAllStoriesCached: just return the stories");
   }
 
   return storiesCached;

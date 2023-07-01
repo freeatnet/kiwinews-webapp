@@ -22,8 +22,8 @@ export type StoryContainerProps = {
   points: number;
   score: number;
   signature: string;
-  poster: string;
-  upvoters: string[];
+  poster: { address: `0x${string}`; displayName: string | null };
+  upvoters: { address: `0x${string}`; displayName: string | null }[];
 
   onUpvoteSubmitted?: (href: string) => void;
 };
