@@ -1,6 +1,4 @@
 import { useCallback, useMemo } from "react";
-import invariant from "ts-invariant";
-import { useEnsName } from "wagmi";
 
 import { formatAddressForDisplay } from "~/helpers";
 
@@ -27,21 +25,6 @@ function StorySignatureStripe({ signature }: { signature: string }) {
   );
 }
 
-function is0xAddress(address: string): address is `0x${string}` {
-  return address.startsWith("0x");
-}
-
-function AddressOrEnsName({ address }: { address: string }) {
-  invariant(is0xAddress(address), "address is required");
-  const { data: ensName } = useEnsName({ address });
-
-  return (
-    <span title={`${address}`}>
-      {formatAddressForDisplay(address, ensName)}
-    </span>
-  );
-}
-
 type StoryListItemProps = {
   title: string;
   href: string;
@@ -49,8 +32,8 @@ type StoryListItemProps = {
   points: number;
   score: number;
   signature: string;
-  poster: string;
-  upvoters: string[];
+  poster: { address: `0x${string}`; displayName: string | null };
+  upvoters: { address: `0x${string}`; displayName: string | null }[];
 
   hasVoted?: boolean;
   onClickVote?: (href: string) => void;
@@ -118,19 +101,21 @@ export function StoryListItem({
               </time>{" "}
               &bull;{" "}
               <span>
-                by <AddressOrEnsName address={poster} />
+                by {formatAddressForDisplay(poster.address, poster.displayName)}
               </span>{" "}
               {upvoters.length > 0 && (
                 <span>
                   and{" "}
-                  {upvoters.slice(0, MAX_UPVOTERS_VISIBLE).map((addr, idx) => (
-                    <>
-                      <AddressOrEnsName key={addr} address={addr} />
-                      {idx < upvoters.length - 1 &&
-                        idx < MAX_UPVOTERS_VISIBLE - 1 &&
-                        ", "}
-                    </>
-                  ))}
+                  {upvoters
+                    .slice(0, MAX_UPVOTERS_VISIBLE)
+                    .map(({ address, displayName }, idx) => (
+                      <span key={address}>
+                        {formatAddressForDisplay(address, displayName)}
+                        {idx < upvoters.length - 1 &&
+                          idx < MAX_UPVOTERS_VISIBLE - 1 &&
+                          ", "}
+                      </span>
+                    ))}
                 </span>
               )}
             </div>

@@ -7,6 +7,7 @@ import {
   getSignerFromStory,
   type StoryKey,
 } from "~/server/services/kiwistand";
+import { miniProfileForAddress } from "~/server/services/miniprofile";
 import { isAddressEqual } from "~/utils/ethers";
 
 const STORIES_INPUT_SCHEMA = z.object({
@@ -58,33 +59,43 @@ export const newRouter = createTRPCRouter({
         ([, scoreA], [, scoreB]) => scoreB - scoreA
       );
 
-      const sortedStories = sortedScores
-        .slice(input.from, input.from + input.amount)
-        .map(([key, score]) => {
-          const storiesByHref = stories.filter((story) => story.href === key);
-          const keyStory =
-            storiesByHref.find((story) => !!story.title) ??
-            // find the story by href with a title, falling back on one without a title
-            storiesByHref[0];
-          invariant(
-            !!keyStory,
-            `could not find story with key ${key} in the stories object`
-          );
+      const sortedStories = await Promise.all(
+        sortedScores
+          .slice(input.from, input.from + input.amount)
+          .map(async ([key, score]) => {
+            const storiesByHref = stories.filter((story) => story.href === key);
+            const keyStory =
+              storiesByHref.find((story) => !!story.title) ??
+              // find the story by href with a title, falling back on one without a title
+              storiesByHref[0];
+            invariant(
+              !!keyStory,
+              `could not find story with key ${key} in the stories object`
+            );
 
-          const timestampAndPoints = timestampsAndPoints.get(key);
-          invariant(
-            !!timestampAndPoints,
-            "could not find timestamp and points in map"
-          );
+            const timestampAndPoints = timestampsAndPoints.get(key);
+            invariant(
+              !!timestampAndPoints,
+              "could not find timestamp and points in map"
+            );
 
-          const [timestamp, points] = timestampAndPoints;
-          const poster = getSignerFromStory(keyStory);
-          const upvoters = storiesByHref
-            .map(getSignerFromStory)
-            .filter((upvoter) => !isAddressEqual(upvoter, poster));
+            const [timestamp, points] = timestampAndPoints;
 
-          return { ...keyStory, timestamp, score, points, poster, upvoters };
-        });
+            const posterAddress = getSignerFromStory(keyStory);
+            const upvoterAddresses = storiesByHref
+              .map(getSignerFromStory)
+              .filter(
+                (upvoterAddress) =>
+                  !isAddressEqual(upvoterAddress, posterAddress)
+              );
+            const [poster, ...upvoters] = await Promise.all([
+              miniProfileForAddress(posterAddress),
+              ...upvoterAddresses.map(miniProfileForAddress),
+            ]);
+
+            return { ...keyStory, timestamp, score, points, poster, upvoters };
+          })
+      );
 
       return sortedStories;
     }),
