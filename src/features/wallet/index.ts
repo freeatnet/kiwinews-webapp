@@ -19,7 +19,12 @@ const { chains, publicClient } = configureChains(
       apiKey: ALCHEMY_API_KEY,
     }),
     publicProvider(),
-  ]
+  ],
+  {
+    batch: {
+      multicall: true,
+    },
+  }
 );
 
 export { chains, publicClient };
