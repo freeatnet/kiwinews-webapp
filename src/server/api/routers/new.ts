@@ -81,13 +81,13 @@ export const newRouter = createTRPCRouter({
 
             const [timestamp, points] = timestampAndPoints;
 
-            const posterAddress = getSignerFromStory(keyStory);
-            const upvoterAddresses = storiesByHref
-              .map(getSignerFromStory)
-              .filter(
-                (upvoterAddress) =>
-                  !isAddressEqual(upvoterAddress, posterAddress)
-              );
+            const posterAddress = await getSignerFromStory(keyStory);
+            const upvoterAddresses = (
+              await Promise.all(storiesByHref.map(getSignerFromStory))
+            ).filter(
+              (upvoterAddress) => !isAddressEqual(upvoterAddress, posterAddress)
+            );
+
             const [poster, ...upvoters] = await Promise.all([
               miniProfileForAddress(posterAddress),
               ...upvoterAddresses.map(miniProfileForAddress),
