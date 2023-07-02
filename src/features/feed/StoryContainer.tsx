@@ -13,9 +13,11 @@ import {
 import { api } from "~/utils/api";
 
 import { useVotingState } from "./hooks";
-import { StoryListItem } from "./StoryListItem";
+import { StoryListItem, type StoryListItemProps } from "./StoryListItem";
 
 export type StoryContainerProps = {
+  rank?: StoryListItemProps["rank"];
+
   title: string;
   href: string;
   timestamp: number;

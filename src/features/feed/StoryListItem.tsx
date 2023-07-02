@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useCallback, useMemo } from "react";
 
 import { formatAddressForDisplay } from "~/helpers";
@@ -25,7 +26,9 @@ function StorySignatureStripe({ signature }: { signature: string }) {
   );
 }
 
-type StoryListItemProps = {
+export type StoryListItemProps = {
+  rank?: number | null;
+
   title: string;
   href: string;
   timestamp: number;
@@ -39,8 +42,30 @@ type StoryListItemProps = {
   onClickVote?: (href: string) => void;
 };
 
+function RankLabel({ className, rank }: { className?: string; rank: number }) {
+  return (
+    <div
+      className={classNames(
+        className,
+        "text-sm md:text-base text-medium saturate-50",
+        rank === 1
+          ? "text-yellow-500"
+          : rank === 2
+          ? "text-gray-500"
+          : rank === 3
+          ? "text-amber-600"
+          : "text-gray-500"
+      )}
+    >
+      #{rank}
+    </div>
+  );
+}
+
 const MAX_UPVOTERS_VISIBLE = 3;
 export function StoryListItem({
+  rank,
+
   title,
   href,
   timestamp,
@@ -67,21 +92,22 @@ export function StoryListItem({
 
   return (
     <li>
-      <div className="flex flex-row items-baseline">
-        <div className="group mr-1 w-8 text-gray-500 transition-colors duration-100">
+      <div className="flex flex-row">
+        <div className="mr-2 text-center md:mr-3">
           <button
             title={`upvote ${title}`}
-            className="flex select-none flex-col items-center justify-start rounded p-2 text-center text-gray-500 disabled:cursor-not-allowed disabled:text-lime-300 disabled:active:bg-inherit group-hover:text-gray-900 group-active:bg-lime-100 group-active:text-gray-900"
+            className="group flex select-none flex-col items-center justify-start rounded border border-gray-200 px-3 py-2 text-center text-gray-500 transition-colors duration-100 disabled:cursor-not-allowed disabled:text-lime-300 disabled:active:bg-inherit group-hover:text-gray-900 group-active:bg-lime-100 group-active:text-gray-900"
             onClick={handleClickVote}
             disabled={hasVoted}
           >
-            <span className="flex text-base">▲</span>
+            <span className="flex text-base leading-none">▲</span>
             <span className="flex text-sm font-medium" title={`score ${score}`}>
               {points}
             </span>
           </button>
+          {!!rank && <RankLabel className="mt-1 block md:hidden" rank={rank} />}
         </div>
-        <div className="flex-1">
+        <div className="flex-1 md:self-center">
           <div>
             <a
               href={href}
@@ -121,6 +147,9 @@ export function StoryListItem({
             <StorySignatureStripe signature={signature} />
           </div>
         </div>
+        {!!rank && (
+          <RankLabel className="hidden self-center md:block" rank={rank} />
+        )}
       </div>
     </li>
   );

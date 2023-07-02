@@ -58,18 +58,19 @@ export default function Home() {
         />
       </Head>
       <TopNav />
-      <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4">
-        <StoriesList ordered>
-          {topStories?.slice(0, 3).map((story) => (
+      <div className="mx-auto mb-8 max-w-4xl px-4 pt-4">
+        <StoriesList>
+          {topStories?.slice(0, 3).map((story, idx) => (
             <StoryContainer
               {...story}
               key={story.signature}
+              rank={idx + 1}
               onUpvoteSubmitted={handleTopStoryUpvote}
             />
           ))}
         </StoriesList>
         <hr className="my-3" />
-        <div className="pl-10">
+        <div>
           <h2 className="mb-2 text-gray-500">
             Please help rate these stories:
           </h2>
@@ -84,7 +85,7 @@ export default function Home() {
           </StoriesList>
         </div>
         <hr className="my-3" />
-        <StoriesList ordered start={4}>
+        <StoriesList>
           {topStories?.slice(3).map((story) => (
             <StoryContainer
               {...story}
