@@ -68,14 +68,17 @@ export function StoryListItem({
   return (
     <li>
       <div className="flex flex-row items-baseline">
-        <div className="mr-1 w-8">
+        <div className="group mr-1 w-8 text-gray-500 transition-colors duration-100">
           <button
             title={`upvote ${title}`}
-            className="select-none rounded px-2 text-center text-sm text-gray-500 transition-colors duration-100 hover:text-gray-900 active:bg-lime-100 active:text-gray-900 disabled:cursor-not-allowed disabled:text-lime-300 disabled:active:bg-inherit"
+            className="flex select-none flex-col items-center justify-start rounded p-2 text-center text-gray-500 disabled:cursor-not-allowed disabled:text-lime-300 disabled:active:bg-inherit group-hover:text-gray-900 group-active:bg-lime-100 group-active:text-gray-900"
             onClick={handleClickVote}
             disabled={hasVoted}
           >
-            ▲
+            <span className="flex text-base">▲</span>
+            <span className="flex text-sm font-medium" title={`score ${score}`}>
+              {points}
+            </span>
           </button>
         </div>
         <div className="flex-1">
@@ -92,10 +95,6 @@ export function StoryListItem({
           </div>
           <div className="flex flex-row items-baseline text-sm">
             <div className="mr-2 text-sm text-gray-500">
-              <span title={`score ${score}`}>
-                {points} {points != 1 ? "points" : "point"}
-              </span>{" "}
-              &bull;{" "}
               <time suppressHydrationWarning dateTime={isoTimestamp}>
                 {timeAgo}
               </time>{" "}
