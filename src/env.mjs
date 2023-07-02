@@ -21,6 +21,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
+    NEXT_PUBLIC_BASE_URL: z.string().nonempty().url(),
     NEXT_PUBLIC_RAINBOW_APP_NAME: z.string().nonempty(),
     NEXT_PUBLIC_ALCHEMY_API_KEY: z.string().nonempty(),
     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string().nonempty(),
@@ -32,6 +33,9 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_BASE_URL: process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NEXT_PUBLIC_BASE_URL,
     KIWISTAND_API_HOST: process.env.KIWISTAND_API_HOST,
     KIWISTAND_MESSAGES_MAX_PAGE_SIZE:
       process.env.KIWISTAND_MESSAGES_MAX_PAGE_SIZE,

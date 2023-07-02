@@ -49,10 +49,15 @@ export default function Home() {
 
   return (
     <>
-      <TopNav />
       <Head>
-        <title>Kiwi News</title>
+        <title>New on Kiwi News</title>
+        <link
+          rel="alternate"
+          type="application/atom+xml"
+          href="/api/feed/top"
+        />
       </Head>
+      <TopNav />
       <div className="mx-auto mb-8 max-w-4xl pr-4 pt-4">
         <StoriesList ordered>
           {topStories?.slice(0, 3).map((story) => (

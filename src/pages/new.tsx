@@ -24,10 +24,15 @@ export default function Home() {
 
   return (
     <>
-      <TopNav />
       <Head>
         <title>New on Kiwi News</title>
+        <link
+          rel="alternate"
+          type="application/atom+xml"
+          href="/api/feed/new"
+        />
       </Head>
+      <TopNav />
       <div className="mx-auto mb-8 max-w-4xl px-4 pt-4">
         <StoriesList>
           {stories?.map((story) => (
