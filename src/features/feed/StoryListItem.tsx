@@ -13,7 +13,7 @@ function StorySignatureStripe({ signature }: { signature: string }) {
   }, [signature]);
 
   return (
-    <div className="flex flex-row [&>div]:relative [&>div]:h-1 [&>div]:w-1 [&>div]:opacity-70">
+    <div className="hidden flex-row md:flex [&>div]:relative [&>div]:h-1 [&>div]:w-1 [&>div]:opacity-70">
       {signatureBlocks.map((c, idx) => (
         <div
           key={idx}
