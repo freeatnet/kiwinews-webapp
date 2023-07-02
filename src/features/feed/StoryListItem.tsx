@@ -96,7 +96,7 @@ export function StoryListItem({
         <div className="mr-2 text-center md:mr-3">
           <button
             title={`upvote ${title}`}
-            className="group flex select-none flex-col items-center justify-start rounded border border-gray-200 px-3 py-2 text-center text-gray-500 transition-colors duration-100 disabled:cursor-not-allowed disabled:text-lime-300 disabled:active:bg-inherit group-hover:text-gray-900 group-active:bg-lime-100 group-active:text-gray-900"
+            className="flex select-none flex-col items-center justify-start rounded border border-gray-200 px-3 py-2 text-center text-sm text-gray-500 transition-colors duration-100 hover:border-gray-300 hover:text-gray-900 active:border-lime-300 active:bg-lime-100 active:text-gray-900 disabled:cursor-not-allowed disabled:border-gray-100 disabled:text-lime-600 disabled:active:bg-inherit"
             onClick={handleClickVote}
             disabled={hasVoted}
           >
