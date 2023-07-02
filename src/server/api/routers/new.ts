@@ -1,4 +1,5 @@
 import invariant from "ts-invariant";
+import { isAddressEqual } from "viem";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -8,7 +9,6 @@ import {
   type StoryKey,
 } from "~/server/services/kiwistand";
 import { miniProfileForAddress } from "~/server/services/miniprofile";
-import { isAddressEqual } from "~/utils/ethers";
 
 const STORIES_INPUT_SCHEMA = z.object({
   from: z.number().nonnegative(),
