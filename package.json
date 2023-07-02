@@ -24,7 +24,6 @@
     "@trpc/react-query": "^10.29.1",
     "@trpc/server": "^10.29.1",
     "classnames": "^2.3.2",
-    "ethers": "^5.7.2",
     "feed": "^4.2.2",
     "next": "^13.4.7",
     "react": "18.2.0",

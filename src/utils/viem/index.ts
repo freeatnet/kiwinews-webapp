@@ -1,1 +1,1 @@
-export { is0xAddress } from "./is0xAddress";
+export { is0xString } from "./is0xString";
