@@ -20,7 +20,7 @@ export function StoriesList(props: StoriesListProps) {
     <AsTag
       className={classNames(
         ordered && "list-decimal list-outside pl-10 marker:text-gray-500",
-        "space-y-1"
+        "space-y-4"
       )}
       start={start}
     >

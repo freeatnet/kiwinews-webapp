@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useCallback, useMemo } from "react";
 
 import { formatAddressForDisplay } from "~/helpers";
@@ -12,7 +13,7 @@ function StorySignatureStripe({ signature }: { signature: string }) {
   }, [signature]);
 
   return (
-    <div className="flex flex-row [&>div]:relative [&>div]:h-1 [&>div]:w-1 [&>div]:opacity-70">
+    <div className="hidden flex-row md:flex [&>div]:relative [&>div]:h-1 [&>div]:w-1 [&>div]:opacity-70">
       {signatureBlocks.map((c, idx) => (
         <div
           key={idx}
@@ -25,7 +26,9 @@ function StorySignatureStripe({ signature }: { signature: string }) {
   );
 }
 
-type StoryListItemProps = {
+export type StoryListItemProps = {
+  rank?: number | null;
+
   title: string;
   href: string;
   timestamp: number;
@@ -39,8 +42,30 @@ type StoryListItemProps = {
   onClickVote?: (href: string) => void;
 };
 
+function RankLabel({ className, rank }: { className?: string; rank: number }) {
+  return (
+    <div
+      className={classNames(
+        className,
+        "text-sm md:text-base text-medium saturate-50",
+        rank === 1
+          ? "text-yellow-500"
+          : rank === 2
+          ? "text-gray-500"
+          : rank === 3
+          ? "text-amber-600"
+          : "text-gray-500"
+      )}
+    >
+      #{rank}
+    </div>
+  );
+}
+
 const MAX_UPVOTERS_VISIBLE = 3;
 export function StoryListItem({
+  rank,
+
   title,
   href,
   timestamp,
@@ -67,18 +92,22 @@ export function StoryListItem({
 
   return (
     <li>
-      <div className="flex flex-row items-baseline">
-        <div className="mr-1 w-8">
+      <div className="flex flex-row">
+        <div className="mr-2 text-center md:mr-3">
           <button
             title={`upvote ${title}`}
-            className="select-none rounded px-2 text-center text-sm text-gray-500 transition-colors duration-100 hover:text-gray-900 active:bg-lime-100 active:text-gray-900 disabled:cursor-not-allowed disabled:text-lime-300 disabled:active:bg-inherit"
+            className="flex select-none flex-col items-center justify-start rounded border border-gray-200 px-3 py-2 text-center text-sm text-gray-500 transition-colors duration-100 hover:border-gray-300 hover:text-gray-900 active:border-lime-300 active:bg-lime-100 active:text-gray-900 disabled:cursor-not-allowed disabled:border-gray-100 disabled:text-lime-600 disabled:active:bg-inherit"
             onClick={handleClickVote}
             disabled={hasVoted}
           >
-            ▲
+            <span className="flex text-base leading-none">▲</span>
+            <span className="flex text-sm font-medium" title={`score ${score}`}>
+              {points}
+            </span>
           </button>
+          {!!rank && <RankLabel className="mt-1 block md:hidden" rank={rank} />}
         </div>
-        <div className="flex-1">
+        <div className="flex-1 md:self-center">
           <div>
             <a
               href={href}
@@ -92,10 +121,6 @@ export function StoryListItem({
           </div>
           <div className="flex flex-row items-baseline text-sm">
             <div className="mr-2 text-sm text-gray-500">
-              <span title={`score ${score}`}>
-                {points} {points != 1 ? "points" : "point"}
-              </span>{" "}
-              &bull;{" "}
               <time suppressHydrationWarning dateTime={isoTimestamp}>
                 {timeAgo}
               </time>{" "}
@@ -122,6 +147,9 @@ export function StoryListItem({
             <StorySignatureStripe signature={signature} />
           </div>
         </div>
+        {!!rank && (
+          <RankLabel className="hidden self-center md:block" rank={rank} />
+        )}
       </div>
     </li>
   );
