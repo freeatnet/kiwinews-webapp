@@ -1,8 +1,9 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { TRPCClientError } from "@trpc/client";
 import { signTypedData } from "@wagmi/core";
-import { useCallback } from "react";
-import { useAccount } from "wagmi";
+import { useCallback, useMemo, useState } from "react";
+import { isAddressEqual } from "viem";
+import { useAccount, useEnsName } from "wagmi";
 
 import {
   STORY_EIP712_DOMAIN,
@@ -12,7 +13,6 @@ import {
 } from "~/constants";
 import { api } from "~/utils/api";
 
-import { useVotingState } from "./hooks";
 import { StoryListItem, type StoryListItemProps } from "./StoryListItem";
 
 export type StoryContainerProps = {
@@ -34,30 +34,44 @@ export function StoryContainer({
   onUpvoteSubmitted,
   ...story
 }: StoryContainerProps) {
-  const { href, points } = story;
+  const { href, points, upvoters, poster } = story;
 
-  const { isConnected, address } = useAccount();
-  const { openConnectModal } = useConnectModal();
-
-  const { mutateAsync: postUpvote, isLoading: isSubmittingUpvote } =
-    api.post.upvote.useMutation({
-      onSuccess(_, variables) {
-        onUpvoteSubmitted?.(variables.href);
-      },
-    });
-
-  const votingKey = !!address
-    ? `k7d:hasVoted:${address.toLowerCase()}:${href}`
-    : undefined;
-  const {
-    data: hasVoted,
-    refetch: refetchHasVoted,
-    mutate: markHasVoted,
-  } = useVotingState({
-    key: votingKey,
+  // `viewer` is a workaround for the fact that the server does not know the currently connected account
+  // and `useAccount` returned the connected address immediately, causing server/client mismatch
+  const [viewer, setViewer] = useState<`0x${string}` | undefined>(undefined);
+  useAccount({
+    onConnect: ({ address }) => {
+      setViewer(address);
+    },
+    onDisconnect: () => {
+      setViewer(undefined);
+    },
   });
 
-  const handleUpvote = useCallback(async () => {
+  // determines if the viewer has already voted on the story
+  const hasViewerVoted = useMemo(
+    () =>
+      !!viewer &&
+      (isAddressEqual(viewer, poster.address) ||
+        upvoters.some(({ address }) => isAddressEqual(viewer, address))),
+    [viewer, poster.address, upvoters]
+  );
+
+  // rest is related to upvote submission
+  const { openConnectModal } = useConnectModal();
+  const { isConnected } = useAccount();
+
+  const {
+    mutateAsync: postUpvote,
+    isLoading: isSubmittingUpvote,
+    isSuccess: didSubmitUpvote,
+  } = api.post.upvote.useMutation({
+    onSuccess(_, variables) {
+      onUpvoteSubmitted?.(variables.href);
+    },
+  });
+
+  const handleClickUpvote = useCallback(async () => {
     const timestamp = Math.trunc(Date.now() / 1000);
 
     const signature = await signTypedData({
@@ -83,29 +97,46 @@ export function StoryContainer({
 
       // eslint-disable-next-line no-console -- TODO: remove
       console.log(response);
-
-      markHasVoted(true);
     } catch (error) {
       if (
         error instanceof TRPCClientError &&
         error.message.match(/It was probably submitted and accepted before/)
       ) {
-        markHasVoted(true);
+        // TODO: treat this as a successful upvote on the server
         return;
       }
 
       throw error;
-    } finally {
-      void refetchHasVoted();
     }
-  }, [href, markHasVoted, postUpvote, refetchHasVoted]);
+  }, [href, postUpvote]);
+
+  const hasJustVoted =
+    (isSubmittingUpvote || didSubmitUpvote) && !hasViewerVoted;
+
+  const { data: viewerEns } = useEnsName({
+    address: viewer,
+    enabled: !!viewer && (isSubmittingUpvote || didSubmitUpvote),
+  });
+  const optimisticUpvoters = useMemo(
+    () =>
+      // add the viewer to the upvoters list if they haven't voted yet
+      hasJustVoted && !!viewer
+        ? upvoters.concat([{ address: viewer, displayName: viewerEns ?? null }])
+        : upvoters,
+    [hasJustVoted, upvoters, viewer, viewerEns]
+  );
 
   return (
     <StoryListItem
       {...story}
-      points={points + Number(isSubmittingUpvote)}
-      hasVoted={hasVoted || isSubmittingUpvote}
-      onClickVote={isConnected ? handleUpvote : openConnectModal}
+      points={
+        // add a point if the mutation is in progress or just completed, but not when
+        // the viewer is already in the upvoters list
+        points + Number(hasJustVoted)
+      }
+      upvoters={optimisticUpvoters}
+      hasVoted={hasViewerVoted || isSubmittingUpvote || didSubmitUpvote}
+      onClickVote={isConnected ? handleClickUpvote : openConnectModal}
     />
   );
 }
