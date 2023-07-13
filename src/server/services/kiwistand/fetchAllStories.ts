@@ -1,3 +1,4 @@
+import { isAddress } from "viem";
 import { z } from "zod";
 
 import { env } from "~/env.mjs";
@@ -10,6 +11,12 @@ const STORIES_API_RESPONSE_SCHEMA = z.object({
       type: z.literal("amplify"),
       timestamp: z.number(),
       signature: z.string(),
+      signer: z.string().refine(isAddress, {
+        message: "Must be a valid address",
+      }),
+      identity: z.string().refine(isAddress, {
+        message: "Must be a valid address",
+      }),
     })
   ),
 });

@@ -5,7 +5,6 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import {
   fetchAllStoriesCached,
-  getSignerFromStory,
   type StoryKey,
 } from "~/server/services/kiwistand";
 import { miniProfileForAddress } from "~/server/services/miniprofile";
@@ -81,16 +80,14 @@ export const newRouter = createTRPCRouter({
 
             const [timestamp, points] = timestampAndPoints;
 
-            const posterAddress = await getSignerFromStory(keyStory);
-            const upvoterAddresses = (
-              await Promise.all(storiesByHref.map(getSignerFromStory))
-            ).filter(
-              (upvoterAddress) => !isAddressEqual(upvoterAddress, posterAddress)
-            );
-
             const [poster, ...upvoters] = await Promise.all([
-              miniProfileForAddress(posterAddress),
-              ...upvoterAddresses.map(miniProfileForAddress),
+              miniProfileForAddress(keyStory.identity),
+              ...storiesByHref
+                .map(({ identity }) => identity)
+                .filter(
+                  (identity) => !isAddressEqual(identity, keyStory.identity)
+                )
+                .map(miniProfileForAddress),
             ]);
 
             return { ...keyStory, timestamp, score, points, poster, upvoters };
