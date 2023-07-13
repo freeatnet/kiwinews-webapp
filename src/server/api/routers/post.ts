@@ -102,16 +102,21 @@ export const postRouter = createTRPCRouter({
         body: JSON.stringify(input),
       });
 
-      if (!response.ok) {
-        if (response.status === 400) {
-          const body = await response.json();
-          console.error("Error while posting story", {
-            status: response.status,
-            statusText: response.statusText,
-            body: JSON.stringify(body),
-          });
+      if (response.status === 400) {
+        const body = await response.json();
+        console.error("Error while posting upvote", {
+          status: response.status,
+          statusText: response.statusText,
+          body: JSON.stringify(body),
+        });
 
-          const remoteError = MESSAGES_API_ERROR_SCHEMA.parse(body);
+        const remoteError = MESSAGES_API_ERROR_SCHEMA.parse(body);
+
+        // treat duplicate error as success
+        const isDuplicateError = remoteError.details.match(
+          /It was probably submitted and accepted before/
+        );
+        if (!isDuplicateError) {
           const message = `${remoteError.message}: ${remoteError.details}`;
 
           throw new TRPCError({
@@ -119,8 +124,8 @@ export const postRouter = createTRPCRouter({
             message,
           });
         }
-
-        console.error("Error while posting story", {
+      } else if (!response.ok) {
+        console.error("Error while posting upvote", {
           status: response.status,
           statusText: response.statusText,
           bodyText: await response.text(),
@@ -128,17 +133,17 @@ export const postRouter = createTRPCRouter({
 
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Internal server error: could not fetch articles",
+          message: "Internal server error: error while posting upvote",
           cause: {
             response,
           },
         });
+      } else {
+        const responseJson = await response.json();
+
+        // eslint-disable-next-line no-console -- TODO: remove
+        console.log("responseJson", responseJson);
       }
-
-      const responseJson = await response.json();
-
-      // eslint-disable-next-line no-console -- TODO: remove
-      console.log("responseJson", responseJson);
 
       await refreshAllStoriesCached();
 

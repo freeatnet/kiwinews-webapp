@@ -1,5 +1,4 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import { TRPCClientError } from "@trpc/client";
 import { signTypedData } from "@wagmi/core";
 import { useCallback, useMemo, useState } from "react";
 import { isAddressEqual } from "viem";
@@ -86,28 +85,16 @@ export function StoryContainer({
       },
     });
 
-    try {
-      const response = await postUpvote({
-        href,
-        title: "",
-        type: STORY_MESSAGE_TYPE,
-        timestamp,
-        signature,
-      });
+    const response = await postUpvote({
+      href,
+      title: "",
+      type: STORY_MESSAGE_TYPE,
+      timestamp,
+      signature,
+    });
 
-      // eslint-disable-next-line no-console -- TODO: remove
-      console.log(response);
-    } catch (error) {
-      if (
-        error instanceof TRPCClientError &&
-        error.message.match(/It was probably submitted and accepted before/)
-      ) {
-        // TODO: treat this as a successful upvote on the server
-        return;
-      }
-
-      throw error;
-    }
+    // eslint-disable-next-line no-console -- TODO: remove
+    console.log(response);
   }, [href, postUpvote]);
 
   const hasJustVoted =
