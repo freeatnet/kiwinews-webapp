@@ -110,12 +110,9 @@ export const homeRouter = createTRPCRouter({
           .slice(input.from, input.from + input.amount)
           .map(async ([key, score]) => {
             const storiesByHref = stories.filter((story) => story.href === key);
-            const keyStory =
-              storiesByHref.find((story) => !!story.title) ??
-              // find the story by href with a title, falling back on one without a title
-              storiesByHref[0];
+            const firstSubmission = storiesByHref[0];
             invariant(
-              !!keyStory,
+              !!firstSubmission,
               `could not find story with key ${key} in the stories object`
             );
 
@@ -128,16 +125,24 @@ export const homeRouter = createTRPCRouter({
             const [timestamp, points] = timestampAndPoints;
 
             const [poster, ...upvoters] = await Promise.all([
-              miniProfileForAddress(keyStory.identity),
+              miniProfileForAddress(firstSubmission.identity),
               ...storiesByHref
                 .map(({ identity }) => identity)
                 .filter(
-                  (identity) => !isAddressEqual(identity, keyStory.identity)
+                  (identity) =>
+                    !isAddressEqual(identity, firstSubmission.identity)
                 )
                 .map(miniProfileForAddress),
             ]);
 
-            return { ...keyStory, timestamp, points, score, poster, upvoters };
+            return {
+              ...firstSubmission,
+              timestamp,
+              points,
+              score,
+              poster,
+              upvoters,
+            };
           })
       );
 
@@ -175,12 +180,10 @@ export const homeRouter = createTRPCRouter({
         sortedScores
           .slice(input.from, input.from + input.amount)
           .map(async ([key, score]) => {
-            const story =
-              // find the story by href with a title, falling back on one without a title
-              stories.find((story) => story.href === key && !!story.title) ??
-              stories.find((story) => story.href === key);
+            // since we filtered out stories with >1 point, we can just take the first story as the original submission
+            const firstSubmission = stories.find((story) => story.href === key);
             invariant(
-              !!story,
+              !!firstSubmission,
               `could not find story with key ${key} in the stories object`
             );
 
@@ -191,8 +194,17 @@ export const homeRouter = createTRPCRouter({
             );
 
             const [timestamp, points] = timestampAndPoints;
-            const poster = await miniProfileForAddress(story.identity);
-            return { ...story, timestamp, points, score, poster, upvoters: [] };
+            const poster = await miniProfileForAddress(
+              firstSubmission.identity
+            );
+            return {
+              ...firstSubmission,
+              timestamp,
+              points,
+              score,
+              poster,
+              upvoters: [],
+            };
           })
       );
 

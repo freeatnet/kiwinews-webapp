@@ -70,7 +70,7 @@ export async function fetchAllStories() {
   }
   console.debug("end fetching stories", Date.now());
 
-  return stories;
+  return stories.sort(({ timestamp: a }, { timestamp: b }) => a - b);
 }
 
 const STORIES_CACHE_STALE_TTL = env.STORIES_CACHE_STALE_TTL;
