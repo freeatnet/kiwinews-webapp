@@ -63,7 +63,7 @@ export default function Home() {
       <TopNav />
       {!!editorsPicks && (
         <div className="bg-indigo-600/5 shadow shadow-indigo-400/10">
-          <div className="mx-auto mb-4 max-w-4xl space-y-3 px-4 pb-8 pt-6">
+          <div className="mx-auto mb-4 max-w-4xl space-y-3 px-4 py-10">
             <h2 className="mb-2 font-semibold uppercase leading-8 tracking-tight text-indigo-600">
               Editor&apos;s picks by{" "}
               <span>
