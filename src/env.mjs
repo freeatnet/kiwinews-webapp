@@ -33,8 +33,8 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_BASE_URL: process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_VERCEL_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
       : process.env.NEXT_PUBLIC_BASE_URL,
     KIWISTAND_API_HOST: process.env.KIWISTAND_API_HOST,
     KIWISTAND_MESSAGES_MAX_PAGE_SIZE:
