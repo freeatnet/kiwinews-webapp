@@ -8,6 +8,8 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    KIWINEWS_EDITORS_PROFILE_URL: z.string().url().nonempty(),
+    KIWINEWS_EDITORS_LINKS_URL: z.string().url().nonempty(),
     KIWISTAND_API_HOST: z.string().nonempty(),
     KIWISTAND_MESSAGES_MAX_PAGE_SIZE: z.coerce.number().int().positive(),
     STORIES_CACHE_STALE_TTL: z.coerce.number().int().positive(),
@@ -36,6 +38,8 @@ export const env = createEnv({
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_VERCEL_URL
       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
       : process.env.NEXT_PUBLIC_BASE_URL,
+    KIWINEWS_EDITORS_PROFILE_URL: process.env.KIWINEWS_EDITORS_PROFILE_URL,
+    KIWINEWS_EDITORS_LINKS_URL: process.env.KIWINEWS_EDITORS_LINKS_URL,
     KIWISTAND_API_HOST: process.env.KIWISTAND_API_HOST,
     KIWISTAND_MESSAGES_MAX_PAGE_SIZE:
       process.env.KIWISTAND_MESSAGES_MAX_PAGE_SIZE,
