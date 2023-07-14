@@ -21,7 +21,7 @@ export type StoryContainerProps = {
   href: string;
   timestamp: number;
   points: number;
-  score: number;
+  score?: number | null;
   signature: string;
   poster: { address: `0x${string}`; displayName: string | null };
   upvoters: { address: `0x${string}`; displayName: string | null }[];

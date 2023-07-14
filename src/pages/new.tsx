@@ -33,7 +33,7 @@ export default function Home() {
         />
       </Head>
       <TopNav />
-      <div className="mx-auto mb-8 max-w-4xl px-4 pt-4">
+      <div className="mx-auto mb-8 mt-4 max-w-4xl px-4 pt-4">
         <StoriesList>
           {stories?.map((story) => (
             <StoryContainer key={story.signature} {...story} />

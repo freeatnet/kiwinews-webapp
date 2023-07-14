@@ -33,7 +33,7 @@ export type StoryListItemProps = {
   href: string;
   timestamp: number;
   points: number;
-  score: number;
+  score?: number | null;
   signature: string;
   poster: { address: `0x${string}`; displayName: string | null };
   upvoters: { address: `0x${string}`; displayName: string | null }[];
@@ -54,7 +54,7 @@ function RankLabel({ className, rank }: { className?: string; rank: number }) {
           ? "text-gray-500"
           : rank === 3
           ? "text-amber-600"
-          : "text-gray-500"
+          : "text-gray-500/25"
       )}
     >
       #{rank}
@@ -101,7 +101,10 @@ export function StoryListItem({
             disabled={hasVoted}
           >
             <span className="flex text-base leading-none">▲</span>
-            <span className="flex text-sm font-medium" title={`score ${score}`}>
+            <span
+              className="flex text-sm font-medium"
+              title={!!score ? `score ${score}` : "score unknown"}
+            >
               {points}
             </span>
           </button>

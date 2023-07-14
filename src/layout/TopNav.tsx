@@ -7,7 +7,7 @@ export function TopNav() {
   const { pathname } = useRouter();
 
   return (
-    <div className="mb-4 flex h-16 w-full justify-center bg-gray-50">
+    <div className="flex h-16 w-full justify-center bg-gray-50 shadow shadow-gray-400/10">
       <div className="mx-4 flex max-w-4xl flex-1 items-center justify-between md:mx-8">
         <div className="flex items-center">
           <div className="mr-4 h-8 w-8 rounded-full border-4 border-solid border-black bg-green-500"></div>

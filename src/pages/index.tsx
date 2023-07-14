@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useCallback } from "react";
 
 import { StoriesList, StoryContainer } from "~/features/feed";
+import { formatAddressForDisplay } from "~/helpers";
 import { TopNav } from "~/layout";
 import { api } from "~/utils/api";
 import { withStaticAPIHelpers } from "~/utils/api/ssg";
@@ -20,6 +21,7 @@ export const getStaticProps = withStaticAPIHelpers(async ({ trpc }) => {
   await Promise.all([
     trpc.home.topStories.prefetch(TOP_STORIES_INPUT),
     trpc.home.newStories.prefetch(NEW_STORIES_INPUT),
+    trpc.home.editorsPicks.prefetch(),
   ]);
 
   return {
@@ -33,18 +35,28 @@ export default function Home() {
     api.home.topStories.useQuery(TOP_STORIES_INPUT);
   const { data: newStories, refetch: refetchNewStories } =
     api.home.newStories.useQuery(NEW_STORIES_INPUT);
+  const { data: editorsPicks, refetch: refetchEditorsPicks } =
+    api.home.editorsPicks.useQuery();
 
   const handleTopStoryUpvote = useCallback(
-    (_href: string) => void refetchTopStories(),
-    [refetchTopStories]
+    (_href: string) => {
+      void refetchTopStories();
+      if (!!editorsPicks) {
+        void refetchEditorsPicks();
+      }
+    },
+    [editorsPicks, refetchEditorsPicks, refetchTopStories]
   );
 
   const handleNewStoryUpvote = useCallback(
     (_href: string) => {
       void refetchTopStories();
       void refetchNewStories();
+      if (!!editorsPicks) {
+        void refetchEditorsPicks();
+      }
     },
-    [refetchNewStories, refetchTopStories]
+    [editorsPicks, refetchEditorsPicks, refetchNewStories, refetchTopStories]
   );
 
   return (
@@ -58,9 +70,41 @@ export default function Home() {
         />
       </Head>
       <TopNav />
-      <div className="mx-auto mb-8 max-w-4xl px-4 pt-4">
+      {!!editorsPicks && (
+        <div className="bg-indigo-600/5 shadow shadow-indigo-400/10">
+          <div className="mx-auto mb-4 max-w-4xl space-y-3 px-4 py-10">
+            <h2 className="mb-2 font-semibold uppercase leading-8 tracking-tight text-indigo-600">
+              Editor&apos;s picks by{" "}
+              <span>
+                {/* <img
+                  src="https://pbs.twimg.com/profile_images/1676299741393453056/pjC1qAkc_400x400.jpg"
+                  className="mr-1 inline-block h-4 w-4 rounded-full"
+                /> */}
+                {formatAddressForDisplay(
+                  editorsPicks.editor.address,
+                  editorsPicks.editor.displayName
+                )}
+              </span>
+            </h2>
+            <StoriesList>
+              {editorsPicks.stories.map((story) => (
+                <StoryContainer
+                  {...story}
+                  key={story.signature}
+                  onUpvoteSubmitted={handleNewStoryUpvote}
+                />
+              ))}
+            </StoriesList>
+          </div>
+        </div>
+      )}
+
+      <div className="mx-auto mb-8 max-w-4xl space-y-3 px-4 pt-4">
+        <h2 className="mb-2 font-semibold uppercase leading-8 tracking-tight text-indigo-600">
+          Top Stories
+        </h2>
         <StoriesList>
-          {topStories?.slice(0, 3).map((story, idx) => (
+          {topStories?.slice(0, 5).map((story, idx) => (
             <StoryContainer
               {...story}
               key={story.signature}
@@ -69,10 +113,11 @@ export default function Home() {
             />
           ))}
         </StoriesList>
-        <hr className="my-3" />
+        <hr />
+
         <div>
-          <h2 className="mb-2 text-gray-500">
-            Please help rate these stories:
+          <h2 className="mb-2 font-semibold uppercase leading-8 tracking-tight text-gray-900/50">
+            Please help rate these stories
           </h2>
           <StoriesList>
             {newStories?.map((story) => (
@@ -84,9 +129,10 @@ export default function Home() {
             ))}
           </StoriesList>
         </div>
-        <hr className="my-3" />
+        <hr />
+
         <StoriesList>
-          {topStories?.slice(3).map((story) => (
+          {topStories?.slice(5).map((story) => (
             <StoryContainer
               {...story}
               key={story.signature}
