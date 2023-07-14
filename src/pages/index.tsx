@@ -35,19 +35,28 @@ export default function Home() {
     api.home.topStories.useQuery(TOP_STORIES_INPUT);
   const { data: newStories, refetch: refetchNewStories } =
     api.home.newStories.useQuery(NEW_STORIES_INPUT);
-  const { data: editorsPicks } = api.home.editorsPicks.useQuery();
+  const { data: editorsPicks, refetch: refetchEditorsPicks } =
+    api.home.editorsPicks.useQuery();
 
   const handleTopStoryUpvote = useCallback(
-    (_href: string) => void refetchTopStories(),
-    [refetchTopStories]
+    (_href: string) => {
+      void refetchTopStories();
+      if (!!editorsPicks) {
+        void refetchEditorsPicks();
+      }
+    },
+    [editorsPicks, refetchEditorsPicks, refetchTopStories]
   );
 
   const handleNewStoryUpvote = useCallback(
     (_href: string) => {
       void refetchTopStories();
       void refetchNewStories();
+      if (!!editorsPicks) {
+        void refetchEditorsPicks();
+      }
     },
-    [refetchNewStories, refetchTopStories]
+    [editorsPicks, refetchEditorsPicks, refetchNewStories, refetchTopStories]
   );
 
   return (
@@ -82,7 +91,7 @@ export default function Home() {
                 <StoryContainer
                   {...story}
                   key={story.signature}
-                  onUpvoteSubmitted={handleTopStoryUpvote}
+                  onUpvoteSubmitted={handleNewStoryUpvote}
                 />
               ))}
             </StoriesList>
