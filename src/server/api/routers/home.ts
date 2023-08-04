@@ -42,10 +42,11 @@ function tally(stories: Story[]) {
   return timestampsAndPoints;
 }
 
-const AGE_BUCKET_WIDTH = 3600;
+const AGE_BUCKET_WIDTH = 8 * 3600;
 const DECAY_FACTOR = 4;
 const NEW_STORY_BOOST = 1.5;
-const NEW_STORY_MAX_AGE = 12;
+const NEW_STORY_MAX_AGE = 3;
+
 /**
  * Scoring
  * @see https://github.com/attestate/kiwistand/blob/d830d2b/src/store.mjs#L302-L320
