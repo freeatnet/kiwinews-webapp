@@ -3,6 +3,8 @@ import { z } from "zod";
 
 import { env } from "~/env.mjs";
 
+import { getStoryTypedHash } from "./getSignerForStory";
+
 const STORIES_API_RESPONSE_SCHEMA = z.object({
   data: z.array(
     z.object({
@@ -21,7 +23,19 @@ const STORIES_API_RESPONSE_SCHEMA = z.object({
   ),
 });
 
-export type Story = z.infer<typeof STORIES_API_RESPONSE_SCHEMA>["data"][number];
+export type Story = {
+  type: "amplify";
+  title: string;
+  href: string;
+  timestamp: number;
+  signature: string;
+  signer: `0x${string}`;
+  identity: `0x${string}`;
+
+  // derived
+  id: string;
+  digest: `0x${string}`;
+};
 export type StoryKey = Story["href"];
 
 const KIWISTAND_LIST_STORIES_URL = new URL(
@@ -62,7 +76,18 @@ export async function fetchAllStories() {
     const responseJson = await request.json();
 
     const { data } = STORIES_API_RESPONSE_SCHEMA.parse(responseJson);
-    stories.push(...data);
+    stories.push(
+      ...data.map((story) => {
+        const digest = getStoryTypedHash(story);
+        const id = `0x${story.timestamp.toString(16)}${digest.slice(2)}`;
+
+        return {
+          ...story,
+          id,
+          digest,
+        };
+      })
+    );
 
     if (data.length === 0) {
       break;

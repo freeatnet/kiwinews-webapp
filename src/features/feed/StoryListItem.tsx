@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import Link from "next/link";
 import { useCallback, useMemo } from "react";
 
 import { formatAddressForDisplay } from "~/helpers";
@@ -38,6 +39,8 @@ export type StoryListItemProps = {
   poster: { address: `0x${string}`; displayName: string | null };
   upvoters: { address: `0x${string}`; displayName: string | null }[];
 
+  permalinkPath: string;
+
   hasVoted?: boolean;
   onClickVote?: (href: string) => void;
 };
@@ -74,6 +77,8 @@ export function StoryListItem({
   score,
   poster,
   upvoters,
+
+  permalinkPath,
 
   hasVoted,
   onClickVote,
@@ -124,9 +129,11 @@ export function StoryListItem({
           </div>
           <div className="flex flex-row items-baseline text-sm">
             <div className="mr-2 text-sm text-gray-500">
-              <time suppressHydrationWarning dateTime={isoTimestamp}>
-                {timeAgo}
-              </time>{" "}
+              <Link href={permalinkPath}>
+                <time suppressHydrationWarning dateTime={isoTimestamp}>
+                  {timeAgo}
+                </time>
+              </Link>{" "}
               &bull;{" "}
               <span>
                 by {formatAddressForDisplay(poster.address, poster.displayName)}

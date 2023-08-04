@@ -10,7 +10,15 @@ import { is0xString } from "~/utils/viem";
 
 import { type Story } from "./fetchAllStories";
 
-function getStoryTypedHash({ timestamp, ...restStory }: Story) {
+export function getStoryTypedHash({
+  timestamp,
+  ...restStory
+}: {
+  type: "amplify";
+  title: string;
+  href: string;
+  timestamp: number;
+}) {
   return hashTypedData({
     domain: STORY_EIP712_DOMAIN,
     types: STORY_EIP712_TYPES,

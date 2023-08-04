@@ -17,6 +17,7 @@ import { StoryListItem, type StoryListItemProps } from "./StoryListItem";
 export type StoryContainerProps = {
   rank?: StoryListItemProps["rank"];
 
+  id: string;
   title: string;
   href: string;
   timestamp: number;
@@ -55,6 +56,9 @@ export function StoryContainer({
         upvoters.some(({ address }) => isAddressEqual(viewer, address))),
     [viewer, poster.address, upvoters]
   );
+
+  // permalink
+  const permalinkPath = useMemo(() => `/s/${story.id}`, [story.id]);
 
   // rest is related to upvote submission
   const { openConnectModal } = useConnectModal();
@@ -116,6 +120,7 @@ export function StoryContainer({
   return (
     <StoryListItem
       {...story}
+      permalinkPath={permalinkPath}
       points={
         // add a point if the mutation is in progress or just completed, but not when
         // the viewer is already in the upvoters list
