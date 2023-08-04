@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>New on Kiwi News</title>
+        <title>Top on Kiwi News</title>
         <link
           rel="alternate"
           type="application/atom+xml"
