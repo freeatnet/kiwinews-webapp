@@ -31,11 +31,15 @@ const KIWISTAND_LIST_STORIES_URL = new URL(
 const KIWISTAND_MAX_MESSAGES_PER_PAGE = env.KIWISTAND_MESSAGES_MAX_PAGE_SIZE;
 
 export async function fetchAllStories() {
+  const runId = Math.random().toString(36).slice(2, 8);
   const stories: Story[] = [];
 
-  console.debug("start fetching stories", Date.now());
+  console.debug(`[${runId}]`, "start fetching stories", Date.now());
+  // eslint-disable-next-line no-console
+  console.time(`[${runId}] fetchAllStories`);
   for (let from = 0; true; from += KIWISTAND_MAX_MESSAGES_PER_PAGE) {
-    console.debug("fetching stories from", from);
+    // eslint-disable-next-line no-console
+    console.time(`[${runId}] fetchAllStories from=${from} fetch`);
     const request = await fetch(KIWISTAND_LIST_STORIES_URL, {
       method: "POST",
       headers: {
@@ -60,17 +64,26 @@ export async function fetchAllStories() {
     }
 
     const responseJson = await request.json();
+    // eslint-disable-next-line no-console
+    console.timeEnd(`[${runId}] fetchAllStories from=${from} fetch`);
 
+    // eslint-disable-next-line no-console
+    console.time(`[${runId}] fetchAllStories from=${from} parse and push`);
     const { data } = STORIES_API_RESPONSE_SCHEMA.parse(responseJson);
     stories.push(...data);
+    // eslint-disable-next-line no-console
+    console.timeEnd(`[${runId}] fetchAllStories from=${from} parse and push`);
 
     if (data.length === 0) {
       break;
     }
   }
-  console.debug("end fetching stories", Date.now());
 
-  return stories.sort(({ timestamp: a }, { timestamp: b }) => a - b);
+  const sorted = stories.sort(({ timestamp: a }, { timestamp: b }) => a - b);
+  // eslint-disable-next-line no-console
+  console.timeEnd(`[${runId}] fetchAllStories`);
+
+  return sorted;
 }
 
 const STORIES_CACHE_STALE_TTL = env.STORIES_CACHE_STALE_TTL;
