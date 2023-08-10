@@ -670,27 +670,27 @@
   resolved "https://registry.yarnpkg.com/@total-typescript/ts-reset/-/ts-reset-0.4.2.tgz#c564c173ba09973968e1046c93965b7a257878a4"
   integrity sha512-vqd7ZUDSrXFVT1n8b2kc3LnklncDQFPvR58yUS1kEP23/nHPAO9l1lMjUfnPrXYYk4Hj54rrLKMW5ipwk7k09A==
 
-"@trpc/client@^10.34.0":
-  version "10.34.0"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.34.0.tgz#cd9bc5ec4801dde24bb343408c7fe203595db538"
-  integrity sha512-nqtDTIqSY/9syo2EjSy4WWWXPU9GsamEh9Tsg698gLAh1nhgFc5+/YYeb+Ne1pbvWGZ5/3t9Dcz3h4wMyyJ9gQ==
+"@trpc/client@^10.37.1":
+  version "10.37.1"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.37.1.tgz#f841eb8974b882b959437bad54f4cf7fe9ea86fe"
+  integrity sha512-OSblNfeI0Z9ERn3usgLV2x63CwwPoNOHf1FQK85cOT7F8MNaWyEHoEv7tHUwNGJwyzKXmpU+ockZ0movzX3D0g==
 
-"@trpc/next@^10.34.0":
-  version "10.34.0"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.34.0.tgz#8b5943288954915a1a22d0d7129d585e1cca1135"
-  integrity sha512-8jQPedVkCYCAG6PXDEumG5ILeD1aYVC6/aApk5Y96eeqnmAtX7TO9grVRfGGNaISuTtJ/oIDmRfSRqo1eOU4OA==
+"@trpc/next@^10.37.1":
+  version "10.37.1"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.37.1.tgz#e8332d94f87be22d5b91317718afff282a00b331"
+  integrity sha512-0KEgr09mBfao56lkj7ZBfVOY86d3+bDH1o0zJkDHSH60Dp/hIJ7wLCnZJIhePlZxEwknCQjVeLsTy4Pqlu8NyQ==
   dependencies:
     react-ssr-prepass "^1.5.0"
 
-"@trpc/react-query@^10.34.0":
-  version "10.34.0"
-  resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-10.34.0.tgz#aa4e15d426cf5b320350cddb17bee48587c5c45d"
-  integrity sha512-dnp7CmCBXwBgd8nAjMoHWMJwQrvAzjP+f8EXKfJVF66y9FydTBTf4CuXRh+A4EgA5CZeu4Ecva4D61Eu2I13GA==
+"@trpc/react-query@^10.37.1":
+  version "10.37.1"
+  resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-10.37.1.tgz#e01a58ba138f7662674f300918a228ebc740d6c4"
+  integrity sha512-TbOOPp0fZVaKfaeEyDoV8QeTHW1vgPTbfOs0uSQ4AzBXqXPu+9v1B44z8GGRJSdUxuOX9pG/6Ap5Kx8PQ3eF+Q==
 
-"@trpc/server@^10.34.0":
-  version "10.34.0"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.34.0.tgz#0c56ca4a72f41bfc558b07a2db70d54b77077f8f"
-  integrity sha512-2VMW44Fpaoyqb50dBtzdSWMhqt8lmoJiocEyBBeDb03R0W+XrzbVD5kU/wqKPlcp1DWeNCkOEIMtetMZCfo1hA==
+"@trpc/server@^10.37.1":
+  version "10.37.1"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.37.1.tgz#7867a1042d3d055177327151a5abbf07ca0930f0"
+  integrity sha512-r3VeA319/braYMBIzj+XLgLKQ9lJSVglvPvP9HUv4kr5w6Y5grQMxMcExhTiZWltE9bnSJHKtBBzHafOo7KC8A==
 
 "@types/connect@^3.4.33":
   version "3.4.35"
