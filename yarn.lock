@@ -310,7 +310,14 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.4.12.tgz#4a497edc4e8c5ee3c3eb27cf0eb39dfadff70874"
   integrity sha512-Z+56e/Ljt0bUs+T+jPjhFyxYBcdY2RIq9ELFU+qAMQMteHo7ymbV7CKmlcX59RI9C4YzN8PgMgLyAoi916b5HA==
 
-"@noble/curves@1.0.0", "@noble/curves@~1.0.0":
+"@noble/curves@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.1.0.tgz#f13fc667c89184bc04cccb9b11e8e7bae27d8c3d"
+  integrity sha512-091oBExgENk/kGj3AZmtBDMpxQPDtxQABR2B9lb1JbVTs6ytdzZNwvhxQ4MWasRNEzlbEH8jCWFCwhF/Obj5AA==
+  dependencies:
+    "@noble/hashes" "1.3.1"
+
+"@noble/curves@~1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.0.0.tgz#e40be8c7daf088aaf291887cbc73f43464a92932"
   integrity sha512-2upgEu0iLiDVDZkNLeFV2+ht0BAVgQnEmCk6JsOch9Rp8xfkMCbvbAZlA2pBHQc73dbl+vFOXfqkf4uemdn0bw==
@@ -327,7 +334,7 @@
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.0.tgz#085fd70f6d7d9d109671090ccae1d3bec62554a1"
   integrity sha512-ilHEACi9DwqJB0pw7kv+Apvh50jiiSyR/cQ3y4W7lOR5mhvn/50FLUfsnfJz0BDZtl/RR16kXvptiv6q1msYZg==
 
-"@noble/hashes@^1.1.2", "@noble/hashes@~1.3.0":
+"@noble/hashes@1.3.1", "@noble/hashes@^1.1.2", "@noble/hashes@~1.3.0":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.1.tgz#8831ef002114670c603c458ab8b11328406953a9"
   integrity sha512-EbqwksQwz9xDRGfDST86whPBgM65E0OH/pCgqW0GBVzO22bNE+NuIbeTb714+IfSjU3aRk47EUvXIb5bTsenKA==
@@ -797,6 +804,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/ws@^8.5.4":
+  version "8.5.5"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.5.5.tgz#af587964aa06682702ee6dcbc7be41a80e4b28eb"
+  integrity sha512-lwhs8hktwxSjf9UaZ9tG5M03PGogvFaH8gUgLNbN9HKIg0dvv6q+gkSuJ8HN4/VbyxkuLzCjlN7GquQ0gUJfIg==
+  dependencies:
+    "@types/node" "*"
+
 "@typescript-eslint/eslint-plugin@^5.61.0":
   version "5.61.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.61.0.tgz#a1a5290cf33863b4db3fb79350b3c5275a7b1223"
@@ -915,10 +929,10 @@
   resolved "https://registry.yarnpkg.com/@vanilla-extract/sprinkles/-/sprinkles-1.5.0.tgz#c921183ae518bb484299c2dc81f2acefd91c3dbe"
   integrity sha512-W58f2Rzz5lLmk0jbhgStVlZl5wEiPB1Ur3fRvUaBM+MrifZ3qskmFq/CiH//fEYeG5Dh9vF1qRviMMH46cX9Nw==
 
-"@wagmi/chains@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@wagmi/chains/-/chains-1.2.0.tgz#d59eaa70ec51a5fdcd113975926992acfb17ab12"
-  integrity sha512-dmDRipsE54JfyudOBkuhEexqQWcrZqxn/qiujG8SBzMh/az/AH5xlJSA+j1CPWTx9+QofSMF3B7A4gb6XRmSaQ==
+"@wagmi/chains@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@wagmi/chains/-/chains-1.6.0.tgz#eb992ad28dbaaab729b5bcab3e5b461e8a035656"
+  integrity sha512-5FRlVxse5P4ZaHG3GTvxwVANSmYJas1eQrTBHhjxVtqXoorm0aLmCHbhmN8Xo1yu09PaWKlleEvfE98yH4AgIw==
 
 "@wagmi/chains@1.7.0":
   version "1.7.0"
@@ -1311,15 +1325,15 @@ JSONStream@^1.3.5:
     jsonparse "^1.2.0"
     through ">=2.2.7 <3"
 
-abitype@0.8.11:
-  version "0.8.11"
-  resolved "https://registry.yarnpkg.com/abitype/-/abitype-0.8.11.tgz#66e1cf2cbf46f48d0e57132d7c1c392447536cc1"
-  integrity sha512-bM4v2dKvX08sZ9IU38IN5BKmN+ZkOSd2oI4a9f0ejHYZQYV6cDr7j+d95ga0z2XHG36Y4jzoG5Z7qDqxp7fi/A==
-
 abitype@0.8.7:
   version "0.8.7"
   resolved "https://registry.yarnpkg.com/abitype/-/abitype-0.8.7.tgz#e4b3f051febd08111f486c0cc6a98fa72d033622"
   integrity sha512-wQ7hV8Yg/yKmGyFpqrNZufCxbszDe5es4AZGYPBitocfSqXtjrTG9JMWFcc4N30ukl2ve48aBTwt7NJxVQdU3w==
+
+abitype@0.9.3:
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/abitype/-/abitype-0.9.3.tgz#294d25288ee683d72baf4e1fed757034e3c8c277"
+  integrity sha512-dz4qCQLurx97FQhnb/EIYTk/ldQ+oafEDUqC0VVIeQS1Q48/YWt/9YNfMmp9SLFqN41ktxny3c8aYxHjmFIB/w==
 
 acorn-jsx@^5.3.2:
   version "5.3.2"
@@ -4810,18 +4824,19 @@ valtio@1.11.0:
     proxy-compare "2.5.1"
     use-sync-external-store "1.2.0"
 
-viem@^1.0.0, viem@^1.2.12:
-  version "1.2.12"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-1.2.12.tgz#0342f52d05968bd1c2af5db0b9bc569926ae9151"
-  integrity sha512-TMhvqT2VaCaJyBfuNDyL1h8xPFyPDHeX6Qab66TjWscnNcTwkW0gojO4Uh+A4RuPzFxIlWSW+b5SjS8SJHlHpg==
+viem@^1.0.0, viem@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-1.6.0.tgz#8befa678c3ac79b9558dfd1708130b2ecb1994f4"
+  integrity sha512-ae9Twkd0q2Qlj4yYpWjb4DzYAhKY0ibEpRH8FJaTywZXNpTjFidSdBaT0CVn1BaH7O7cnX4/O47zvDUMGJD1AA==
   dependencies:
     "@adraffy/ens-normalize" "1.9.0"
-    "@noble/curves" "1.0.0"
+    "@noble/curves" "1.1.0"
     "@noble/hashes" "1.3.0"
     "@scure/bip32" "1.3.0"
     "@scure/bip39" "1.2.0"
-    "@wagmi/chains" "1.2.0"
-    abitype "0.8.11"
+    "@types/ws" "^8.5.4"
+    "@wagmi/chains" "1.6.0"
+    abitype "0.9.3"
     isomorphic-ws "5.0.0"
     ws "8.12.0"
 
