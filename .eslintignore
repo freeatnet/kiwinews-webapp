@@ -1,0 +1,2 @@
+# edgedb-generated files
+src/server/**/*.query.ts

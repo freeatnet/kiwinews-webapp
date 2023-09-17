@@ -9,6 +9,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  EDGEDB_INSTANCE_NAME: kiwinews_test
+
 jobs:
   install:
     runs-on: ubuntu-latest
@@ -34,6 +37,9 @@ jobs:
         node-version: [18.x]
 
     steps:
+    - uses: edgedb/setup-edgedb@v1
+      with:
+        instance-name: ${{ env.EDGEDB_INSTANCE_NAME }}
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
@@ -41,6 +47,9 @@ jobs:
         cache: 'yarn'
     - name: Set up the environment and install dependencies
       run: cp .env.test.example .env && yarn install --offline --frozen-lockfile
+    - name: Initialize EdgeDB instance
+      run: edgedb project init --non-interactive --link --server-instance ${{ env.EDGEDB_INSTANCE_NAME }}
+    - run: yarn edgedb:generate:queries
     - run: yarn lint:ci:all
 
   typecheck:
@@ -52,6 +61,9 @@ jobs:
         node-version: [18.x]
 
     steps:
+    - uses: edgedb/setup-edgedb@v1
+      with:
+        instance-name: ${{ env.EDGEDB_INSTANCE_NAME }}
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
@@ -59,4 +71,7 @@ jobs:
         cache: 'yarn'
     - name: Set up the environment and install dependencies
       run: cp .env.test.example .env && yarn install --offline --frozen-lockfile
+    - name: Initialize EdgeDB instance
+      run: edgedb project init --non-interactive --link --server-instance ${{ env.EDGEDB_INSTANCE_NAME }}
+    - run: yarn edgedb:generate:queries
     - run: yarn tsc:typecheck

@@ -18,6 +18,8 @@
  */
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 
+import { client as edgedbClient } from "~/server/config/edgedb";
+
 /** Replace this with an object if you want to pass things to `createContextInner`. */
 type CreateContextOptions = Record<string, never>;
 
@@ -31,7 +33,7 @@ type CreateContextOptions = Record<string, never>;
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
 export const createInnerTRPCContext = (_opts: CreateContextOptions) => {
-  return {};
+  return { edgedbClient };
 };
 
 /**
