@@ -25,6 +25,7 @@ export type StoryContainerProps = {
   signature: string;
   poster: { address: `0x${string}`; displayName: string | null };
   upvoters: { address: `0x${string}`; displayName: string | null }[];
+  digest: string;
 
   onUpvoteSubmitted?: (href: string) => void;
 };
@@ -55,6 +56,13 @@ export function StoryContainer({
         upvoters.some(({ address }) => isAddressEqual(viewer, address))),
     [viewer, poster.address, upvoters]
   );
+
+  // permalink
+  const { digest, timestamp } = story;
+  const permalinkPath = useMemo(() => {
+    const timestampHex = timestamp.toString(16).padStart(8, "0");
+    return `/s/${timestampHex}${digest.slice(2)}`;
+  }, [digest, timestamp]);
 
   // rest is related to upvote submission
   const { openConnectModal } = useConnectModal();
@@ -116,6 +124,7 @@ export function StoryContainer({
   return (
     <StoryListItem
       {...story}
+      permalinkPath={permalinkPath}
       points={
         // add a point if the mutation is in progress or just completed, but not when
         // the viewer is already in the upvoters list

@@ -3,27 +3,38 @@ import { z } from "zod";
 
 import { env } from "~/env.mjs";
 
+import { getStoryTypedHash } from "./getMessageTypedHash";
+
 const KIWISTAND_LIST_STORIES_URL = new URL(
   `/api/v1/list`,
   env.KIWISTAND_API_HOST
 ).toString();
 
-export const MESSAGES_API_RESPONSE_SCHEMA = z.object({
-  data: z.array(
-    z.object({
-      title: z.string(),
-      href: z.string().url(),
-      type: z.literal("amplify"),
-      timestamp: z.number(),
-      signature: z.string(),
-      signer: z.string().refine(isAddress, {
-        message: "Must be a valid address",
-      }),
-      identity: z.string().refine(isAddress, {
-        message: "Must be a valid address",
-      }),
-    })
-  ),
+const MESSAGE_SCHEMA = z
+  .object({
+    title: z.string(),
+    href: z.string().url(),
+    type: z.literal("amplify"),
+    timestamp: z.number(),
+    signature: z.string(),
+    signer: z.string().refine(isAddress, {
+      message: "Must be a valid address",
+    }),
+    identity: z.string().refine(isAddress, {
+      message: "Must be a valid address",
+    }),
+  })
+  .transform((message) => {
+    const digest = getStoryTypedHash(message);
+
+    return {
+      ...message,
+      digest,
+    };
+  });
+
+const MESSAGES_API_RESPONSE_SCHEMA = z.object({
+  data: z.array(MESSAGE_SCHEMA),
 });
 
 export async function fetchMessages(from: number, amount: number) {
