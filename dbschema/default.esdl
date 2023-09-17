@@ -35,6 +35,10 @@ module default {
       constraint exclusive;
     }
 
+    required digest: evm::hexstr {
+      constraint exclusive;
+    }
+
     constraint exclusive on ((.identity, .href, .type));
     index on ((.href, .timestamp));
   }

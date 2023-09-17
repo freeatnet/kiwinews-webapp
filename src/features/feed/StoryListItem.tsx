@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import Link from "next/link";
 import { useCallback, useMemo } from "react";
 
 import { formatAddressForDisplay } from "~/helpers";
@@ -38,6 +39,8 @@ export type StoryListItemProps = {
   poster: { address: `0x${string}`; displayName: string | null };
   upvoters: { address: `0x${string}`; displayName: string | null }[];
 
+  permalinkPath: string;
+
   hasVoted?: boolean;
   onClickVote?: (href: string) => void;
 };
@@ -74,6 +77,8 @@ export function StoryListItem({
   score,
   poster,
   upvoters,
+
+  permalinkPath,
 
   hasVoted,
   onClickVote,
@@ -128,32 +133,35 @@ export function StoryListItem({
           </div>
           <div className="flex flex-row items-baseline text-sm">
             <div className="mr-2 text-sm text-gray-500">
-              <time
-                suppressHydrationWarning
-                dateTime={isoTimestamp}
-                title={humanTimestamp}
-              >
-                {timeAgo}
-              </time>{" "}
-              &bull;{" "}
-              <span>
-                by {formatAddressForDisplay(poster.address, poster.displayName)}
-              </span>{" "}
-              {upvoters.length > 0 && (
+              <Link href={permalinkPath}>
+                <time
+                  suppressHydrationWarning
+                  dateTime={isoTimestamp}
+                  title={humanTimestamp}
+                >
+                  {timeAgo}
+                </time>{" "}
+                &bull;{" "}
                 <span>
-                  and{" "}
-                  {upvoters
-                    .slice(0, MAX_UPVOTERS_VISIBLE)
-                    .map(({ address, displayName }, idx) => (
-                      <span key={address}>
-                        {formatAddressForDisplay(address, displayName)}
-                        {idx < upvoters.length - 1 &&
-                          idx < MAX_UPVOTERS_VISIBLE - 1 &&
-                          ", "}
-                      </span>
-                    ))}
-                </span>
-              )}
+                  by{" "}
+                  {formatAddressForDisplay(poster.address, poster.displayName)}
+                </span>{" "}
+                {upvoters.length > 0 && (
+                  <span>
+                    and{" "}
+                    {upvoters
+                      .slice(0, MAX_UPVOTERS_VISIBLE)
+                      .map(({ address, displayName }, idx) => (
+                        <span key={address}>
+                          {formatAddressForDisplay(address, displayName)}
+                          {idx < upvoters.length - 1 &&
+                            idx < MAX_UPVOTERS_VISIBLE - 1 &&
+                            ", "}
+                        </span>
+                      ))}
+                  </span>
+                )}
+              </Link>
             </div>
             <StorySignatureStripe signature={signature} />
           </div>

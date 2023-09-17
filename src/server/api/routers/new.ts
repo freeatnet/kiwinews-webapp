@@ -46,7 +46,7 @@ export const newRouter = createTRPCRouter({
               poster,
               upvoters,
               points,
-              score: restKeyMessage.timestamp,
+              score: null,
             };
           }
         )

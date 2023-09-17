@@ -43,6 +43,7 @@ select formatted {
     identity,
     timestamp,
     signature,
+    digest,
   },
   points,
   upvoters,
