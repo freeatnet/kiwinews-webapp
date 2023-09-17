@@ -1,5 +1,6 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import classNames from "classnames";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -8,9 +9,11 @@ export function TopNav() {
 
   return (
     <div className="flex h-16 w-full justify-center bg-gray-50 shadow shadow-gray-400/10">
-      <div className="mx-4 flex max-w-4xl flex-1 items-center justify-between md:mx-8">
+      <div className="mx-auto flex max-w-4xl flex-1 items-center justify-between px-4">
         <div className="flex items-center">
-          <div className="mr-4 h-8 w-8 rounded-full border-4 border-solid border-black bg-green-500"></div>
+          <Link href="/" className="relative block h-8 w-8 rounded-full">
+            <Image src="/favicon.png" alt="logo" fill sizes="256px" />
+          </Link>
           <div className="divide-x divide-solid divide-gray-300">
             <Link
               href="/"
