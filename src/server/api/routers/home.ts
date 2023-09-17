@@ -12,6 +12,7 @@ import {
 import { miniProfileForAddress } from "~/server/services/miniprofile";
 
 import { findAllNewStories } from "./queries/findAllNewStories.query";
+import { findAllTopStories } from "./queries/findAllTopStories.query";
 
 const STORIES_INPUT_SCHEMA = z.object({
   from: z.number().nonnegative(),
@@ -44,28 +45,6 @@ function tally(stories: Story[]) {
   return timestampsAndPoints;
 }
 
-const AGE_BUCKET_WIDTH = 8 * 3600;
-const DECAY_FACTOR = 4;
-const NEW_STORY_BOOST = 1.5;
-const NEW_STORY_MAX_AGE = 3;
-
-/**
- * Scoring
- * @see https://github.com/attestate/kiwistand/blob/d830d2b/src/store.mjs#L302-L320
- */
-function scoreByDecayingPoints(
-  timestamp: number,
-  points: number,
-  currentEpoch: number
-) {
-  const age = (currentEpoch - timestamp) / AGE_BUCKET_WIDTH;
-  const isNew = age < NEW_STORY_MAX_AGE;
-
-  const decayed = points / Math.pow(DECAY_FACTOR, age);
-
-  return isNew ? decayed * NEW_STORY_BOOST : decayed;
-}
-
 export const homeRouter = createTRPCRouter({
   /**
    * Returns a list of "top" stories.
@@ -75,70 +54,45 @@ export const homeRouter = createTRPCRouter({
    */
   topStories: publicProcedure
     .input(STORIES_INPUT_SCHEMA)
-    .query(async ({ input }) => {
-      const stories = await fetchAllStoriesCached();
+    .query(async ({ input, ctx: { edgedbClient } }) => {
+      const stories = await findAllTopStories(edgedbClient, {
+        from: input.from,
+        amount: input.amount,
+      });
 
-      const timestampsAndPoints = tally(stories);
-
-      // Convert timestamps and point counts to scores
-      const scores = new Map<StoryKey, number>();
-      const currentEpoch = Math.trunc(Date.now() / 1000);
-      for (const [key, [timestamp, points]] of timestampsAndPoints.entries()) {
-        // only include stories with at least 2 points
-        if (points > 1) {
-          scores.set(
-            key,
-            scoreByDecayingPoints(timestamp, points, currentEpoch)
-          );
-        }
-      }
-
-      const sortedScores = Array.from(scores).sort(
-        ([, scoreA], [, scoreB]) => scoreB - scoreA
-      );
-
-      const sortedStories = await Promise.all(
-        sortedScores
-          .slice(input.from, input.from + input.amount)
-          .map(async ([key, score]) => {
-            const storiesByHref = stories.filter((story) => story.href === key);
-            const firstSubmission = storiesByHref[0];
+      const augmentedStories = await Promise.all(
+        stories.map(
+          async ({
+            keyMessage: { identity: posterAddress, ...restKeyMessage },
+            upvoters: upvoterAddresses,
+            points,
+            score,
+          }) => {
             invariant(
-              !!firstSubmission,
-              `could not find story with key ${key} in the stories object`
+              isAddress(posterAddress),
+              `expected ${posterAddress} to be an address`
             );
-
-            const timestampAndPoints = timestampsAndPoints.get(key);
-            invariant(
-              !!timestampAndPoints,
-              "could not find timestamp and points in map"
-            );
-
-            const [timestamp, points] = timestampAndPoints;
 
             const [poster, ...upvoters] = await Promise.all([
-              miniProfileForAddress(firstSubmission.identity),
-              ...storiesByHref
-                .map(({ identity }) => identity)
-                .filter(
-                  (identity) =>
-                    !isAddressEqual(identity, firstSubmission.identity)
-                )
+              miniProfileForAddress(posterAddress),
+              ...upvoterAddresses
+                .filter(isAddress)
+                .filter((identity) => !isAddressEqual(identity, posterAddress))
                 .map(miniProfileForAddress),
             ]);
 
             return {
-              ...firstSubmission,
-              timestamp,
-              points,
-              score,
+              ...restKeyMessage,
               poster,
               upvoters,
+              points,
+              score,
             };
-          })
+          }
+        )
       );
 
-      return sortedStories;
+      return augmentedStories;
     }),
 
   /**

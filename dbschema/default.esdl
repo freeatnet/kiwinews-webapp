@@ -9,6 +9,17 @@ module evm {
 }
 
 module default {
+  function scoreByDecayingPoints(
+      age: float64,
+      points: int64,
+      AGE_BUCKET_WIDTH: int64,
+      DECAY_FACTOR: float64,
+      AGE_BUCKET_MAX: int64
+    ) -> float64
+    using (
+      select points / (DECAY_FACTOR ^ min({ math::floor(age / AGE_BUCKET_WIDTH) - 1, AGE_BUCKET_MAX }))
+    );
+
   scalar type MessageType extending enum<amplify>;
 
   type Message {
