@@ -36,7 +36,7 @@ export default function Home() {
   const { data: newStories, refetch: refetchNewStories } =
     api.home.newStories.useQuery(NEW_STORIES_INPUT);
   const { data: editorsPicks, refetch: refetchEditorsPicks } =
-    api.home.editorsPicks.useQuery();
+    api.home.editorsPicks.useQuery(undefined, { staleTime: 3_600_000 });
 
   const handleTopStoryUpvote = useCallback(
     (_href: string) => {
