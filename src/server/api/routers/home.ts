@@ -1,5 +1,5 @@
 import invariant from "ts-invariant";
-import { isAddressEqual } from "viem";
+import { isAddress, isAddressEqual } from "viem";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -10,6 +10,8 @@ import {
   type StoryKey,
 } from "~/server/services/kiwistand";
 import { miniProfileForAddress } from "~/server/services/miniprofile";
+
+import { findAllNewStories } from "./queries/findAllNewStories.query";
 
 const STORIES_INPUT_SCHEMA = z.object({
   from: z.number().nonnegative(),
@@ -62,18 +64,6 @@ function scoreByDecayingPoints(
   const decayed = points / Math.pow(DECAY_FACTOR, age);
 
   return isNew ? decayed * NEW_STORY_BOOST : decayed;
-}
-
-/**
- * Scoring: the score of a story is the timestamp of the first submission of that story
- * (i.e., latest stories have the highest scores)
- */
-function scoreByTimestamp(
-  timestamp: number,
-  _points: number,
-  _currentEpoch: number
-) {
-  return timestamp;
 }
 
 export const homeRouter = createTRPCRouter({
@@ -159,58 +149,45 @@ export const homeRouter = createTRPCRouter({
    */
   newStories: publicProcedure
     .input(STORIES_INPUT_SCHEMA)
-    .query(async ({ input }) => {
-      const stories = await fetchAllStoriesCached();
+    .query(async ({ input, ctx: { edgedbClient } }) => {
+      // TODO: only fetch stories with at most 1 point
+      const stories = await findAllNewStories(edgedbClient, {
+        from: input.from,
+        amount: input.amount,
+      });
 
-      const timestampsAndPoints = tally(stories);
-
-      // Convert timestamps and point counts to scores
-      const scores = new Map<StoryKey, number>();
-      const currentEpoch = Math.trunc(Date.now() / 1000);
-      for (const [key, [timestamp, points]] of timestampsAndPoints.entries()) {
-        // exclude stories with >1 point
-        if (points <= 1) {
-          scores.set(key, scoreByTimestamp(timestamp, points, currentEpoch));
-        }
-      }
-
-      const sortedScores = Array.from(scores).sort(
-        ([, scoreA], [, scoreB]) => scoreB - scoreA
-      );
-
-      const sortedStories = await Promise.all(
-        sortedScores
-          .slice(input.from, input.from + input.amount)
-          .map(async ([key, score]) => {
-            // since we filtered out stories with >1 point, we can just take the first story as the original submission
-            const firstSubmission = stories.find((story) => story.href === key);
+      const augmentedStories = await Promise.all(
+        stories.map(
+          async ({
+            keyMessage: { identity: posterAddress, ...restKeyMessage },
+            upvoters: upvoterAddresses,
+            points,
+          }) => {
             invariant(
-              !!firstSubmission,
-              `could not find story with key ${key} in the stories object`
+              isAddress(posterAddress),
+              `expected ${posterAddress} to be an address`
             );
 
-            const timestampAndPoints = timestampsAndPoints.get(key);
-            invariant(
-              !!timestampAndPoints,
-              "could not find timestamp and points in map"
-            );
+            const [poster, ...upvoters] = await Promise.all([
+              miniProfileForAddress(posterAddress),
+              ...upvoterAddresses
+                .filter(isAddress)
+                .filter((identity) => !isAddressEqual(identity, posterAddress))
+                .map(miniProfileForAddress),
+            ]);
 
-            const [timestamp, points] = timestampAndPoints;
-            const poster = await miniProfileForAddress(
-              firstSubmission.identity
-            );
             return {
-              ...firstSubmission,
-              timestamp,
-              points,
-              score,
+              ...restKeyMessage,
               poster,
-              upvoters: [],
+              upvoters,
+              points,
+              score: restKeyMessage.timestamp,
             };
-          })
+          }
+        )
       );
 
-      return sortedStories;
+      return augmentedStories;
     }),
 
   /**
