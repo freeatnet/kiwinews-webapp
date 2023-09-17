@@ -83,6 +83,10 @@ export function StoryListItem({
     () => new Date(timestamp * 1000).toISOString(),
     [timestamp]
   );
+  const humanTimestamp = useMemo(
+    () => new Date(timestamp * 1000).toLocaleString(),
+    [timestamp]
+  );
   const timeAgo = useMemo(() => formatTimeAgo(timestamp), [timestamp]);
 
   const handleClickVote = useCallback(
@@ -124,7 +128,11 @@ export function StoryListItem({
           </div>
           <div className="flex flex-row items-baseline text-sm">
             <div className="mr-2 text-sm text-gray-500">
-              <time suppressHydrationWarning dateTime={isoTimestamp}>
+              <time
+                suppressHydrationWarning
+                dateTime={isoTimestamp}
+                title={humanTimestamp}
+              >
                 {timeAgo}
               </time>{" "}
               &bull;{" "}
