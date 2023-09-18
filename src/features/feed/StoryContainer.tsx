@@ -59,7 +59,7 @@ export function StoryContainer({
 
   // permalink
   const { messageId } = story;
-  const permalinkPath = useMemo(() => `/s/${messageId}`, [messageId]);
+  const permalinkPath = useMemo(() => `/s/${messageId.slice(2)}`, [messageId]);
 
   // rest is related to upvote submission
   const { openConnectModal } = useConnectModal();

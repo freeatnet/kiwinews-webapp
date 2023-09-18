@@ -15,7 +15,10 @@ import { api } from "~/utils/api";
 import { withStaticAPIHelpers } from "~/utils/api/ssg";
 
 const PAGE_PARAMS_SCHEMA = z.object({
-  messageId: z.string().regex(/^0x([a-f0-9]{72})$/),
+  messageId: z
+    .string()
+    .regex(/^([a-f0-9]{72})$/)
+    .transform((val): `0x${string}` => `0x${val}`),
 });
 
 export const getStaticProps = withStaticAPIHelpers(
