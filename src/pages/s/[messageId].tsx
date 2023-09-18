@@ -1,10 +1,11 @@
 import { TRPCError } from "@trpc/server";
+import { decode as base58Decode } from "bs58";
 import classNames from "classnames";
 import { type InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { useMemo } from "react";
 import invariant from "ts-invariant";
-import { isAddressEqual } from "viem";
+import { isAddressEqual, toHex } from "viem";
 import { z } from "zod";
 
 import { StoriesList, StoryContainer } from "~/features/feed";
@@ -17,8 +18,7 @@ import { withStaticAPIHelpers } from "~/utils/api/ssg";
 const PAGE_PARAMS_SCHEMA = z.object({
   messageId: z
     .string()
-    .regex(/^([a-f0-9]{72})$/)
-    .transform((val): `0x${string}` => `0x${val}`),
+    .transform((val): `0x${string}` => toHex(base58Decode(val))),
 });
 
 export const getStaticProps = withStaticAPIHelpers(
