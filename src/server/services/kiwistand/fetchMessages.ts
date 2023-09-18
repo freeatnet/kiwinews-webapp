@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { env } from "~/env.mjs";
 
-import { getStoryTypedHash } from "./getMessageTypedHash";
+import { getMessageId } from "./getMessageId";
 
 const KIWISTAND_LIST_STORIES_URL = new URL(
   `/api/v1/list`,
@@ -25,11 +25,11 @@ const MESSAGE_SCHEMA = z
     }),
   })
   .transform((message) => {
-    const digest = getStoryTypedHash(message);
+    const messageId = getMessageId(message);
 
     return {
       ...message,
-      digest,
+      messageId,
     };
   });
 

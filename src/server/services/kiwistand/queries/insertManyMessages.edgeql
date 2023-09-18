@@ -7,7 +7,7 @@ with
   timestamp: int64,
   signer: str,
   signature: evm::hexstr,
-  digest: evm::hexstr,
+  messageId: evm::hexstr,
   >>>$messages
 for message in array_unpack(messages) union (
   insert Message {
@@ -18,7 +18,7 @@ for message in array_unpack(messages) union (
     timestamp := message.timestamp,
     signer := <evm::address>str_lower(message.signer),
     signature := message.signature,
-    digest := message.digest,
+    messageId := message.messageId,
   }
   unless conflict
 );

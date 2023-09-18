@@ -25,7 +25,7 @@ export type StoryContainerProps = {
   signature: string;
   poster: { address: `0x${string}`; displayName: string | null };
   upvoters: { address: `0x${string}`; displayName: string | null }[];
-  digest: string;
+  messageId: string;
 
   onUpvoteSubmitted?: (href: string) => void;
 };
@@ -58,11 +58,8 @@ export function StoryContainer({
   );
 
   // permalink
-  const { digest, timestamp } = story;
-  const permalinkPath = useMemo(() => {
-    const timestampHex = timestamp.toString(16).padStart(8, "0");
-    return `/s/${timestampHex}${digest.slice(2)}`;
-  }, [digest, timestamp]);
+  const { messageId } = story;
+  const permalinkPath = useMemo(() => `/s/${messageId.slice(2)}`, [messageId]);
 
   // rest is related to upvote submission
   const { openConnectModal } = useConnectModal();

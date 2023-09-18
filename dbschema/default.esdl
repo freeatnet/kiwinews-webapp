@@ -35,7 +35,7 @@ module default {
       constraint exclusive;
     }
 
-    required digest: evm::hexstr {
+    required messageId: evm::hexstr {
       constraint exclusive;
     }
 
