@@ -132,10 +132,11 @@ export default function StoryShow({
   invariant(!!data, "data should never be empty");
   const { story, history } = data;
 
+  const title = `${story.title} on Kiwi News`;
   return (
     <>
       <Head>
-        <title>{story.title} on Kiwi News</title>
+        <title>{title}</title>
       </Head>
       <TopNav />
       <div className="mx-auto mb-8 mt-4 max-w-4xl px-4 pt-4">
