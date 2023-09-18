@@ -1,7 +1,9 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { signTypedData } from "@wagmi/core";
+import { encode as base58Encode } from "bs58";
 import { useCallback, useMemo, useState } from "react";
-import { isAddressEqual } from "viem";
+import invariant from "ts-invariant";
+import { hexToBytes, isAddressEqual } from "viem";
 import { useAccount, useEnsName } from "wagmi";
 
 import {
@@ -11,6 +13,7 @@ import {
   STORY_MESSAGE_TYPE,
 } from "~/constants";
 import { api } from "~/utils/api";
+import { is0xString } from "~/utils/viem";
 
 import { StoryListItem, type StoryListItemProps } from "./StoryListItem";
 
@@ -59,7 +62,10 @@ export function StoryContainer({
 
   // permalink
   const { messageId } = story;
-  const permalinkPath = useMemo(() => `/s/${messageId.slice(2)}`, [messageId]);
+  const permalinkPath = useMemo(() => {
+    invariant(is0xString(messageId));
+    return `/s/${base58Encode(hexToBytes(messageId))}`;
+  }, [messageId]);
 
   // rest is related to upvote submission
   const { openConnectModal } = useConnectModal();
