@@ -14,22 +14,16 @@ import { TopNav } from "~/layout";
 import { api } from "~/utils/api";
 import { withStaticAPIHelpers } from "~/utils/api/ssg";
 
-const PAGE_PARAMS_SCHEMA = z
-  .object({
-    timestampAndDigest: z.string().regex(/^[a-f0-9]{72}$/),
-  })
-  .transform(({ timestampAndDigest }) => {
-    const timestamp = parseInt(timestampAndDigest.slice(0, 8), 16);
-    const digest = `0x${timestampAndDigest.slice(8)}`;
-    return { timestamp, digest };
-  });
+const PAGE_PARAMS_SCHEMA = z.object({
+  messageId: z.string().regex(/^0x([a-f0-9]{72})$/),
+});
 
 export const getStaticProps = withStaticAPIHelpers(
   async ({ trpc, params: rawParams }) => {
-    const { digest } = PAGE_PARAMS_SCHEMA.parse(rawParams);
+    const { messageId } = PAGE_PARAMS_SCHEMA.parse(rawParams);
 
     try {
-      await trpc.showStory.get.fetch({ digest });
+      await trpc.showStory.get.fetch({ messageId });
     } catch (error) {
       if (error instanceof TRPCError) {
         if (error.code === "NOT_FOUND") {
@@ -44,7 +38,7 @@ export const getStaticProps = withStaticAPIHelpers(
 
     return {
       props: {
-        digest,
+        messageId,
       },
       revalidate: 60,
     };
@@ -125,9 +119,9 @@ function StoryHistoryEntry({
 }
 
 export default function StoryShow({
-  digest,
+  messageId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const { data } = api.showStory.get.useQuery({ digest });
+  const { data } = api.showStory.get.useQuery({ messageId });
 
   invariant(!!data, "data should never be empty");
   const { story, history } = data;

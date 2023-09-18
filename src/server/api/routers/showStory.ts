@@ -9,7 +9,7 @@ import { miniProfileForAddress } from "~/server/services/miniprofile";
 import { findStoryWithHistory } from "./queries/findStoryWithHistory.query";
 
 const SHOW_STORY_INPUT_SCHEMA = z.object({
-  digest: z.string().regex(/^0x[0-9a-f]{64}$/),
+  messageId: z.string().regex(/^0x[0-9a-f]{72}$/),
 });
 
 export const showStoryRouter = createTRPCRouter({
@@ -19,14 +19,14 @@ export const showStoryRouter = createTRPCRouter({
       const [keyStory, ...restStories] = await findStoryWithHistory(
         edgedbClient,
         {
-          digest: input.digest,
+          messageId: input.messageId,
         }
       );
 
       if (!keyStory) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: `Story with digest ${input.digest} not found`,
+          message: `Story with messageId ${input.messageId} not found`,
         });
       }
 

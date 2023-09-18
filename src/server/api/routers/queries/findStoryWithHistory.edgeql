@@ -1,7 +1,7 @@
 with
-  messageByDigest := assert_exists(
-    (select Message filter .digest = <evm::hexstr>$digest),
-    message := "message with specified digest not found"
+  messageByMessageId := assert_exists(
+    (select Message filter .messageId = <evm::hexstr>$messageId),
+    message := "message with specified messageId not found"
   ),
 select Message {
   id,
@@ -11,7 +11,7 @@ select Message {
   timestamp,
   signer,
   signature,
-  digest,
+  messageId,
 }
-filter .href = messageByDigest.href
+filter .href = messageByMessageId.href
 order by .timestamp asc
