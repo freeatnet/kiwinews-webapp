@@ -1,11 +1,11 @@
 import { TRPCError } from "@trpc/server";
-import { decode as base58Decode } from "bs58";
+import { decode as base58Decode, encode as base58Encode } from "bs58";
 import classNames from "classnames";
 import { type InferGetStaticPropsType } from "next";
 import Head from "next/head";
 import { useMemo } from "react";
 import invariant from "ts-invariant";
-import { isAddressEqual, toHex } from "viem";
+import { hexToBytes, isAddressEqual, toHex } from "viem";
 import { z } from "zod";
 
 import { env } from "~/env.mjs";
@@ -15,6 +15,7 @@ import { formatAddressForDisplay } from "~/helpers";
 import { TopNav } from "~/layout";
 import { api } from "~/utils/api";
 import { withStaticAPIHelpers } from "~/utils/api/ssg";
+import { is0xString } from "~/utils/viem";
 
 const PAGE_PARAMS_SCHEMA = z.object({
   messageId: z
@@ -126,9 +127,15 @@ export default function StoryShow({
   messageId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { data } = api.showStory.get.useQuery({ messageId });
-
   invariant(!!data, "data should never be empty");
+
   const { story, history } = data;
+
+  const encodedMessageId = useMemo(() => {
+    const messageId = story.messageId;
+    invariant(is0xString(messageId));
+    return base58Encode(hexToBytes(messageId));
+  }, [story.messageId]);
 
   const title = `${story.title} on Kiwi News`;
   return (
@@ -139,12 +146,12 @@ export default function StoryShow({
         <meta property="og:title" content={title} />
         <meta
           property="og:image"
-          content={`/api/og?messageId=${story.messageId}&t=${story.points}`}
+          content={`/api/og?messageId=${encodedMessageId}&t=${story.points}`}
         />
         <link
           rel="canonical"
           href={new URL(
-            `/s/${story.messageId}`,
+            `/s/${encodedMessageId}`,
             env.NEXT_PUBLIC_BASE_URL,
           ).toString()}
         />
