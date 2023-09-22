@@ -30,7 +30,7 @@ export const newRouter = createTRPCRouter({
           }) => {
             invariant(
               isAddress(posterAddress),
-              `expected ${posterAddress} to be an address`
+              `expected ${posterAddress} to be an address`,
             );
 
             const [poster, ...upvoters] = await Promise.all([
@@ -48,8 +48,8 @@ export const newRouter = createTRPCRouter({
               points,
               score: null,
             };
-          }
-        )
+          },
+        ),
       );
 
       return augmentedStories;

@@ -45,7 +45,7 @@ export const getStaticProps = withStaticAPIHelpers(
       },
       revalidate: 60,
     };
-  }
+  },
 );
 
 export function getStaticPaths() {
@@ -74,7 +74,7 @@ function StoryHistoryEntry({
 }) {
   const isoTimestamp = useMemo(
     () => new Date(timestamp * 1000).toISOString(),
-    [timestamp]
+    [timestamp],
   );
   const timeAgo = useMemo(() => formatTimeAgo(timestamp), [timestamp]);
 
@@ -83,7 +83,7 @@ function StoryHistoryEntry({
       <div
         className={classNames(
           isLastItem ? "h-6" : "-bottom-6",
-          "absolute left-0 top-0 flex w-6 justify-center"
+          "absolute left-0 top-0 flex w-6 justify-center",
         )}
       >
         <div className="w-px bg-gray-200"></div>
@@ -100,7 +100,7 @@ function StoryHistoryEntry({
               className="text-xs text-amber-600"
               title={`${formatAddressForDisplay(
                 poster.address,
-                poster.displayName
+                poster.displayName,
               )} used Kiwi delegation to ${verb} this story. Awesome!`}
             >
               Đ

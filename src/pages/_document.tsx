@@ -12,7 +12,7 @@ export default function Document() {
       <body
         className={classNames(
           "min-h-screen",
-          env.NODE_ENV === "development" && "debug-screens"
+          env.NODE_ENV === "development" && "debug-screens",
         )}
       >
         <Main />

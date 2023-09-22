@@ -7,7 +7,7 @@ import { getMessageId } from "./getMessageId";
 
 const KIWISTAND_LIST_STORIES_URL = new URL(
   `/api/v1/list`,
-  env.KIWISTAND_API_HOST
+  env.KIWISTAND_API_HOST,
 ).toString();
 
 const MESSAGE_SCHEMA = z

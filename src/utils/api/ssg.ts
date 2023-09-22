@@ -25,7 +25,7 @@ type CreateServerSideHelpers = ReturnType<
  * @returns TRPC helpers
  */
 export function createServerSideHelpers(
-  innerContextOpts: Parameters<typeof createInnerTRPCContext>[0]
+  innerContextOpts: Parameters<typeof createInnerTRPCContext>[0],
 ): CreateServerSideHelpers {
   return _createServerSideHelpers<AppRouter>({
     router: appRouter,
@@ -36,7 +36,7 @@ export function createServerSideHelpers(
 
 type GetServerSidePropsContextWithTRPC<
   Q extends ParsedUrlQuery = ParsedUrlQuery,
-  D extends PreviewData = PreviewData
+  D extends PreviewData = PreviewData,
 > = GetServerSidePropsContext<Q, D> & {
   trpc: CreateServerSideHelpers;
 };
@@ -48,11 +48,11 @@ type GetServerSidePropsContextWithTRPC<
  */
 export function withServerSideAPIHelpers<P>(
   handler: (
-    context: GetServerSidePropsContextWithTRPC
-  ) => Promise<GetServerSidePropsResult<P>>
+    context: GetServerSidePropsContextWithTRPC,
+  ) => Promise<GetServerSidePropsResult<P>>,
 ) {
   return async function getServerSidePropsWithTRPC(
-    context: GetServerSidePropsContext
+    context: GetServerSidePropsContext,
   ): Promise<GetServerSidePropsResult<P & { trpcState: DehydratedState }>> {
     const trpc = createServerSideHelpers({});
 
@@ -76,7 +76,7 @@ export function withServerSideAPIHelpers<P>(
 
 type GetStaticPropsContextWithTRPC<
   Q extends ParsedUrlQuery = ParsedUrlQuery,
-  D extends PreviewData = PreviewData
+  D extends PreviewData = PreviewData,
 > = GetStaticPropsContext<Q, D> & {
   trpc: CreateServerSideHelpers;
 };
@@ -88,11 +88,11 @@ type GetStaticPropsContextWithTRPC<
  */
 export function withStaticAPIHelpers<P>(
   handler: (
-    context: GetStaticPropsContextWithTRPC
-  ) => Promise<GetStaticPropsResult<P>>
+    context: GetStaticPropsContextWithTRPC,
+  ) => Promise<GetStaticPropsResult<P>>,
 ) {
   return async function getStaticPropsWithTRPC(
-    context: GetStaticPropsContext
+    context: GetStaticPropsContext,
   ): Promise<GetStaticPropsResult<P & { trpcState: DehydratedState }>> {
     const trpc = createServerSideHelpers({});
 

@@ -32,7 +32,7 @@ const { publicClient } = configureChains(
     batch: {
       multicall: true,
     },
-  }
+  },
 );
 
 export const wagmiConfig = createConfig({

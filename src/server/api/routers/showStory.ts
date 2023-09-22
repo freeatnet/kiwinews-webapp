@@ -20,7 +20,7 @@ export const showStoryRouter = createTRPCRouter({
         edgedbClient,
         {
           messageId: input.messageId,
-        }
+        },
       );
 
       if (!keyStory) {
@@ -59,7 +59,7 @@ export const showStoryRouter = createTRPCRouter({
             const poster = upvoters[idx];
             invariant(
               poster,
-              `couldn't find poster miniprofile of ${story.signature}`
+              `couldn't find poster miniprofile of ${story.signature}`,
             );
 
             return {

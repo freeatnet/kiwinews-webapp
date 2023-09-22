@@ -13,7 +13,7 @@ const DEFAULT_STORIES_INPUT = {
 
 const THIS_FEED_URL = new URL(
   "/api/feed/new",
-  env.NEXT_PUBLIC_BASE_URL
+  env.NEXT_PUBLIC_BASE_URL,
 ).toString();
 
 export default async function handler(_: NextApiRequest, res: NextApiResponse) {
@@ -42,7 +42,7 @@ export default async function handler(_: NextApiRequest, res: NextApiResponse) {
         points !== 1 ? "points" : "point"
       }. Submitted by ${formatAddressForDisplay(
         poster.address,
-        poster.displayName
+        poster.displayName,
       )}.</p>`,
     });
   }

@@ -6,7 +6,7 @@
  */
 export function formatAddressForDisplay(
   address: string,
-  displayName?: string | null
+  displayName?: string | null,
 ): string {
   return displayName ?? `${address.slice(0, 6)}..${address.slice(-4)}`;
 }

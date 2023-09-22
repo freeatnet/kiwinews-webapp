@@ -18,7 +18,7 @@ export function TopNav() {
               href="/"
               className={classNames(
                 "px-4 py-2",
-                pathname === "/" && "font-bold"
+                pathname === "/" && "font-bold",
               )}
             >
               top
@@ -27,7 +27,7 @@ export function TopNav() {
               href="/new"
               className={classNames(
                 "px-4 py-2",
-                pathname === "/new" && "font-bold"
+                pathname === "/new" && "font-bold",
               )}
             >
               new
@@ -36,7 +36,7 @@ export function TopNav() {
               href="/submit"
               className={classNames(
                 "px-4 py-2",
-                pathname === "/submit" && "font-bold"
+                pathname === "/submit" && "font-bold",
               )}
             >
               submit

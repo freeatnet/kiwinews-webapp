@@ -45,7 +45,7 @@ export default function Home() {
         void refetchEditorsPicks();
       }
     },
-    [editorsPicks, refetchEditorsPicks, refetchTopStories]
+    [editorsPicks, refetchEditorsPicks, refetchTopStories],
   );
 
   const handleNewStoryUpvote = useCallback(
@@ -56,7 +56,7 @@ export default function Home() {
         void refetchEditorsPicks();
       }
     },
-    [editorsPicks, refetchEditorsPicks, refetchNewStories, refetchTopStories]
+    [editorsPicks, refetchEditorsPicks, refetchNewStories, refetchTopStories],
   );
 
   return (
@@ -82,7 +82,7 @@ export default function Home() {
                 /> */}
                 {formatAddressForDisplay(
                   editorsPicks.editor.address,
-                  editorsPicks.editor.displayName
+                  editorsPicks.editor.displayName,
                 )}
               </span>
             </h2>
@@ -104,14 +104,16 @@ export default function Home() {
           Top Stories
         </h2>
         <StoriesList>
-          {topStories?.slice(0, 5).map((story, idx) => (
-            <StoryContainer
-              {...story}
-              key={story.signature}
-              rank={idx + 1}
-              onUpvoteSubmitted={handleTopStoryUpvote}
-            />
-          ))}
+          {topStories
+            ?.slice(0, 5)
+            .map((story, idx) => (
+              <StoryContainer
+                {...story}
+                key={story.signature}
+                rank={idx + 1}
+                onUpvoteSubmitted={handleTopStoryUpvote}
+              />
+            ))}
         </StoriesList>
         <hr />
 
@@ -132,13 +134,15 @@ export default function Home() {
         <hr />
 
         <StoriesList>
-          {topStories?.slice(5).map((story) => (
-            <StoryContainer
-              {...story}
-              key={story.signature}
-              onUpvoteSubmitted={handleTopStoryUpvote}
-            />
-          ))}
+          {topStories
+            ?.slice(5)
+            .map((story) => (
+              <StoryContainer
+                {...story}
+                key={story.signature}
+                onUpvoteSubmitted={handleTopStoryUpvote}
+              />
+            ))}
         </StoriesList>
       </div>
     </>

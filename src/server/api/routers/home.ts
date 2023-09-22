@@ -40,7 +40,7 @@ export const homeRouter = createTRPCRouter({
           }) => {
             invariant(
               isAddress(posterAddress),
-              `expected ${posterAddress} to be an address`
+              `expected ${posterAddress} to be an address`,
             );
 
             const [poster, ...upvoters] = await Promise.all([
@@ -58,8 +58,8 @@ export const homeRouter = createTRPCRouter({
               points,
               score,
             };
-          }
-        )
+          },
+        ),
       );
 
       return augmentedStories;
@@ -89,7 +89,7 @@ export const homeRouter = createTRPCRouter({
           }) => {
             invariant(
               isAddress(posterAddress),
-              `expected ${posterAddress} to be an address`
+              `expected ${posterAddress} to be an address`,
             );
 
             const [poster, ...upvoters] = await Promise.all([
@@ -107,8 +107,8 @@ export const homeRouter = createTRPCRouter({
               points,
               score: restKeyMessage.timestamp,
             };
-          }
-        )
+          },
+        ),
       );
 
       return augmentedStories;
@@ -139,11 +139,11 @@ export const homeRouter = createTRPCRouter({
                 upvoters: upvoterAddresses,
                 points,
               },
-              idx
+              idx,
             ) => {
               invariant(
                 isAddress(posterAddress),
-                `expected ${posterAddress} to be an address`
+                `expected ${posterAddress} to be an address`,
               );
 
               const [poster, ...upvoters] = await Promise.all([
@@ -151,7 +151,7 @@ export const homeRouter = createTRPCRouter({
                 ...upvoterAddresses
                   .filter(isAddress)
                   .filter(
-                    (identity) => !isAddressEqual(identity, posterAddress)
+                    (identity) => !isAddressEqual(identity, posterAddress),
                   )
                   .map(miniProfileForAddress),
               ]);
@@ -163,8 +163,8 @@ export const homeRouter = createTRPCRouter({
                 points,
                 score: idx,
               };
-            }
-          )
+            },
+          ),
         );
 
         return augmentedStories;

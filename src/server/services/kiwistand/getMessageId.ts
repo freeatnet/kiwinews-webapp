@@ -27,8 +27,8 @@ export function getMessageId({
         href,
         timestamp,
         signature,
-      })
-    )
+      }),
+    ),
   );
 
   return concat([timestampHex, digestHex]);
