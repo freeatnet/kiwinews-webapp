@@ -57,7 +57,7 @@ function RankLabel({ className, rank }: { className?: string; rank: number }) {
           ? "text-gray-500"
           : rank === 3
           ? "text-amber-600"
-          : "text-gray-500/25"
+          : "text-gray-500/25",
       )}
     >
       #{rank}
@@ -86,17 +86,17 @@ export function StoryListItem({
   const displayDomain = useMemo(() => extractDomain(href), [href]);
   const isoTimestamp = useMemo(
     () => new Date(timestamp * 1000).toISOString(),
-    [timestamp]
+    [timestamp],
   );
   const humanTimestamp = useMemo(
     () => new Date(timestamp * 1000).toLocaleString(),
-    [timestamp]
+    [timestamp],
   );
   const timeAgo = useMemo(() => formatTimeAgo(timestamp), [timestamp]);
 
   const handleClickVote = useCallback(
     () => onClickVote?.(href),
-    [href, onClickVote]
+    [href, onClickVote],
   );
 
   return (

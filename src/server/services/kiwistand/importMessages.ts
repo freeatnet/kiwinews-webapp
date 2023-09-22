@@ -24,7 +24,7 @@ export async function importMessages() {
     console.time(`[${runId}] importMessages insertManyMessages from=${from}`);
     await insertManyMessages(edgedbClient, { messages });
     console.timeEnd(
-      `[${runId}] importMessages insertManyMessages from=${from}`
+      `[${runId}] importMessages insertManyMessages from=${from}`,
     );
 
     if (messages.length === 0) {

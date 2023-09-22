@@ -57,7 +57,7 @@ export function StoryContainer({
       !!viewer &&
       (isAddressEqual(viewer, poster.address) ||
         upvoters.some(({ address }) => isAddressEqual(viewer, address))),
-    [viewer, poster.address, upvoters]
+    [viewer, poster.address, upvoters],
   );
 
   // permalink
@@ -125,7 +125,7 @@ export function StoryContainer({
       hasJustVoted && !!viewer
         ? upvoters.concat([{ address: viewer, displayName: viewerEns ?? null }])
         : upvoters,
-    [hasJustVoted, upvoters, viewer, viewerEns]
+    [hasJustVoted, upvoters, viewer, viewerEns],
   );
 
   return (

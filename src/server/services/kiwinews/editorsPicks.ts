@@ -9,13 +9,13 @@ const EDITORS_PROFILE_SCHEMA = z.array(
     address: z
       .string()
       .refine(isAddress, { message: "Must be a valid address" }),
-  })
+  }),
 );
 
 const EDITORS_LINKS_SCHEMA = z.array(
   z.object({
     link: z.string().url(),
-  })
+  }),
 );
 
 async function fetchEditorsProfile() {
@@ -25,7 +25,7 @@ async function fetchEditorsProfile() {
 
   if (restProfiles.length > 0) {
     console.warn(
-      "fetchEditorsProfile: expected one profile, but found multiple"
+      "fetchEditorsProfile: expected one profile, but found multiple",
     );
   }
 

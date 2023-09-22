@@ -18,7 +18,7 @@ async function getEnsNameWithCache(address: `0x${string}`) {
 }
 
 export async function miniProfileForAddress(
-  address: `0x${string}`
+  address: `0x${string}`,
 ): Promise<{ address: `0x${string}`; displayName: string | null }> {
   return {
     address,

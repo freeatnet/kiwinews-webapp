@@ -57,7 +57,7 @@ export default function Submit() {
       // eslint-disable-next-line no-console -- TODO: remove
       console.log(response);
     },
-    [postStory, signTypedDataAsync]
+    [postStory, signTypedDataAsync],
   );
 
   return (

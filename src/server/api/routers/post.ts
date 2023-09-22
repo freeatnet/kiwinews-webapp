@@ -113,7 +113,7 @@ export const postRouter = createTRPCRouter({
 
         // treat duplicate error as success
         const isDuplicateError = remoteError.details.match(
-          /It was probably submitted and accepted before/
+          /It was probably submitted and accepted before/,
         );
         if (!isDuplicateError) {
           const message = `${remoteError.message}: ${remoteError.details}`;
