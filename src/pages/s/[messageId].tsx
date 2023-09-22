@@ -148,6 +148,8 @@ export default function StoryShow({
           property="og:image"
           content={`/api/og?messageId=${encodedMessageId}&t=${story.points}`}
         />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="kiwinews.lol" />
         <link
           rel="canonical"
           href={new URL(
