@@ -8,6 +8,7 @@ import invariant from "ts-invariant";
 import { isAddressEqual, toHex } from "viem";
 import { z } from "zod";
 
+import { env } from "~/env.mjs";
 import { StoriesList, StoryContainer } from "~/features/feed";
 import { formatTimeAgo } from "~/features/feed/helpers";
 import { formatAddressForDisplay } from "~/helpers";
@@ -134,6 +135,19 @@ export default function StoryShow({
     <>
       <Head>
         <title>{title}</title>
+
+        <meta property="og:title" content={title} />
+        <meta
+          property="og:image"
+          content={`/api/og?messageId=${story.messageId}&t=${story.points}`}
+        />
+        <link
+          rel="canonical"
+          href={new URL(
+            `/s/${story.messageId}`,
+            env.NEXT_PUBLIC_BASE_URL,
+          ).toString()}
+        />
       </Head>
       <TopNav />
       <div className="mx-auto mb-8 mt-4 max-w-4xl px-4 pt-4">
