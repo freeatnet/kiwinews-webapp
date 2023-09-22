@@ -1,4 +1,3 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
@@ -53,14 +52,7 @@ export function TopNav() {
             </Link> */}
           </div>
         </div>
-        <ConnectButton
-          accountStatus={{
-            smallScreen: "avatar",
-            largeScreen: "address",
-          }}
-          chainStatus="icon"
-          showBalance={false}
-        />
+        <w3m-button balance="hide" />
       </div>
     </div>
   );

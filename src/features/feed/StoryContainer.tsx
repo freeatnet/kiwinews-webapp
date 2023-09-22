@@ -1,5 +1,5 @@
-import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { signTypedData } from "@wagmi/core";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { encode as base58Encode } from "bs58";
 import { useCallback, useMemo, useState } from "react";
 import invariant from "ts-invariant";
@@ -68,8 +68,12 @@ export function StoryContainer({
   }, [messageId]);
 
   // rest is related to upvote submission
-  const { openConnectModal } = useConnectModal();
+  const { open: openW3mModal } = useWeb3Modal();
   const { isConnected } = useAccount();
+
+  const openConnectModal = useCallback(() => {
+    void openW3mModal();
+  }, [openW3mModal]);
 
   const {
     mutateAsync: postUpvote,
