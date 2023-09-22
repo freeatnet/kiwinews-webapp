@@ -8,7 +8,7 @@ import { toHex } from "viem";
 import { z } from "zod";
 
 import { formatAddressForDisplay } from "~/helpers";
-import { createServerSideHelpers } from "~/utils/api/ssg";
+import { apiProxy } from "~/utils/api/apiProxy";
 
 export const config = {
   runtime: "edge",
@@ -109,10 +109,9 @@ export default async function handler(req: NextRequest) {
     Object.fromEntries(req.nextUrl.searchParams.entries()),
   );
 
-  const trpc = createServerSideHelpers({});
   const {
     story: { poster, points, title },
-  } = await trpc.showStory.get.fetch({ messageId });
+  } = await apiProxy.showStory.get.fetch({ messageId });
 
   return new ImageResponse(
     (
