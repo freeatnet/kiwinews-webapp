@@ -37,7 +37,7 @@
     "superjson": "1.13.3",
     "ts-invariant": "^0.10.3",
     "viem": "^1.12.1",
-    "wagmi": "^1.4.2",
+    "wagmi": "^1.4.3",
     "zod": "^3.22.3"
   },
   "devDependencies": {
