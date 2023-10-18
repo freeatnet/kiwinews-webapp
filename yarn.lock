@@ -82,10 +82,10 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
-"@edgedb/generate@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@edgedb/generate/-/generate-0.3.3.tgz#9af8564f392bb30bbbe91e0feaeaa6c4b59b2a68"
-  integrity sha512-2E/ReDiroz4fLUYszGf1MpYxUJ5yTURmLcho4LQEyFj9vIgITUmlwyqK7DaI3K6h1Zf8+1dGNehq0AkCaaVitA==
+"@edgedb/generate@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@edgedb/generate/-/generate-0.3.4.tgz#b27d5bd75906417a9606398324a034792b004534"
+  integrity sha512-XxoBRFfTdbxC5wN8Ug7WW7SnmtyO8eVBeufzQaF+OtQgK1amVTW6AzCYsSpiRKBLjQxOdboMW+QNgsgrkb16XQ==
 
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
