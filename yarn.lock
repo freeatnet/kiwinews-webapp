@@ -1381,44 +1381,69 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
-"@web3modal/core@3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@web3modal/core/-/core-3.1.0.tgz#b32f70b3fe4c75de0f7ce87a0cb4d16af1b20e78"
-  integrity sha512-gXzUCVr4QkgkwxYgu7PBZIUsv3MEJRsYXUDSCU0LZz5BLXnMVSj0+YPhQ1msZLPCo0el/MTPtAzwu0VEOMijTQ==
+"@web3modal/core@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/core/-/core-3.2.0.tgz#c1a588ec2e59878851ca1d348f6ea1c1fad44981"
+  integrity sha512-TV6jkxuJhCqGkF4cPEKLJj0LPqmnxK/fpIOOWQw7KlwXJUOJrmZCOnPm7jEBLGJEyLisifmBh5oAxd5orWAepg==
   dependencies:
     valtio "1.11.2"
 
-"@web3modal/polyfills@3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@web3modal/polyfills/-/polyfills-3.1.0.tgz#83e64cf8f8edd653254893a4ad02b5be4debb99f"
-  integrity sha512-y830qGJW16k7EZe6N2LIhcLWsHv+TkgC4FuARCSQzJPvVsKi/XsKXGk4Fbrv75nETF7AqCiFrEFQVGnAc7mg8A==
+"@web3modal/polyfills@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/polyfills/-/polyfills-3.2.0.tgz#3d3472225ede549f3aacc5ceba342d6bfaab005e"
+  integrity sha512-BFUIL7l7UMO7mMQO7qlj6tvZwsF1noOKVO5v5/TXPHw8c9rQOAP1IGP8i9IBrkW3Di5/q2/tYQVwD7upBfUzPQ==
   dependencies:
     buffer "6.0.3"
 
-"@web3modal/scaffold@3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@web3modal/scaffold/-/scaffold-3.1.0.tgz#cf7a573d23ececd169555813e53762ff2e247882"
-  integrity sha512-jxCsvkGvVTSds/ezwrX27Xkhlr4IPVeewKAiGxPNZKg9ZGkZ8c+7I2XZnTCKB5XQZvLgqIpGmSYhy4OqAKbHVg==
+"@web3modal/scaffold-react@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/scaffold-react/-/scaffold-react-3.2.0.tgz#3c2ec09b56e3c35d8ab1204d34b805a66d2b4fc3"
+  integrity sha512-Ksw9ABijtvvkv7pXnRk3LjucE5yMbs0v4Yi2ly1Hwvg4DtlJzRg0RyRVW8H2riqn2u9lWXD+8GCXMuGhd3Owpg==
   dependencies:
-    "@web3modal/core" "3.1.0"
-    "@web3modal/ui" "3.1.0"
+    "@web3modal/scaffold" "3.2.0"
+
+"@web3modal/scaffold-vue@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/scaffold-vue/-/scaffold-vue-3.2.0.tgz#1cf7ba7300e7ec7aaf84b9125187f4551a30aeaf"
+  integrity sha512-+yjRqSBvquLTKXBJmXknnbSLq3w1SsiGlHuf0EG+E2ood1Uw2qCe1YlDpzAoIKKHB0aAp8osh8XDHIghq9awwg==
+  dependencies:
+    "@web3modal/scaffold" "3.2.0"
+
+"@web3modal/scaffold@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/scaffold/-/scaffold-3.2.0.tgz#189b2f84984cb29a604310a102f38094e935d5ed"
+  integrity sha512-BG4vX/o1Z7zNKaRRB8O5nNMbUppH5fVE0I4q4EMYHqCPxRoYGUZDVTfRQTfh/y0qXypuKZAo/nVy3xL2J2GYwQ==
+  dependencies:
+    "@web3modal/core" "3.2.0"
+    "@web3modal/ui" "3.2.0"
     lit "3.0.0"
 
-"@web3modal/ui@3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@web3modal/ui/-/ui-3.1.0.tgz#7851395b5f9e0d091b9d961122d7141e05cd24ea"
-  integrity sha512-8Av6psGG/rO5M+5s+I7l2ESUWfeKkeXMIz/Bp2pP3a3yJ+EfO3V4kN1lO/bnbquMYvO+ETmvUXprvcBPMizSBQ==
+"@web3modal/ui@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/ui/-/ui-3.2.0.tgz#8e6a351a80c9b1acf899d4d135c0031d210b43b5"
+  integrity sha512-E7fwsJmr6z9OWVrU8wS+0NNuc3cIOazH+EjM6At0h6SMBzM2c93vOg3z9RJcmKuVggVgGiSsyROWCjZJUsPuJw==
   dependencies:
     lit "3.0.0"
     qrcode "1.5.3"
 
-"@web3modal/wagmi@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@web3modal/wagmi/-/wagmi-3.1.0.tgz#dbeee5735581dc284094b7dc88b865bc56ec12e1"
-  integrity sha512-PSzhHtj2GTY+36d6lbfzl4EVeuzA4XcMOW7+/CyLFzUDpG4BI5fsKrDbc7NqZU6L6BjN9dPi/oZO/Q+PM8MrPw==
+"@web3modal/utils@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/utils/-/utils-3.2.0.tgz#e66f3ea7a915237d30c0a5ba9e43a972802de234"
+  integrity sha512-Rc2yhRlJcGsQHiIqbC1jTzeWIs4v287113UN3dJuQ+rp2G6KKmwo61ZvJc3u+nTt8K8aOqqPIH2JM6tEJWka3g==
   dependencies:
-    "@web3modal/polyfills" "3.1.0"
-    "@web3modal/scaffold" "3.1.0"
+    "@web3modal/polyfills" "3.2.0"
+    "@web3modal/scaffold" "3.2.0"
+
+"@web3modal/wagmi@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@web3modal/wagmi/-/wagmi-3.2.0.tgz#b9803d0d5e07c069b559250b36eee2a7d53502c3"
+  integrity sha512-xEm1e3Mrg0AAnrUpWdb6UurE6sWT6es9t50pGhrE4gZ/PibEBCbNQQjgiwgEVv9Le9fzXzbQR7/dAxh+Q0hprg==
+  dependencies:
+    "@web3modal/polyfills" "3.2.0"
+    "@web3modal/scaffold" "3.2.0"
+    "@web3modal/scaffold-react" "3.2.0"
+    "@web3modal/scaffold-vue" "3.2.0"
+    "@web3modal/utils" "3.2.0"
   optionalDependencies:
     react ">=17"
     react-dom ">=17"
