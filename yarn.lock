@@ -754,10 +754,10 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
-"@types/lint-staged@^13.2.1":
-  version "13.2.1"
-  resolved "https://registry.yarnpkg.com/@types/lint-staged/-/lint-staged-13.2.1.tgz#e3e71d74a204f023ed156b1a9a6a73103efa29d3"
-  integrity sha512-/pIzducFqyJAdXJb2pkQJNTIYBBph/XQdsBgn9oTuNjL1fMRw7AbutYzB0ODTxi8NYqJ9KUk9WyabZvpdNT/kQ==
+"@types/lint-staged@^13.2.2":
+  version "13.2.2"
+  resolved "https://registry.yarnpkg.com/@types/lint-staged/-/lint-staged-13.2.2.tgz#42aa5c12633c740568a68b39224722abf1f7fd9c"
+  integrity sha512-9c2ffPMJ1geob6yBmLuxzYye11HzKyA/I4dRZ8NfrPgY6SyzXt2SROD8vB3YjdPZJqqcu3WXsRvrY3PZbb720A==
 
 "@types/ms@*":
   version "0.7.31"
