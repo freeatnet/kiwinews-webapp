@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.6.1",
-    "@tanstack/react-query": "^4.36.1",
+    "@tanstack/react-query": "^5.8.4",
     "@trpc/client": "^10.43.1",
     "@trpc/next": "^10.43.1",
     "@trpc/react-query": "^10.43.1",
