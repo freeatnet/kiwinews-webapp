@@ -82,10 +82,13 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
-"@edgedb/generate@^0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@edgedb/generate/-/generate-0.3.4.tgz#b27d5bd75906417a9606398324a034792b004534"
-  integrity sha512-XxoBRFfTdbxC5wN8Ug7WW7SnmtyO8eVBeufzQaF+OtQgK1amVTW6AzCYsSpiRKBLjQxOdboMW+QNgsgrkb16XQ==
+"@edgedb/generate@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/@edgedb/generate/-/generate-0.5.6.tgz#b70a2b99f22c9eb7aaf0a4d00e8c3a1aa39e93ae"
+  integrity sha512-Nmd4ibgN3M7qxxHsOyB9NERp03449BfV+W7CWCpIE/tcvBr19GynoT5yI3k55k5NKzzstATwKtV+wVHXiOgizw==
+  dependencies:
+    "@iarna/toml" "^2.2.5"
+    debug "^4.3.4"
 
 "@emotion/hash@^0.8.0":
   version "0.8.0"
@@ -142,6 +145,11 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.1.tgz#e5211452df060fa8522b55c7b3c0c4d1981cb044"
   integrity sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==
+
+"@iarna/toml@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
+  integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
 
 "@ioredis/commands@^1.1.1":
   version "1.2.0"
