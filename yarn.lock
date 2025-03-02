@@ -82,10 +82,12 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
-"@edgedb/generate@^0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@edgedb/generate/-/generate-0.3.4.tgz#b27d5bd75906417a9606398324a034792b004534"
-  integrity sha512-XxoBRFfTdbxC5wN8Ug7WW7SnmtyO8eVBeufzQaF+OtQgK1amVTW6AzCYsSpiRKBLjQxOdboMW+QNgsgrkb16XQ==
+"@edgedb/generate@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@edgedb/generate/-/generate-0.6.1.tgz#70fd48ae540237d5d39b487aa13f0488f66db227"
+  integrity sha512-nsxeWg7siK6Gzl7ic4BTVv/oLsuhDzgxbnbSOXx5M56JNai7CLMljn8nbkez7B03tCF1+LHZodWHPxGh1LoUPA==
+  dependencies:
+    "@gel/generate" "^0.6.0-rc"
 
 "@emotion/hash@^0.8.0":
   version "0.8.0"
@@ -124,6 +126,14 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.53.0.tgz#bea56f2ed2b5baea164348ff4d5a879f6f81f20d"
   integrity sha512-Kn7K8dx/5U6+cT1yEhpX1w4PCSg0M+XyRILPgvwcEBjerFWCwQj5sbr3/VmxqV0JGHCBCzyd6LxypEuehypY1w==
 
+"@gel/generate@^0.6.0-rc":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@gel/generate/-/generate-0.6.0.tgz#cbf77e4aea9f86c5e14c51eab1870c08b893c2e2"
+  integrity sha512-p1qiR/JHNM52GCp19aes2Nwt2gzz0juJu6xaXFQyT1nyAdjIBfiy9j/JNxEM9xvfXUjv/yf3OiEk9Rq7zJjLHg==
+  dependencies:
+    "@iarna/toml" "^2.2.5"
+    debug "^4.3.4"
+
 "@humanwhocodes/config-array@^0.11.13":
   version "0.11.13"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.13.tgz#075dc9684f40a531d9b26b0822153c1e832ee297"
@@ -142,6 +152,11 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.1.tgz#e5211452df060fa8522b55c7b3c0c4d1981cb044"
   integrity sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==
+
+"@iarna/toml@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
+  integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
 
 "@ioredis/commands@^1.1.1":
   version "1.2.0"
