@@ -1,0 +1,29 @@
+{
+  "name": "Codespace with Bun & Claude Code",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "features": {
+    "ghcr.io/audacioustux/devcontainers/bun:1": {}
+  },
+  "postCreateCommand": "bun i -g @anthropic-ai/claude-code && echo '✅ Bun and Claude Code installed successfully!'; bun i -g @openai/codex && echo '✅ Codex installed successfully!'; echo 'alias yolo=\"codex --approval-mode full-auto\"' >> ~/.bashrc",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "terminal.integrated.defaultLocation": "editor",
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "forwardPorts": [
+    2222
+  ],
+  "portsAttributes": {
+    "2222": {
+      "label": "SSH",
+      "onAutoForward": "ignore"
+    }
+  }
+}
